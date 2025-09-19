@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indicações</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* ====== ESTILO GLOBAL ====== */
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: #f9fafb;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 25px;
+      color: #2b6cb0;
+    }
+
+    /* ====== TABS ====== */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+      gap: 15px;
+    }
+
+    .tab {
+      padding: 10px 20px;
+      background: #e2e8f0;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tab.active {
+      background: #2b6cb0;
+      color: white;
+      transform: scale(1.05);
+    }
+
+    /* ====== GRID ====== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    /* ====== ITEM ====== */
+    .item {
+      background: white;
+      border-radius: 20px;
+      padding: 25px 15px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      animation: fadeIn 0.6s ease;
+    }
+
+    .item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    .item i {
+      font-size: 2.5rem;
+      color: #2b6cb0;
+      margin-bottom: 10px;
+      transition: transform 0.3s, color 0.3s;
+    }
+
+    .item:hover i {
+      transform: scale(1.1);
+      color: #1a4f8a;
+    }
+
+    .item h3 {
+      font-size: 1.2rem;
+      margin: 10px 0;
+    }
+
+    .item p {
+      font-size: 0.95rem;
+      line-height: 1.4;
+      color: #555;
+    }
+
+    /* ====== ANIMAÇÃO ====== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ====== BOTÃO WHATSAPP FIXO ====== */
+    .whatsapp-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #25d366;
+      color: white;
+      border-radius: 50px;
+      padding: 14px 22px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: background 0.3s, transform 0.3s;
+      z-index: 1000;
+    }
+
+    .whatsapp-btn i {
+      font-size: 1.4rem;
+    }
+
+    .whatsapp-btn:hover {
+      background: #20b958;
+      transform: translateY(-3px);
+    }
+
+    /* ====== RESPONSIVO ====== */
+    @media (max-width: 768px) {
+      .tabs {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .whatsapp-btn {
+        bottom: 15px;
+        right: 15px;
+        padding: 12px 18px;
+        font-size: 0.9rem;
+      }
+
+      .whatsapp-btn i {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Indicações</h2>
+
+    <!-- ====== TABS ====== -->
+    <div class="tabs">
+      <div class="tab active" data-category="passeios"><i class="fa-solid fa-sailboat"></i> Passeios</div>
+      <div class="tab" data-category="beach"><i class="fa-solid fa-umbrella-beach"></i> Beach Clubs</div>
+    </div>
+
+    <!-- ====== PASSEIOS ====== -->
+    <div id="passeios" class="grid category-content">
+      <div class="item">
+        <i class="fa-solid fa-ship"></i>
+        <h3>Passeio de Lancha</h3>
+        <p>Explore o litoral em uma lancha confortável e segura.</p>
+      </div>
+
+      <div class="item">
+        <i class="fa-solid fa-motorcycle"></i>
+        <h3>Quadriciclo</h3>
+        <p>Aventura off-road e paisagens incríveis ao pôr do sol.</p>
+      </div>
+
+      <div class="item">
+        <i class="fa-solid fa-car-side"></i>
+        <h3>UTVs</h3>
+        <p>Adrenalina garantida para grupos e famílias.</p>
+      </div>
+
+      <div class="item">
+        <i class="fa-solid fa-water"></i>
+        <h3>Canoagem</h3>
+        <p>Remadas tranquilas para apreciar a natureza ao redor.</p>
+      </div>
+
+      <div class="item">
+        <i class="fa-solid fa-person-swimming"></i>
+        <h3>Caiaque</h3>
+        <p>Descubra lugares paradisíacos em um passeio de caiaque.</p>
+      </div>
+
+      <div class="item">
+        <i class="fa-solid fa-horse"></i>
+        <h3>Passeio a Cavalo</h3>
+        <p>Experiência única pelas trilhas e praias da região.</p>
+      </div>
+    </div>
+
+    <!-- ====== BEACH CLUBS ====== -->
+    <div id="beach" class="grid category-content" style="display:none;">
+      <div class="item">
+        <i class="fa-solid fa-umbrella-beach"></i>
+        <h3>Praia dos Coqueiros</h3>
+        <p>Badalados: <strong>Almar</strong>, <strong>Uxua</strong> (necessário reservar)</p>
+      </div>
+
+      <div class="item">
+        <i class="fa-solid fa-umbrella-beach"></i>
+        <h3>Praia dos Nativos</h3>
+        <p>Beach Clubs: <strong>Zé Barbudo</strong>, <strong>Awe</strong> (necessário reservar)</p>
+      </div>
+
+      <div class="item">
+        <i class="fa-solid fa-umbrella-beach"></i>
+        <h3>Rio Verde</h3>
+        <p>Beach Club: <strong>Gaia Hotel</strong> (necessário reservar)</p>
+      </div>
+
+      <div class="item">
+        <i class="fa-solid fa-umbrella-beach"></i>
+        <h3>Praia do Espelho</h3>
+        <p>Beach Club: <strong>Maion</strong> (necessário reservar)</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== BOTÃO WHATSAPP FIXO ====== -->
+  <a 
+    href="https://wa.me/557398678158?text=Olá!%20Gostaria%20de%20fazer%20uma%20reserva%20e%20preciso%20de%20mais%20informações." 
+    class="whatsapp-btn" target="_blank">
+    <i class="fa-brands fa-whatsapp"></i> Reservar agora
+  </a>
+
+  <script>
+    // ====== TROCA ENTRE ABAS ======
+    const tabs = document.querySelectorAll('.tab');
+    const contents = document.querySelectorAll('.category-content');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Remove 'active' de todas as abas
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        // Esconde todos os conteúdos
+        contents.forEach(content => content.style.display = 'none');
+
+        // Mostra o conteúdo da aba clicada
+        document.getElementById(tab.getAttribute('data-category')).style.display = 'grid';
+      });
+    });
+  </script>
+</body>
+</html>

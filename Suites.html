@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galeria de Suítes - Pousada</title>
+
+<!-- preconnect: fontes mais rápidas -->
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+  body { font-family:'Quicksand',sans-serif; margin:0; padding:0; background:#f5f5f5; color:#333;
+         -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+  .section { max-width:1200px; margin:40px auto; padding:0 20px; }
+  h2 { text-align:center; font-size:2.5rem; color:#2b6cb0; margin-bottom:30px; }
+
+  .categoria-menu { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-bottom:30px; }
+  .categoria-menu button { background:#3498db; border:none; color:#fff; padding:10px 18px; border-radius:25px; cursor:pointer; font-weight:600; display:flex; align-items:center; gap:6px; transition:0.3s; }
+  .categoria-menu button:hover { background:#2980b9; }
+  .categoria-menu button.active { background:#2b6cb0; }
+
+  /* ======= FOTO CENTRAL padronizada 16:9 ======= */
+  .main-image-container { position:relative; margin:0 auto 20px; max-width:980px; aspect-ratio:16/9; }
+  .main-image-container img#mainImage{
+    width:100%; height:100%; object-fit:cover; border-radius:12px; display:block;
+    cursor:pointer; transition:transform .3s ease, opacity .25s ease;
+  }
+  .main-image-container img#mainImage:hover { transform:scale(1.03); }
+  .fade-in { opacity:0; } .fade-in.loaded { opacity:1; }
+
+  .nav-arrow { position:absolute; top:50%; transform:translateY(-50%); font-size:2rem; color:#fff;
+               background:rgba(0,0,0,0.4); padding:10px; border-radius:50%; cursor:pointer; transition:0.3s; user-select:none; }
+  .nav-arrow:hover { background:rgba(0,0,0,0.7); }
+  .nav-left { left:12px; } .nav-right { right:12px; }
+
+  .galeria { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:20px; justify-items:center; }
+  .item { display:flex; flex-direction:column; align-items:center; text-align:center; background:#fff; padding:10px; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.1); transition:transform 0.3s; cursor:pointer; }
+  .item:hover { transform:translateY(-5px); box-shadow:0 8px 20px rgba(0,0,0,0.2); }
+
+  /* Miniaturas padronizadas 4:3 */
+  .item img { width:100%; aspect-ratio:4/3; height:auto; object-fit:cover; border-radius:10px; margin-bottom:8px; }
+
+  .item p { margin:0; font-weight:600; display:flex; align-items:center; gap:6px; }
+
+  .lightbox { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:none; justify-content:center; align-items:center; z-index:1000; }
+  .lightbox img { max-width:90%; max-height:90%; border-radius:12px; }
+
+  .whatsapp-btn { position:fixed; bottom:20px; right:20px; background:#25d366; color:white; border-radius:50px; padding:14px 22px; font-size:1rem; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 4px 12px rgba(0,0,0,0.2); transition:0.3s; z-index:1001; }
+  .whatsapp-btn i { font-size:1.4rem; }
+  .whatsapp-btn:hover { background:#20b958; transform:translateY(-3px); }
+
+  /* título da imagem central */
+  #mainTitle { text-align:center; margin-top:8px; font-weight:700; }
+  /* Foto central padronizada em 16:9 */
+.main-image-container {
+  position: relative;
+  margin: 0 auto 20px;
+  max-width: 980px;
+  aspect-ratio: 16 / 9;
+}
+.main-image-container img#mainImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;        /* mantém corte bonito */
+  border-radius: 12px;
+  display: block;
+  cursor: pointer;
+  transition: transform .3s ease, opacity .25s ease;
+}
+.main-image-container img#mainImage:hover { transform: scale(1.03); }
+.fade-in { opacity: 0; }
+.fade-in.loaded { opacity: 1; }
+
+/* Setas compatíveis com o novo container */
+.nav-left { left: 12px; }
+.nav-right { right: 12px; }
+
+/* Miniaturas padronizadas em 4:3 */
+.item img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+
+/* Suaviza fonte (micro performance visual) */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+</style>
+</head>
+<body>
+
+<section class="section">
+  <h2>Suítes da Pousada</h2>
+
+  <div class="categoria-menu">
+    <button class="active" data-cat="todas">Todas</button>
+    <button data-cat="mare-alta">Suite Maré Alta</button>
+    <button data-cat="jardim">Suite Jardim</button>
+    <button data-cat="brisa">Suite Brisa</button>
+    <button data-cat="horizonte">Suite Horizonte</button>
+    <button data-cat="master-raizes">Master Raízes</button>
+    <button data-cat="master-oceano">Master Oceano</button>
+    <button data-cat="varanda-do-sol">Varanda do Sol</button>
+  </div>
+
+  <div class="main-image-container">
+    <div class="nav-arrow nav-left" id="prev" aria-label="Imagem anterior">&lt;</div>
+
+    <!-- imagem principal padronizada + alta prioridade -->
+ <img id="mainImage"
+     src="images/mare-alta1.jpg"
+     alt="Imagem Principal"
+     decoding="async"
+     fetchpriority="high"
+     class="fade-in">
+
+    <div class="nav-arrow nav-right" id="next" aria-label="Próxima imagem">&gt;</div>
+    <p id="mainTitle"><i class="fa-solid fa-bed"></i> Suite Maré Alta</p>
+  </div>
+
+  <div class="galeria" id="galeria"></div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <img src="" alt="Zoom da imagem" decoding="async">
+</div>
+
+<a href="https://wa.me/5573986700000?text=Olá!%20Gostaria%20de%20fazer%20uma%20reserva." class="whatsapp-btn" target="_blank" rel="noopener">
+  <i class="fa-brands fa-whatsapp"></i> Reservar agora
+</a>
+
+<script>
+/* === Seus dados, mantidos === */
+const suites = {
+  "mare-alta":[
+    {src:"images/SUITES/Imagens/Maré alta/mare alta 1.jpg", icon:"fa-bed"},
+    {src:"images/SUITES/Imagens/Maré alta/mare alta 2.jpg", icon:"fa-bed"},
+    {src:"images/SUITES/Imagens/Maré alta/mare alta 3.jpg", icon:"fa-bed"},
+    {src:"images/SUITES/Imagens/Maré alta/mare alta 4.jpg", icon:"fa-bed"},
+    {src:"images/SUITES/Imagens/Maré alta/mare alta 5.jpg", icon:"fa-bed"}
+  ],
+  "jardim":[
+    {src:"images/SUITES/Imagens/Jardim/jardim 2.jpg", icon:"fa-leaf"},
+    {src:"images/SUITES/Imagens/Jardim/jardim.jpg", icon:"fa-leaf"},
+    {src:"images/SUITES/Imagens/Jardim/jardim 3.jpg", icon:"fa-leaf"},
+    {src:"images/SUITES/Imagens/Jardim/Jardim 5.jpg", icon:"fa-leaf"},
+    {src:"images/SUITES/Imagens/Jardim/jardim 4.jpg", icon:"fa-leaf"}
+  ],
+  "brisa":[
+    {src:"images/SUITES/Imagens/Brisa/brisa 1.webp", icon:"fa-wind"},
+    {src:"images/SUITES/Imagens/Brisa/brisa 2.jpg", icon:"fa-wind"},
+    {src:"images/SUITES/Imagens/Brisa/brisa 3.jpg", icon:"fa-wind"},
+    {src:"images/SUITES/Imagens/Brisa/brisa 4.jpg", icon:"fa-wind"},
+    {src:"images/SUITES/Imagens/Brisa/brisa 5.jpg", icon:"fa-wind"}
+  ],
+  "horizonte":[
+    {src:"images/SUITES/Imagens/Horizonte/WhatsApp Image 2025-09-17 at 21.31.15.jpeg", icon:"fa-mountain"},
+    {src:"images/SUITES/Imagens/Horizonte/WhatsApp Image 2025-09-17 at 21.31.32.jpeg", icon:"fa-mountain"},
+    {src:"images/SUITES/Imagens/Horizonte/WhatsApp Image 2025-09-17 at 21.31.52.jpeg", icon:"fa-mountain"},
+    {src:"images/SUITES/Imagens/Horizonte/WhatsApp Image 2025-09-17 at 21.32.38.jpeg", icon:"fa-mountain"},
+    {src:"images/SUITES/Imagens/Horizonte/WhatsApp Image 2025-09-17 at 21.33.09.jpeg", icon:"fa-mountain"}
+  ],
+  "master-raizes":[
+    {src:"images/SUITES/Imagens/Master raizes/Raizes 2.jpg", icon:"fa-tree"},
+    {src:"images/SUITES/Imagens/Master raizes/Raizes.jpg", icon:"fa-tree"},
+    {src:"images/SUITES/Imagens/Master raizes/Raizes 3.jpg", icon:"fa-tree"},
+    {src:"images/SUITES/Imagens/Master raizes/Raizes 4.jpg", icon:"fa-tree"},
+    {src:"images/SUITES/Imagens/Master raizes/Raizes 5.jpg", icon:"fa-tree"}
+  ],
+  "master-oceano":[
+    {src:"images/SUITE MASTER/4E1A0327.jpg", icon:"fa-water"},
+    {src:"images/SUITE MASTER/4E1A0408.jpg", icon:"fa-water"},
+    {src:"images/SUITE MASTER/4E1A0429.jpg", icon:"fa-water"},
+    {src:"images/SUITE MASTER/4E1A0490.jpg", icon:"fa-water"},
+    {src:"images/SUITE MASTER/4E1A0472.jpg", icon:"fa-water"}
+  ],
+  "varanda-do-sol":[
+    {src:"images/SUITES/Imagens/Varanda do sol/Varanda 1.jpg", icon:"fa-sun"},
+    {src:"images/SUITES/Imagens/Varanda do sol/varanda 2.jpg", icon:"fa-sun"},
+    {src:"images/SUITES/Imagens/Varanda do sol/varanda 3.jpg", icon:"fa-sun"},
+    {src:"images/SUITES/Imagens/Varanda do sol/varanda 4.jpg", icon:"fa-sun"},
+    {src:"images/SUITES/Imagens/Varanda do sol/varanda 5.jpg", icon:"fa-sun"}
+  ]
+};
+
+const galeria = document.getElementById("galeria");
+const buttons = document.querySelectorAll(".categoria-menu button");
+const mainImage = document.getElementById("mainImage");
+const mainTitle = document.getElementById("mainTitle");
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = lightbox.querySelector("img");
+const prevBtn = document.getElementById("prev");
+const nextBtn = document.getElementById("next");
+
+let currentCategory = "mare-alta";
+let currentIndex = 0;
+
+/* ===== criar galeria com lazy + fragment (mais rápido) ===== */
+// >>> SUBSTITUA sua função criarGaleria por esta
+function criarGaleria(cat){
+  galeria.innerHTML = "";
+
+  const lista = (cat === "todas")
+    ? Object.keys(suites).flatMap(k => suites[k].map(i => ({...i, categoria:k})))
+    : suites[cat].map(i => ({...i, categoria:cat}));
+
+  const frag = document.createDocumentFragment();
+
+  lista.forEach((item, index) => {
+    const div = document.createElement("div");
+    div.className = "item";
+
+    // miniatura com lazy e decoding async
+    const img = new Image();
+    img.loading = "lazy";
+    img.decoding = "async";
+    img.referrerPolicy = "no-referrer";
+    img.alt = `Suíte ${item.categoria}`;
+    img.src = encodeURI(item.src); // lida com espaços/acentos
+
+    const p = document.createElement("p");
+    p.innerHTML = `<i class="fa-solid ${item.icon}"></i> ${item.categoria.replace(/-/g," ").toUpperCase()}`;
+
+    div.appendChild(img);
+    div.appendChild(p);
+
+    // clique: atualiza imagem central
+    div.addEventListener("click", () => {
+      setMainImage(item.src, item.icon, item.categoria);
+      currentIndex = index;
+    });
+
+    frag.appendChild(div);
+  });
+
+  galeria.appendChild(frag);
+}
+
+// >>> ADICIONE esta função abaixo da criarGaleria
+function setMainImage(src, icon, categoria) {
+  mainImage.classList.remove("loaded");
+  mainImage.classList.add("fade-in");
+  const newSrc = encodeURI(src);
+  if (mainImage.src === newSrc) {
+    mainImage.classList.add("loaded");
+    return;
+  }
+  mainImage.onload = () => {
+    mainImage.classList.add("loaded");
+  };
+  mainImage.src = newSrc;
+  mainTitle.innerHTML = `<i class="fa-solid ${icon}"></i> ${categoria.replace(/-/g," ").toUpperCase()}`;
+}
+
+// >>> INICIALIZAÇÃO — substitua seu bloco inicial por este
+criarGaleria(currentCategory);
+if (suites[currentCategory] && suites[currentCategory][0]) {
+  const it = suites[currentCategory][0];
+  setMainImage(it.src, it.icon, currentCategory);
+}
+
+/* ===== botões de filtro ===== */
+buttons.forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    buttons.forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    currentCategory = btn.getAttribute("data-cat");
+    currentIndex = 0;
+    criarGaleria(currentCategory);
+    if(currentCategory !== "todas"){
+      const first = suites[currentCategory][0];
+      setMainImage(first.src, first.icon, currentCategory);
+    }
+  });
+});
+
+/* ===== navegação setas (desliga em 'todas') ===== */
+prevBtn.addEventListener("click", ()=>{
+  if(currentCategory==="todas") return;
+  currentIndex = (currentIndex - 1 + suites[currentCategory].length) % suites[currentCategory].length;
+  const it = suites[currentCategory][currentIndex];
+  setMainImage(it.src, it.icon, currentCategory);
+});
+nextBtn.addEventListener("click", ()=>{
+  if(currentCategory==="todas") return;
+  currentIndex = (currentIndex + 1) % suites[currentCategory].length;
+  const it = suites[currentCategory][currentIndex];
+  setMainImage(it.src, it.icon, currentCategory);
+});
+
+/* ===== Lightbox ===== */
+mainImage.addEventListener("click", ()=>{
+  lightbox.style.display="flex";
+  lightboxImg.src = mainImage.src;
+});
+lightbox.addEventListener("click", ()=>{ lightbox.style.display="none"; });
+</script>
+
+</body>
+</html>

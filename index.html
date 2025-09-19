@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- FontAwesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Corais de Trancoso Boutique</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <!-- Menu de navegação -->
+    <nav class="topo-menu">
+        <div class="menu-container">
+            <!-- LOGO -->
+            <div class="menu-logo">
+                <img src="images/logo-pequena.png.png" alt="Logo da pousada">
+                <span>Corais de Trancoso</span>
+            </div>
+
+            <!-- LINKS DO MENU -->
+            <ul class="menu-links">
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#servicos">Serviços</a></li>
+                <li><a href="#praias">Destinos</a></li>
+
+                <!-- SUÍTES - redireciona para a página suites.html -->
+                <li><a href="suites.html">Suítes</a></li>
+
+                <li><a href="#mapa">Mapa</a></li>
+                <li><a href="#reserva">Reservar</a></li>
+
+                <!-- MENU DROPDOWN GALERIA -->
+                <li class="dropdown">
+                    <a href="#" id="gallery-menu">Galeria ▼</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="Area interna.html">Área Interna</a></li>
+                        <li><a href="Cafe.html">Café da Manhã</a></li>
+                        <li><a href="Piscina.html">Piscina</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</body>
+   <header>
+    
+  <div class="carousel-container">
+    <div class="carousel-background">
+      <img src="images/AREA EXTERNA/4E1A0826.jpg" alt="Imagem 1" class="active">
+      <img src="images/AREA EXTERNA/4E1A0298.jpg" alt="Imagem 2">
+      <img src="images/AREA EXTERNA/4E1A0778.jpg" alt="Imagem 3">
+    </div>
+          <div class="welcome-text">
+  <h1>Bem-vindo à Corais de Trancoso Boutique</h1>
+  <p>Um refúgio exclusivo em Trancoso</p>
+  
+<!-- Botão para abrir modal -->
+<button class="abrir-reserva">Reservar</button>
+
+<!-- Modal -->
+<div class="modal" id="modalReserva" role="dialog" aria-modal="true" aria-labelledby="tituloReserva">
+  <div class="modal-content">
+    <span class="fechar" aria-label="Fechar">&times;</span>
+    <h2 id="tituloReserva">Reserve sua estadia</h2>
+
+    <form id="formReserva" novalidate>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="checkin">Check-in</label>
+          <input type="date" id="checkin" required>
+        </div>
+
+        <div class="form-group">
+          <label for="checkout">Check-out</label>
+          <input type="date" id="checkout" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="adultos">Adultos</label>
+          <input type="number" id="adultos" value="2" min="1" required>
+        </div>
+
+        <div class="form-group">
+          <label for="criancas">Crianças</label>
+          <input type="number" id="criancas" value="0" min="0">
+        </div>
+      </div>
+
+      <button type="submit" class="btn-reservar">Buscar Disponibilidade</button>
+    </form>
+
+    <!-- 🔹 Preview boutique (preenchido via JS de acordo com a capacidade) -->
+    <div id="quartosPreview" aria-live="polite"></div>
+
+    <!-- 🔹 Motor Omnibees -->
+    <div id="resultadoDisponivel" style="width:100%;display:none;">
+      <iframe id="omnibeesFrame" title="Disponibilidade Omnibees"
+              style="width:100%;height:70vh;border:0;border-radius:10px;overflow:auto;"></iframe>
+      <p style="margin-top:10px;text-align:center;">
+        <a id="omnibeesLink" href="#" target="_blank" rel="noopener" style="color:#0A2342;font-weight:700;">
+          Abrir disponibilidade em nova aba
+        </a>
+      </p>
+    </div>
+
+    <div id="mensagemReserva" aria-live="polite"></div>
+  </div>
+</div>
+
+
+    </header>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+
+    <main>
+        <!-- Seção Sobre -->
+        <section id="sobre" class="container sobre-profissional">
+            <div class="sobre-conteudo">
+                <div class="texto-sobre">
+                    <h2>Experiência Boutique em Trancoso</h2>
+                    <p>Bem-vindo à <strong>Corais de Trancoso Boutique</strong>, um refúgio exclusivo onde o charme rústico da vila se encontra com o conforto e sofisticação de uma hospedagem cuidadosamente pensada para seu bem-estar.</p>
+                    <p>Localizada a poucos minutos das praias mais encantadoras da Bahia, nossa pousada oferece um ambiente intimista, rodeado por natureza, tranquilidade e hospitalidade local.</p>
+                    <p>Cada detalhe foi criado para tornar sua estadia inesquecível — desde o café da manhã artesanal até os espaços acolhedores e os serviços personalizados.</p>
+                </div>
+                <div class="imagem-sobre">
+                    <img src="images/AREA EXTERNA/4E1A0320.jpg" alt="Vista da pousada Corais de Trancoso">
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Serviços -->
+        <section id="servicos" class="servicos-section container">
+            <h2>Nossos Serviços</h2>
+            <p>Oferecemos serviços exclusivos para tornar sua estadia inesquecível.</p>
+            <div class="servicos">
+                <div class="servico-card">
+                    <i class="fas fa-user-headset" aria-hidden="true"></i>
+                    <h3>Atendimento Personalizado</h3>
+                    <p>Equipe dedicada para garantir conforto e satisfação durante sua estadia.</p>
+                </div>
+                <div class="servico-card">
+                    <i class="fas fa-coffee" aria-hidden="true"></i>
+                    <h3>Café da Manhã Gourmet</h3>
+                    <p>Delícias regionais preparadas com ingredientes frescos e naturais.</p>
+                </div>
+                <div class="servico-card">
+                    <i class="fas fa-swimmer" aria-hidden="true"></i>
+                    <h3>Piscina e Lazer</h3>
+                    <p>Espaço relaxante com piscina aquecida e área de descanso.</p>
+                </div>
+                <div class="servico-card">
+                    <i class="fas fa-wifi" aria-hidden="true"></i>
+                    <h3>Wi-Fi Gratuito</h3>
+                    <p>Internet rápida e estável para manter você conectado durante toda a estadia.</p>
+                </div>
+            </div>
+        </section>
+
+       <!-- Seção Passeios -->
+<section id="passeios" class="passeios-section container">
+    <h2>Serviços de Passeios</h2>
+    <p>Explore as experiências únicas que oferecemos para tornar sua estadia inesquecível.</p>
+    <div class="passeios">
+        
+        <!-- Card Lancha -->
+        <div class="passeio-card">
+            <i class="fas fa-ship" aria-hidden="true"></i>
+            <h3>Passeios de Lancha</h3>
+            <p>Descubra as belezas do litoral com conforto e emoção a bordo de nossas lanchas.</p>
+            <a href="passeios.html" class="btn-saiba-mais">Saiba Mais</a>
+        </div>
+
+        <!-- Card Quadriciclo -->
+        <div class="passeio-card">
+            <i class="fas fa-motorcycle" aria-hidden="true"></i>
+            <h3>Passeios de Quadriciclo com Pôr do Sol</h3>
+            <p>Aventura e paisagens incríveis para você curtir o pôr do sol de um jeito especial.</p>
+            <a href="passeios.html" class="btn-saiba-mais">Saiba Mais</a>
+        </div>
+
+        <!-- Card Cavalo -->
+        <div class="passeio-card">
+            <i class="fas fa-horse" aria-hidden="true"></i>
+            <h3>Passeios a Cavalo</h3>
+            <p>Experiência única cavalgando por trilhas e praias da região.</p>
+            <a href="passeios.html" class="btn-saiba-mais">Saiba Mais</a>
+        </div>
+
+        <!-- Card Transfer -->
+        <div class="passeio-card">
+            <i class="fas fa-shuttle-van" aria-hidden="true"></i>
+            <h3>Serviços de Transfer</h3>
+            <p>Transporte confortável e seguro para você chegar com tranquilidade aos seus destinos.</p>
+            <a href="passeios.html" class="btn-saiba-mais">Saiba Mais</a>
+        </div>
+
+    </div>
+</section>
+
+        <!-- Carrossel de Destinos -->
+        <section id="praias" class="destinos container">
+  <h2>Destinos Imperdíveis</h2>
+  <div class="praia-carousel">
+    <div class="destino-slide active">
+      <img src="images/PRAIAS/Nativos.jpg" alt="Praia dos Nativos">
+      <div class="praia-info">
+        <h3>Praia dos Nativos</h3>
+        <p>Um pedacinho do paraíso, com sua vibe descontraída e clima acolhedor.</p>
+      </div>
+    </div>
+    <div class="destino-slide">
+      <img src="images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg" alt="Praia do Espelho">
+      <div class="praia-info">
+        <h3>Praia do Espelho</h3>
+        <p>Águas cristalinas e falésias deslumbrantes.</p>
+      </div>
+    </div>
+    <div class="destino-slide">
+      <img src="images/PRAIAS/Coqueiros.jpg" alt="Praia dos Coqueiros">
+      <div class="praia-info">
+        <h3>Praia dos Coqueiros</h3>
+        <p>Águas calmas e quentes, perfeita para relaxar.</p>
+      </div>
+    </div>
+    <div class="destino-slide">
+      <img src="images/PRAIAS/Praia-de-Itapororoca.jpeg" alt="Praia de Itapororoca">
+      <div class="praia-info">
+        <h3>Praia de Itapororoca</h3>
+        <p>Ideal para quem gosta de natureza preservada e sossego com belas falésias e águas.</p>
+      </div>
+    </div>
+    <div class="destino-slide">
+      <img src="images/PRAIAS/Rio verde.jpg" alt="Praia do Rio Verde">
+      <div class="praia-info">
+        <h3>Praia do Rio Verde</h3>
+        <p>Praia de mar calmo e águas cristalinas.</p>
+      </div>
+    </div>
+    <div class="destino-slide">
+      <img src="images/PRAIAS/Tartarugas.jpg" alt="Praia das Tartarugas">
+      <div class="praia-info">
+        <h3>Praia das Tartarugas</h3>
+        <p>Ideal para quem busca sossego e contato com a natureza, sem a muvuca das praias mais famosas da região.</p>
+      </div>
+    </div>
+    <div class="destino-slide">
+      <img src="images/PRAIAS/Rio da barra.jpg" alt="Praia do Rio da Barra">
+      <div class="praia-info">
+        <h3>Praia do Rio da Barra</h3>
+        <p>Praia de ambiente rústico, com dunas e manguezais próximos, ótima para quem curte contato com a natureza e tranquilidade.</p>
+      </div>
+    </div>
+    <div class="destino-slide">
+      <img src="images/PRAIAS/Caraiva.png" alt="Praia do Rio Caraiva">
+      <div class="praia-info">
+        <h3>Praia do Rio Caraiva</h3>
+        <p>É um lugar rústico e tranquilo, com visual de mangues e muito sossego.</p>
+      </div>
+    </div>
+
+    <!-- Botões do carrossel -->
+    <button class="prev">❮</button>
+    <button class="next">❯</button>
+  </div>
+  <div class="dots-container"></div>
+</section>
+        <!-- Seção de Reservas -->
+        <section id="reserva" class="container">
+            <h2>Reservas</h2>
+            <div class="reserva-intro">
+                <h3>🛎️ Quero realizar minha reserva</h3>
+                <p>Escolha abaixo a forma que prefere reservar sua estadia conosco:</p>
+            </div>
+            <div class="btn-group">
+                <a href="https://wa.me/557398678158" class="btn-reserva">📲 Via WhatsApp</a>
+      
+           </div>
+        </section>
+
+        <!-- Mapa -->
+        <section id="mapa" class="mapa container">
+
+            <h2>Localização</h2>
+           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3823.60435661718!2d-39.0988038!3d-16.596411!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7369d0c3a51b683%3A0x24628b28ec2f9bdc!2sCorais%20de%20Trancoso%20Boutique!5e0!3m2!1spt-BR!2sbr!4v1757190368070!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </section>
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>© 2025 Corais de Trancoso Boutique</p>
+        <p><a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a> | <a href="https://wa.me/557398678158" target="_blank" rel="noopener">WhatsApp</a> | <a href="https://facebook.com" target="_blank" rel="noopener">Facebook</a></p>
+    </footer>
+
+    <script>
+        // ===== CARROSSEL DE HEADER =====
+        let headerIndex = 0;
+        const headerImages = document.querySelectorAll('.carousel-background img');
+        const totalHeaderImages = headerImages.length;
+        function changeHeaderImage() {
+            headerImages.forEach((img, i) => img.style.opacity = (i === headerIndex) ? "1" : "0");
+            headerIndex = (headerIndex + 1) % totalHeaderImages;
+        }
+        setInterval(changeHeaderImage, 3000);
+        changeHeaderImage();
+
+        // ===== CARROSSEL DE DESTINOS =====
+        const slides = document.querySelectorAll('.destino-slide');
+        const prevBtn = document.querySelector('.praia-carousel .prev');
+        const nextBtn = document.querySelector('.praia-carousel .next');
+        const dotsContainer = document.querySelector('.dots-container');
+        let currentIndex = 0;
+        let slideInterval;
+
+        slides.forEach((_, idx) => {
+            const dot = document.createElement('button');
+            dot.setAttribute('aria-label', `Slide ${idx + 1}`);
+            if (idx === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => { showSlide(idx); resetInterval(); });
+            dotsContainer.appendChild(dot);
+        });
+        const dots = dotsContainer.querySelectorAll('button');
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+                dots[i].classList.toggle('active', i === index);
+            });
+            currentIndex = index;
+        }
+        function nextSlide() { showSlide((currentIndex + 1) % slides.length); }
+        function prevSlide() { showSlide((currentIndex - 1 + slides.length) % slides.length); }
+        function resetInterval() { clearInterval(slideInterval); slideInterval = setInterval(nextSlide, 5000); }
+        if (nextBtn && prevBtn) {
+            nextBtn.addEventListener('click', () => { nextSlide(); resetInterval(); });
+            prevBtn.addEventListener('click', () => { prevSlide(); resetInterval(); });
+        }
+        if (slides.length > 0) {
+            slideInterval = setInterval(nextSlide, 5000);
+            showSlide(currentIndex);
+        }
+// ===== MODAL DE RESERVA + OMNIBEES (ABRE EM NOVA ABA) =====
+(function () {
+  const OMNIBEES_HOTEL_ID = "22031";
+
+  // Elementos
+  const modal     = document.getElementById("modalReserva");
+  const abrirBtn  = document.querySelector(".abrir-reserva");
+  const fecharBtn = document.querySelector(".fechar");
+  const form      = document.getElementById("formReserva");
+  const checkin   = document.getElementById("checkin");
+  const checkout  = document.getElementById("checkout");
+
+  // Abrir/fechar modal (usa a classe .show do seu CSS)
+  if (abrirBtn && modal) {
+    abrirBtn.addEventListener("click", () => modal.classList.add("show"));
+  }
+  if (fecharBtn && modal) {
+    fecharBtn.addEventListener("click", () => modal.classList.remove("show"));
+  }
+  window.addEventListener("click", (e) => { if (e.target === modal) modal.classList.remove("show"); });
+  window.addEventListener("keydown", (e) => { if (e.key === "Escape") modal.classList.remove("show"); });
+
+  // Datas mínimas e regra: checkout >= checkin + 1 dia
+  function todayISO(offset = 0) {
+    const d = new Date();
+    d.setDate(d.getDate() + offset);
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${d.getFullYear()}-${m}-${day}`;
+  }
+  if (checkin && checkout) {
+    checkin.min  = todayISO(0);
+    checkout.min = todayISO(1);
+
+    checkin.addEventListener("change", () => {
+      if (!checkin.value) return;
+      const ci = new Date(checkin.value);
+      const coMin = new Date(ci);
+      coMin.setDate(ci.getDate() + 1);
+      const minStr = `${coMin.getFullYear()}-${String(coMin.getMonth()+1).padStart(2,"0")}-${String(coMin.getDate()).padStart(2,"0")}`;
+      checkout.min = minStr;
+      if (!checkout.value || checkout.value < minStr) checkout.value = minStr;
+    });
+  }
+
+  // Converte "YYYY-MM-DD" (type=date) OU "dd/mm/aaaa" -> "DDMMYYYY" (Omnibees)
+  function toDDMMYYYY(str) {
+    if (!str) return "";
+    if (str.includes("-")) { // ISO
+      const [y, m, d] = str.split("-");
+      return `${d}${m}${y}`;
+    }
+    if (str.includes("/")) { // BR
+      const [dd, mm, yyyy] = str.split("/");
+      return `${dd}${mm}${yyyy}`;
+    }
+    return "";
+  }
+
+  // Submit: monta URL e abre Omnibees em nova aba
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const ciISO = checkin?.value || "";
+      const coISO = checkout?.value || "";
+      const ad = parseInt(document.getElementById("adultos")?.value || "1", 10);
+      const ch = parseInt(document.getElementById("criancas")?.value || "0", 10);
+
+      if (!ciISO || !coISO) {
+        alert("Selecione as datas de check-in e check-out.");
+        return;
+      }
+
+      const ci = toDDMMYYYY(ciISO);
+      const co = toDDMMYYYY(coISO);
+
+      const url = new URL("https://book.omnibees.com/hotelresults");
+      url.searchParams.set("CheckIn",  ci);
+      url.searchParams.set("CheckOut", co);
+      url.searchParams.set("NRooms",   "1");
+      url.searchParams.set("ad",       String(ad));
+      url.searchParams.set("ch",       String(ch));
+      url.searchParams.set("lang",     "pt-BR");
+      url.searchParams.set("q",        OMNIBEES_HOTEL_ID);
+
+      window.open(url.toString(), "_blank", "noopener"); // abre Omnibees
+      modal.classList.remove("show");                    // fecha modal
+    });
+  } else {
+    console.warn("formReserva não encontrado. Verifique se o formulário tem id='formReserva'.");
+  }
+})();
+</script>
+</body>
+</html>
