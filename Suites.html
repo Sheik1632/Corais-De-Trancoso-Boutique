@@ -1,150 +1,194 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
 <title>Galeria de Suítes - Pousada</title>
 
-<!-- preconnect: fontes mais rápidas -->
- <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Fontes e ícones -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
 <style>
-  body { font-family:'Quicksand',sans-serif; margin:0; padding:0; background:#f5f5f5; color:#333;
-         -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-
-  .section { max-width:1200px; margin:40px auto; padding:0 20px; }
-  h2 { text-align:center; font-size:2.5rem; color:#2b6cb0; margin-bottom:30px; }
-
-  .categoria-menu { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-bottom:30px; }
-  .categoria-menu button { background:#3498db; border:none; color:#fff; padding:10px 18px; border-radius:25px; cursor:pointer; font-weight:600; display:flex; align-items:center; gap:6px; transition:0.3s; }
-  .categoria-menu button:hover { background:#2980b9; }
-  .categoria-menu button.active { background:#2b6cb0; }
-
-  /* ======= FOTO CENTRAL padronizada 16:9 ======= */
-  .main-image-container { position:relative; margin:0 auto 20px; max-width:980px; aspect-ratio:16/9; }
-  .main-image-container img#mainImage{
-    width:100%; height:100%; object-fit:cover; border-radius:12px; display:block;
-    cursor:pointer; transition:transform .3s ease, opacity .25s ease;
+  /* ===== BASE ===== */
+  :root{
+    --brand:#2b6cb0;
+    --brand-2:#3498db;
+    --bg:#f5f5f5;
+    --card:#fff;
+    --ink:#333;
+    --radius:14px;
+    --shadow:0 10px 24px rgba(0,0,0,.08);
   }
-  .main-image-container img#mainImage:hover { transform:scale(1.03); }
-  .fade-in { opacity:0; } .fade-in.loaded { opacity:1; }
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    margin:0; font-family:'Quicksand',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.6;
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  }
+  img{ max-width:100%; display:block; height:auto; }
+  button{ font-family:inherit; }
 
-  .nav-arrow { position:absolute; top:50%; transform:translateY(-50%); font-size:2rem; color:#fff;
-               background:rgba(0,0,0,0.4); padding:10px; border-radius:50%; cursor:pointer; transition:0.3s; user-select:none; }
-  .nav-arrow:hover { background:rgba(0,0,0,0.7); }
-  .nav-left { left:12px; } .nav-right { right:12px; }
+  /* ===== CONTAINER / TÍTULO ===== */
+  .section{ max-width:1200px; margin:40px auto; padding:0 16px; }
+  h2{
+    text-align:center; font-size:clamp(1.6rem, 2.2vw + 1rem, 2.4rem);
+    color:var(--brand); margin:0 0 20px;
+  }
 
-  .galeria { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:20px; justify-items:center; }
-  .item { display:flex; flex-direction:column; align-items:center; text-align:center; background:#fff; padding:10px; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.1); transition:transform 0.3s; cursor:pointer; }
-  .item:hover { transform:translateY(-5px); box-shadow:0 8px 20px rgba(0,0,0,0.2); }
+  /* ===== MENU DE CATEGORIAS ===== */
+  .categoria-menu{
+    display:flex; flex-wrap:wrap; justify-content:center; gap:.5rem; margin:0 auto 22px;
+    position:sticky; top:0; z-index:5; padding:10px 6px; backdrop-filter:saturate(120%) blur(6px);
+    background:#ffffffd9; border-radius:12px;
+  }
+  .categoria-menu button{
+    background:var(--brand-2); border:0; color:#fff; padding:10px 16px;
+    border-radius:999px; cursor:pointer; font-weight:700; display:flex; align-items:center; gap:8px;
+    transition:transform .2s ease, background-color .25s ease; white-space:nowrap;
+  }
+  .categoria-menu button:hover{ transform:translateY(-2px); }
+  .categoria-menu button.active{ background:var(--brand); }
+  .categoria-menu:focus-within{ outline:3px solid #93c5fd; outline-offset:2px; }
 
-  /* Miniaturas padronizadas 4:3 */
-  .item img { width:100%; aspect-ratio:4/3; height:auto; object-fit:cover; border-radius:10px; margin-bottom:8px; }
+  /* ===== IMAGEM PRINCIPAL (16:9) ===== */
+  .main-image-container{
+    position:relative; margin:0 auto 12px; max-width:980px; aspect-ratio:16/9;
+    border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow);
+    background:#e9eef3;
+  }
+  #mainImage{
+    width:100%; height:100%; object-fit:cover; cursor:pointer;
+    transition:transform .25s ease, opacity .25s ease; opacity:0;
+  }
+  #mainImage.loaded{ opacity:1; }
+  #mainImage:hover{ transform:scale(1.02); }
 
-  .item p { margin:0; font-weight:600; display:flex; align-items:center; gap:6px; }
+  /* Setas */
+  .nav-arrow{
+    position:absolute; top:50%; transform:translateY(-50%);
+    width:44px; height:44px; display:grid; place-items:center;
+    border-radius:50%; color:#fff; background:rgba(0,0,0,.45);
+    user-select:none; cursor:pointer; border:0; font-size:1.3rem;
+    transition:background .25s ease, transform .2s ease;
+  }
+  .nav-arrow:hover{ background:rgba(0,0,0,.65); transform:translateY(-50%) scale(1.05); }
+  .nav-left{ left:12px; } .nav-right{ right:12px; }
 
-  .lightbox { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:none; justify-content:center; align-items:center; z-index:1000; }
-  .lightbox img { max-width:90%; max-height:90%; border-radius:12px; }
+  /* Título da principal */
+  #mainTitle{
+    text-align:center; margin:8px 0 6px; font-weight:700; font-size:clamp(1rem, .9vw + .8rem, 1.15rem);
+  }
 
-  .whatsapp-btn { position:fixed; bottom:20px; right:20px; background:#25d366; color:white; border-radius:50px; padding:14px 22px; font-size:1rem; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 4px 12px rgba(0,0,0,0.2); transition:0.3s; z-index:1001; }
-  .whatsapp-btn i { font-size:1.4rem; }
-  .whatsapp-btn:hover { background:#20b958; transform:translateY(-3px); }
+  /* ===== GRADE DE MINIATURAS ===== */
+  .galeria{
+    display:grid; gap:16px;
+    grid-template-columns:repeat(auto-fit, minmax(160px,1fr));
+    align-items:stretch;
+  }
+  .item{
+    background:var(--card); padding:10px; border-radius:12px; box-shadow:var(--shadow);
+    display:flex; flex-direction:column; align-items:center; text-align:center;
+    transition:transform .2s ease, box-shadow .25s ease; cursor:pointer;
+  }
+  .item:hover{ transform:translateY(-4px); box-shadow:0 14px 28px rgba(0,0,0,.15); }
+  .item img{ width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:10px; margin-bottom:8px; background:#eef2f7; }
+  .item p{ margin:0; font-weight:700; display:flex; align-items:center; gap:8px; font-size:.95rem; }
 
-  /* título da imagem central */
-  #mainTitle { text-align:center; margin-top:8px; font-weight:700; }
-  /* Foto central padronizada em 16:9 */
-.main-image-container {
-  position: relative;
-  margin: 0 auto 20px;
-  max-width: 980px;
-  aspect-ratio: 16 / 9;
-}
-.main-image-container img#mainImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;        /* mantém corte bonito */
-  border-radius: 12px;
-  display: block;
-  cursor: pointer;
-  transition: transform .3s ease, opacity .25s ease;
-}
-.main-image-container img#mainImage:hover { transform: scale(1.03); }
-.fade-in { opacity: 0; }
-.fade-in.loaded { opacity: 1; }
+  /* ===== LIGHTBOX ===== */
+  .lightbox{
+    position:fixed; inset:0; background:rgba(0,0,0,.85); display:none; align-items:center; justify-content:center; z-index:1000;
+  }
+  .lightbox.open{ display:flex; }
+  .lightbox img{ max-width:min(92vw,1400px); max-height:88vh; border-radius:12px; }
 
-/* Setas compatíveis com o novo container */
-.nav-left { left: 12px; }
-.nav-right { right: 12px; }
+  /* ===== WHATSAPP FLOAT ===== */
+  .whatsapp-btn{
+    position:fixed; right:16px; bottom:16px; z-index:1001;
+    background:#25d366; color:#fff; border-radius:999px; padding:12px 18px; font-weight:700;
+    display:flex; align-items:center; gap:10px; text-decoration:none; box-shadow:0 8px 20px rgba(0,0,0,.2);
+    transition:transform .2s ease, background .25s ease;
+  }
+  .whatsapp-btn:hover{ background:#1fb85b; transform:translateY(-2px); }
+  .whatsapp-btn i{ font-size:1.25rem; }
 
-/* Miniaturas padronizadas em 4:3 */
-.item img {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  height: auto;
-  object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 8px;
-}
+  /* ===== ACESSIBILIDADE ===== */
+  .nav-arrow:focus-visible, .categoria-menu button:focus-visible, .item:focus-visible, .whatsapp-btn:focus-visible{
+    outline:3px solid #93c5fd; outline-offset:2px;
+  }
 
-/* Suaviza fonte (micro performance visual) */
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
+  /* ===== RESPONSIVIDADE ===== */
+  @media (max-width: 900px){
+    .categoria-menu{ border-radius:10px; gap:.4rem; padding:8px; }
+    .categoria-menu button{ padding:9px 14px; font-size:.95rem; }
+  }
+  @media (max-width: 640px){
+    .section{ margin:22px auto; }
+    .categoria-menu{ overflow:auto; -webkit-overflow-scrolling:touch; }
+    .categoria-menu::-webkit-scrollbar{ height:6px; }
+    .categoria-menu::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius:999px; }
+    .nav-arrow{ width:40px; height:40px; font-size:1.1rem; }
+    .galeria{ gap:12px; grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); }
+    .item{ padding:8px; }
+    .whatsapp-btn{ bottom:14px; right:14px; padding:11px 16px; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none!important; transition:none!important; scroll-behavior:auto!important; }
+  }
 </style>
 </head>
 <body>
 
-<section class="section">
+<section class="section" aria-label="Galeria de Suítes">
   <h2>Suítes da Pousada</h2>
 
-  <div class="categoria-menu">
-    <button class="active" data-cat="todas">Todas</button>
-    <button data-cat="mare-alta">Suite Maré Alta</button>
-    <button data-cat="jardim">Suite Jardim</button>
-    <button data-cat="brisa">Suite Brisa</button>
-    <button data-cat="horizonte">Suite Horizonte</button>
-    <button data-cat="master-raizes">Master Raízes</button>
-    <button data-cat="master-oceano">Master Oceano</button>
-    <button data-cat="varanda-do-sol">Varanda do Sol</button>
-  </div>
+  <!-- Menu de Categorias (igual aos seus rótulos) -->
+  <nav class="categoria-menu" aria-label="Filtrar por categoria">
+    <button class="active" data-cat="todas" type="button"><i class="fa-solid fa-layer-group"></i> Todas</button>
+    <button data-cat="mare-alta" type="button"><i class="fa-solid fa-bed"></i> Maré Alta</button>
+    <button data-cat="jardim" type="button"><i class="fa-solid fa-leaf"></i> Jardim</button>
+    <button data-cat="brisa" type="button"><i class="fa-solid fa-wind"></i> Brisa</button>
+    <button data-cat="horizonte" type="button"><i class="fa-solid fa-mountain"></i> Horizonte</button>
+    <button data-cat="master-raizes" type="button"><i class="fa-solid fa-tree"></i> Master Raízes</button>
+    <button data-cat="master-oceano" type="button"><i class="fa-solid fa-water"></i> Master Oceano</button>
+    <button data-cat="varanda-do-sol" type="button"><i class="fa-solid fa-sun"></i> Varanda do Sol</button>
+  </nav>
 
+  <!-- Imagem Principal 16:9 -->
   <div class="main-image-container">
-    <div class="nav-arrow nav-left" id="prev" aria-label="Imagem anterior">&lt;</div>
+    <button class="nav-arrow nav-left" id="prev" aria-label="Imagem anterior" type="button"><i class="fa-solid fa-chevron-left"></i></button>
 
-    <!-- imagem principal padronizada + alta prioridade -->
- <img id="mainImage"
-     src="images/mare-alta1.jpg"
-     alt="Imagem Principal"
-     decoding="async"
-     fetchpriority="high"
-     class="fade-in">
+    <img id="mainImage"
+         src="images/mare-alta1.jpg"
+         alt="Imagem principal da suíte"
+         decoding="async"
+         fetchpriority="high" />
 
-    <div class="nav-arrow nav-right" id="next" aria-label="Próxima imagem">&gt;</div>
-    <p id="mainTitle"><i class="fa-solid fa-bed"></i> Suite Maré Alta</p>
+    <button class="nav-arrow nav-right" id="next" aria-label="Próxima imagem" type="button"><i class="fa-solid fa-chevron-right"></i></button>
   </div>
+  <p id="mainTitle" aria-live="polite"><i class="fa-solid fa-bed"></i> Suite Maré Alta</p>
 
+  <!-- Miniaturas -->
   <div class="galeria" id="galeria"></div>
 </section>
 
 <!-- Lightbox -->
-<div class="lightbox" id="lightbox">
-  <img src="" alt="Zoom da imagem" decoding="async">
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Visualização da imagem em tela cheia">
+  <img src="" alt="Imagem ampliada da suíte" decoding="async" />
 </div>
 
-<a href="https://wa.me/557398678158?text=Olá!%20Gostaria%20de%20fazer%20uma%20reserva." class="whatsapp-btn" target="_blank" rel="noopener">
+<!-- WhatsApp -->
+<a class="whatsapp-btn" href="https://wa.me/557398678158?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20uma%20reserva."
+   target="_blank" rel="noopener">
   <i class="fa-brands fa-whatsapp"></i> Reservar agora
 </a>
 
 <script>
-/* === Seus dados, mantidos === */
+/* ================== DADOS (mantidos) ================== */
 const suites = {
   "mare-alta":[
     {src:"images/SUITES/Imagens/Maré alta/mare alta 1.jpg", icon:"fa-bed"},
@@ -197,6 +241,7 @@ const suites = {
   ]
 };
 
+/* ================== ELEMENTOS ================== */
 const galeria = document.getElementById("galeria");
 const buttons = document.querySelectorAll(".categoria-menu button");
 const mainImage = document.getElementById("mainImage");
@@ -209,11 +254,12 @@ const nextBtn = document.getElementById("next");
 let currentCategory = "mare-alta";
 let currentIndex = 0;
 
-/* ===== criar galeria com lazy + fragment (mais rápido) ===== */
-// >>> SUBSTITUA sua função criarGaleria por esta
+/* ================== HELPERS ================== */
+const encodePath = (p) => encodeURI(p);
+
+/* cria/atualiza as miniaturas */
 function criarGaleria(cat){
   galeria.innerHTML = "";
-
   const lista = (cat === "todas")
     ? Object.keys(suites).flatMap(k => suites[k].map(i => ({...i, categoria:k})))
     : suites[cat].map(i => ({...i, categoria:cat}));
@@ -221,16 +267,16 @@ function criarGaleria(cat){
   const frag = document.createDocumentFragment();
 
   lista.forEach((item, index) => {
-    const div = document.createElement("div");
+    const div = document.createElement("button");
+    div.type = "button";
     div.className = "item";
+    div.setAttribute("aria-label", `Abrir ${item.categoria.replace(/-/g," ")}`);
 
-    // miniatura com lazy e decoding async
     const img = new Image();
     img.loading = "lazy";
     img.decoding = "async";
-    img.referrerPolicy = "no-referrer";
     img.alt = `Suíte ${item.categoria}`;
-    img.src = encodeURI(item.src); // lida com espaços/acentos
+    img.src = encodePath(item.src);
 
     const p = document.createElement("p");
     p.innerHTML = `<i class="fa-solid ${item.icon}"></i> ${item.categoria.replace(/-/g," ").toUpperCase()}`;
@@ -238,7 +284,6 @@ function criarGaleria(cat){
     div.appendChild(img);
     div.appendChild(p);
 
-    // clique: atualiza imagem central
     div.addEventListener("click", () => {
       setMainImage(item.src, item.icon, item.categoria);
       currentIndex = index;
@@ -250,30 +295,28 @@ function criarGaleria(cat){
   galeria.appendChild(frag);
 }
 
-// >>> ADICIONE esta função abaixo da criarGaleria
+/* troca imagem principal + título com fade */
 function setMainImage(src, icon, categoria) {
   mainImage.classList.remove("loaded");
-  mainImage.classList.add("fade-in");
-  const newSrc = encodeURI(src);
-  if (mainImage.src === newSrc) {
+  const newSrc = encodePath(src);
+  const onLoad = () => {
     mainImage.classList.add("loaded");
-    return;
-  }
-  mainImage.onload = () => {
-    mainImage.classList.add("loaded");
+    mainImage.removeEventListener("load", onLoad);
   };
+  mainImage.addEventListener("load", onLoad, { once:true });
   mainImage.src = newSrc;
   mainTitle.innerHTML = `<i class="fa-solid ${icon}"></i> ${categoria.replace(/-/g," ").toUpperCase()}`;
 }
 
-// >>> INICIALIZAÇÃO — substitua seu bloco inicial por este
-criarGaleria(currentCategory);
-if (suites[currentCategory] && suites[currentCategory][0]) {
-  const it = suites[currentCategory][0];
-  setMainImage(it.src, it.icon, currentCategory);
+/* inicialização */
+function init(){
+  criarGaleria(currentCategory);
+  const first = suites[currentCategory][0];
+  setMainImage(first.src, first.icon, currentCategory);
 }
+init();
 
-/* ===== botões de filtro ===== */
+/* filtros */
 buttons.forEach(btn=>{
   btn.addEventListener("click", ()=>{
     buttons.forEach(b=>b.classList.remove("active"));
@@ -284,31 +327,71 @@ buttons.forEach(btn=>{
     if(currentCategory !== "todas"){
       const first = suites[currentCategory][0];
       setMainImage(first.src, first.icon, currentCategory);
+    } else {
+      // mantém a última principal ao usar "todas"
     }
   });
 });
 
-/* ===== navegação setas (desliga em 'todas') ===== */
-prevBtn.addEventListener("click", ()=>{
+/* setas (desligadas em 'todas') */
+function goPrev(){
   if(currentCategory==="todas") return;
   currentIndex = (currentIndex - 1 + suites[currentCategory].length) % suites[currentCategory].length;
   const it = suites[currentCategory][currentIndex];
   setMainImage(it.src, it.icon, currentCategory);
-});
-nextBtn.addEventListener("click", ()=>{
+}
+function goNext(){
   if(currentCategory==="todas") return;
   currentIndex = (currentIndex + 1) % suites[currentCategory].length;
   const it = suites[currentCategory][currentIndex];
   setMainImage(it.src, it.icon, currentCategory);
+}
+prevBtn.addEventListener("click", goPrev);
+nextBtn.addEventListener("click", goNext);
+
+/* teclado (setas esquerda/direita e ESC no lightbox) */
+window.addEventListener("keydown",(e)=>{
+  if(lightbox.classList.contains("open")){
+    if(e.key === "Escape"){ lightbox.classList.remove("open"); }
+    if(e.key === "ArrowRight"){ // navega dentro do lightbox também
+      goNext(); lightboxImg.src = mainImage.src;
+    }
+    if(e.key === "ArrowLeft"){
+      goPrev(); lightboxImg.src = mainImage.src;
+    }
+    return;
+  }
+  if(e.key === "ArrowRight"){ goNext(); }
+  if(e.key === "ArrowLeft"){ goPrev(); }
 });
 
-/* ===== Lightbox ===== */
+/* swipe em mobile na imagem principal */
+let startX = 0, swiping = false;
+mainImage.addEventListener("touchstart", (e)=>{ startX = e.touches[0].clientX; swiping = true; }, {passive:true});
+mainImage.addEventListener("touchmove", (e)=>{
+  if(!swiping) return;
+  const dx = e.touches[0].clientX - startX;
+  // arrasto leve já troca (50px)
+  if(Math.abs(dx) > 50){
+    swiping = false;
+    dx < 0 ? goNext() : goPrev();
+  }
+},{passive:true});
+mainImage.addEventListener("touchend", ()=>{ swiping = false; });
+
+/* lightbox */
 mainImage.addEventListener("click", ()=>{
-  lightbox.style.display="flex";
   lightboxImg.src = mainImage.src;
+  lightbox.classList.add("open");
 });
-lightbox.addEventListener("click", ()=>{ lightbox.style.display="none"; });
-</script>
+lightbox.addEventListener("click", ()=> lightbox.classList.remove("open"));
 
+/* melhora foco ao clicar rótulos no mobile (scroll suave até a grade) */
+document.querySelector('.categoria-menu').addEventListener('click', (e)=>{
+  if(e.target.closest('button')){
+    document.getElementById('galeria').scrollIntoView({behavior:'smooth', block:'start'});
+  }
+});
+</script>
 </body>
 </html>

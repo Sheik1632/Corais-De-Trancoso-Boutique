@@ -2,18 +2,95 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Galeria - Área Interna</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    h1 { margin-bottom: 20px; }
-    .gallery { display: flex; flex-wrap: wrap; gap: 15px; }
-    .gallery img { width: 300px; height: 200px; object-fit: cover; border-radius: 8px; }
-    .back-btn { margin-top: 30px; display: inline-block; padding: 10px 15px; background: #007BFF; color: white; text-decoration: none; border-radius: 5px; }
+    :root {
+      --brand: #007bff;
+      --bg: #f9fafb;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --radius: 10px;
+    }
+
+    body {
+      font-family: 'Quicksand', Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: var(--bg);
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: clamp(1.5rem, 1.2rem + 1vw, 2.2rem);
+      color: var(--brand);
+      margin-bottom: 25px;
+    }
+
+    /* ==== GRID GALERIA ==== */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .gallery img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    /* ==== BOTÃO VOLTAR ==== */
+    .back-btn {
+      margin: 40px auto 0;
+      display: block;
+      width: fit-content;
+      padding: 12px 20px;
+      background: var(--brand);
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .back-btn:hover {
+      background: #0056b3;
+      transform: translateY(-2px);
+    }
+
+    /* ==== RESPONSIVO ==== */
+    @media (max-width: 600px) {
+      body {
+        padding: 15px;
+      }
+
+      .gallery {
+        gap: 12px;
+      }
+
+      .back-btn {
+        font-size: 0.9rem;
+        padding: 10px 16px;
+      }
+    }
   </style>
 </head>
 <body>
   <h1>Galeria - Área Interna</h1>
+
   <div class="gallery">
     <img src="images/AREA INTERNA/4E1A0219.jpg" alt="Área Interna 1" />
     <img src="images/AREA INTERNA/4E1A0227.jpg" alt="Área Interna 2" />
@@ -25,6 +102,6 @@
     <img src="images/AREA INTERNA/4E1A0262.jpg" alt="Área Interna 8" />
   </div>
 
-  <a href="index.html" class="back-btn">Voltar para o site</a>
+  <a href="index.html" class="back-btn">⬅ Voltar para o site</a>
 </body>
 </html>

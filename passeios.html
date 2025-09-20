@@ -1,163 +1,124 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Indicações</title>
-  
+
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 
   <style>
-    /* ====== ESTILO GLOBAL ====== */
-    body {
-      font-family: 'Quicksand', sans-serif;
-      background: #f9fafb;
-      margin: 0;
-      padding: 0;
-      color: #333;
+    :root{
+      --brand:#2b6cb0;
+      --brand-2:#1a4f8a;
+      --bg:#f9fafb;
+      --card:#fff;
+      --muted:#e2e8f0;
+      --text:#333;
+      --shadow:0 6px 18px rgba(0,0,0,.08);
+      --radius:18px;
     }
 
-    .container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 20px;
+    /* ====== GLOBAL ====== */
+    *{box-sizing:border-box}
+    html{-webkit-text-size-adjust:100%}
+    body{
+      margin:0; background:var(--bg); color:var(--text);
+      font-family:'Quicksand',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      line-height:1.6;
     }
 
-    h2 {
-      text-align: center;
-      font-size: 2rem;
-      margin-bottom: 25px;
-      color: #2b6cb0;
+    .container{
+      max-width:1200px; margin:auto; padding:clamp(12px,2vw,24px);
     }
 
-    /* ====== TABS ====== */
-    .tabs {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 30px;
-      gap: 15px;
+    h2{
+      text-align:center;
+      font-size:clamp(1.6rem,1.2rem + 1.5vw,2.2rem);
+      margin: 8px 0 20px;
+      color:var(--brand);
     }
 
-    .tab {
-      padding: 10px 20px;
-      background: #e2e8f0;
-      border-radius: 25px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    /* ====== TABS (acessível) ====== */
+    .tabs-wrap{
+      position:sticky; top:0; z-index:10; /* cola no topo em mobile */
+      background:linear-gradient(#ffffffcc,#ffffffcc);
+      backdrop-filter:saturate(120%) blur(6px);
+      padding:8px 0;
     }
 
-    .tab.active {
-      background: #2b6cb0;
-      color: white;
-      transform: scale(1.05);
+    .tabs{
+      display:flex; flex-wrap:wrap; justify-content:center; gap:10px;
+      list-style:none; padding:0; margin:0 auto; max-width:900px;
     }
+
+    .tab{
+      border:0; cursor:pointer; user-select:none;
+      padding:10px 18px; border-radius:999px;
+      background:var(--muted); color:#111;
+      font-weight:700; display:inline-flex; align-items:center; gap:8px;
+      transition:transform .2s ease, background .25s ease, box-shadow .25s ease;
+      box-shadow:var(--shadow);
+      outline-offset:3px;
+    }
+    .tab[aria-selected="true"]{
+      background:var(--brand); color:#fff; transform:translateY(-1px);
+    }
+    .tab:focus-visible{ outline:3px solid #93c5fd; }
 
     /* ====== GRID ====== */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: clamp(12px, 2vw, 20px);
+      margin-top:18px;
     }
 
-    /* ====== ITEM ====== */
-    .item {
-      background: white;
-      border-radius: 20px;
-      padding: 25px 15px;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      transition: transform 0.3s, box-shadow 0.3s;
-      animation: fadeIn 0.6s ease;
+    /* ====== CARD ====== */
+    .item{
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:22px 16px;
+      text-align:center;
+      box-shadow:var(--shadow);
+      transition:transform .25s ease, box-shadow .25s ease;
+      animation:fadeIn .45s ease both;
     }
+    .item:hover{ transform: translateY(-3px); box-shadow:0 12px 28px rgba(0,0,0,.12); }
+    .item i{ font-size:2rem; color:var(--brand); margin-bottom:8px; transition:transform .25s ease }
+    .item:hover i{ transform:scale(1.05) }
 
-    .item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-    }
-
-    .item i {
-      font-size: 2.5rem;
-      color: #2b6cb0;
-      margin-bottom: 10px;
-      transition: transform 0.3s, color 0.3s;
-    }
-
-    .item:hover i {
-      transform: scale(1.1);
-      color: #1a4f8a;
-    }
-
-    .item h3 {
-      font-size: 1.2rem;
-      margin: 10px 0;
-    }
-
-    .item p {
-      font-size: 0.95rem;
-      line-height: 1.4;
-      color: #555;
-    }
+    .item h3{ font-size:1.1rem; margin:.25rem 0 .35rem }
+    .item p{ font-size:.98rem; color:#555; margin:0 }
 
     /* ====== ANIMAÇÃO ====== */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes fadeIn{
+      from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none}
+    }
+    @media (prefers-reduced-motion: reduce){
+      *{animation:none!important; transition:none!important}
     }
 
     /* ====== BOTÃO WHATSAPP FIXO ====== */
-    .whatsapp-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #25d366;
-      color: white;
-      border-radius: 50px;
-      padding: 14px 22px;
-      font-size: 1rem;
-      font-weight: 600;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      transition: background 0.3s, transform 0.3s;
-      z-index: 1000;
+    .whatsapp-btn{
+      position:fixed; right:16px; bottom:18px; z-index:1000;
+      display:flex; align-items:center; gap:10px;
+      background:#25d366; color:#fff; text-decoration:none;
+      padding:12px 18px; border-radius:999px; font-weight:700;
+      box-shadow:0 8px 20px rgba(0,0,0,.15);
+      transition:transform .2s ease, background .25s ease;
     }
+    .whatsapp-btn:hover{ background:#20b958; transform:translateY(-2px) }
+    .whatsapp-btn i{ font-size:1.25rem }
 
-    .whatsapp-btn i {
-      font-size: 1.4rem;
-    }
-
-    .whatsapp-btn:hover {
-      background: #20b958;
-      transform: translateY(-3px);
-    }
-
-    /* ====== RESPONSIVO ====== */
-    @media (max-width: 768px) {
-      .tabs {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .whatsapp-btn {
-        bottom: 15px;
-        right: 15px;
-        padding: 12px 18px;
-        font-size: 0.9rem;
-      }
-
-      .whatsapp-btn i {
-        font-size: 1.2rem;
-      }
+    /* ====== RESPONSIVO FINO ====== */
+    @media (max-width: 768px){
+      .whatsapp-btn{ right:12px; bottom:12px; padding:11px 16px }
+      .tabs{ gap:8px }
+      .tab{ padding:10px 14px }
     }
   </style>
 </head>
@@ -166,102 +127,155 @@
     <h2>Indicações</h2>
 
     <!-- ====== TABS ====== -->
-    <div class="tabs">
-      <div class="tab active" data-category="passeios"><i class="fa-solid fa-sailboat"></i> Passeios</div>
-      <div class="tab" data-category="beach"><i class="fa-solid fa-umbrella-beach"></i> Beach Clubs</div>
+    <div class="tabs-wrap" role="navigation" aria-label="Categorias de indicações">
+      <ul class="tabs" role="tablist">
+        <li>
+          <button class="tab"
+                  id="tab-passeios"
+                  role="tab"
+                  aria-selected="true"
+                  aria-controls="painel-passeios"
+                  data-target="passeios">
+            <i class="fa-solid fa-sailboat" aria-hidden="true"></i> Passeios
+          </button>
+        </li>
+        <li>
+          <button class="tab"
+                  id="tab-beach"
+                  role="tab"
+                  aria-selected="false"
+                  aria-controls="painel-beach"
+                  data-target="beach">
+            <i class="fa-solid fa-umbrella-beach" aria-hidden="true"></i> Beach Clubs
+          </button>
+        </li>
+      </ul>
     </div>
 
-    <!-- ====== PASSEIOS ====== -->
-    <div id="passeios" class="grid category-content">
-      <div class="item">
-        <i class="fa-solid fa-ship"></i>
+    <!-- ====== PAINEL: PASSEIOS ====== -->
+    <section id="painel-passeios" class="grid" role="tabpanel" aria-labelledby="tab-passeios">
+      <article class="item">
+        <i class="fa-solid fa-ship" aria-hidden="true"></i>
         <h3>Passeio de Lancha</h3>
         <p>Explore o litoral em uma lancha confortável e segura.</p>
-      </div>
+      </article>
 
-      <div class="item">
-        <i class="fa-solid fa-motorcycle"></i>
+      <article class="item">
+        <i class="fa-solid fa-motorcycle" aria-hidden="true"></i>
         <h3>Quadriciclo</h3>
         <p>Aventura off-road e paisagens incríveis ao pôr do sol.</p>
-      </div>
+      </article>
 
-      <div class="item">
-        <i class="fa-solid fa-car-side"></i>
+      <article class="item">
+        <i class="fa-solid fa-car-side" aria-hidden="true"></i>
         <h3>UTVs</h3>
         <p>Adrenalina garantida para grupos e famílias.</p>
-      </div>
+      </article>
 
-      <div class="item">
-        <i class="fa-solid fa-water"></i>
+      <article class="item">
+        <i class="fa-solid fa-water" aria-hidden="true"></i>
         <h3>Canoagem</h3>
         <p>Remadas tranquilas para apreciar a natureza ao redor.</p>
-      </div>
+      </article>
 
-      <div class="item">
-        <i class="fa-solid fa-person-swimming"></i>
+      <article class="item">
+        <i class="fa-solid fa-person-swimming" aria-hidden="true"></i>
         <h3>Caiaque</h3>
         <p>Descubra lugares paradisíacos em um passeio de caiaque.</p>
-      </div>
+      </article>
 
-      <div class="item">
-        <i class="fa-solid fa-horse"></i>
+      <article class="item">
+        <i class="fa-solid fa-horse" aria-hidden="true"></i>
         <h3>Passeio a Cavalo</h3>
         <p>Experiência única pelas trilhas e praias da região.</p>
-      </div>
-    </div>
+      </article>
+    </section>
 
-    <!-- ====== BEACH CLUBS ====== -->
-    <div id="beach" class="grid category-content" style="display:none;">
-      <div class="item">
-        <i class="fa-solid fa-umbrella-beach"></i>
+    <!-- ====== PAINEL: BEACH CLUBS ====== -->
+    <section id="painel-beach" class="grid" role="tabpanel" aria-labelledby="tab-beach" hidden>
+      <article class="item">
+        <i class="fa-solid fa-umbrella-beach" aria-hidden="true"></i>
         <h3>Praia dos Coqueiros</h3>
         <p>Badalados: <strong>Almar</strong>, <strong>Uxua</strong> (necessário reservar)</p>
-      </div>
+      </article>
 
-      <div class="item">
-        <i class="fa-solid fa-umbrella-beach"></i>
+      <article class="item">
+        <i class="fa-solid fa-umbrella-beach" aria-hidden="true"></i>
         <h3>Praia dos Nativos</h3>
         <p>Beach Clubs: <strong>Zé Barbudo</strong>, <strong>Awe</strong> (necessário reservar)</p>
-      </div>
+      </article>
 
-      <div class="item">
-        <i class="fa-solid fa-umbrella-beach"></i>
+      <article class="item">
+        <i class="fa-solid fa-umbrella-beach" aria-hidden="true"></i>
         <h3>Rio Verde</h3>
         <p>Beach Club: <strong>Gaia Hotel</strong> (necessário reservar)</p>
-      </div>
+      </article>
 
-      <div class="item">
-        <i class="fa-solid fa-umbrella-beach"></i>
+      <article class="item">
+        <i class="fa-solid fa-umbrella-beach" aria-hidden="true"></i>
         <h3>Praia do Espelho</h3>
         <p>Beach Club: <strong>Maion</strong> (necessário reservar)</p>
-      </div>
-    </div>
+      </article>
+    </section>
   </div>
 
   <!-- ====== BOTÃO WHATSAPP FIXO ====== -->
-  <a 
-    href="https://wa.me/557398678158?text=Olá!%20Gostaria%20de%20fazer%20uma%20reserva%20e%20preciso%20de%20mais%20informações." 
-    class="whatsapp-btn" target="_blank">
-    <i class="fa-brands fa-whatsapp"></i> Reservar agora
+  <a
+    class="whatsapp-btn"
+    href="https://wa.me/557398678158?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20uma%20reserva%20e%20preciso%20de%20mais%20informa%C3%A7%C3%B5es."
+    target="_blank" rel="noopener">
+    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Reservar agora
   </a>
 
   <script>
-    // ====== TROCA ENTRE ABAS ======
-    const tabs = document.querySelectorAll('.tab');
-    const contents = document.querySelectorAll('.category-content');
+    // ====== TABS ACESSÍVEIS (clique + teclado) ======
+    const tabButtons = Array.from(document.querySelectorAll('.tab'));
+    const panels = {
+      passeios: document.getElementById('painel-passeios'),
+      beach: document.getElementById('painel-beach')
+    };
 
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        // Remove 'active' de todas as abas
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
+    function activateTab(btn){
+      const target = btn.dataset.target; // 'passeios' | 'beach'
 
-        // Esconde todos os conteúdos
-        contents.forEach(content => content.style.display = 'none');
-
-        // Mostra o conteúdo da aba clicada
-        document.getElementById(tab.getAttribute('data-category')).style.display = 'grid';
+      // Atualiza atributos ARIA e aparência
+      tabButtons.forEach(b=>{
+        const selected = b === btn;
+        b.setAttribute('aria-selected', selected ? 'true' : 'false');
+        b.tabIndex = selected ? 0 : -1;
       });
+
+      // Mostra/oculta painéis com hidden (melhor p/ acessibilidade)
+      Object.entries(panels).forEach(([key, el])=>{
+        if(key === target){ el.hidden = false; el.scrollIntoView({behavior:'smooth', block:'start'}); }
+        else{ el.hidden = true; }
+      });
+    }
+
+    // Clique do mouse/touch
+    tabButtons.forEach(b=>{
+      b.addEventListener('click', ()=> activateTab(b));
+    });
+
+    // Navegação por teclado (setas esquerda/direita, Home/End)
+    document.addEventListener('keydown', (e)=>{
+      const currentIndex = tabButtons.findIndex(b => b.getAttribute('aria-selected') === 'true');
+      if(currentIndex === -1) return;
+
+      if(e.key === 'ArrowRight' || e.key === 'ArrowLeft' || e.key === 'Home' || e.key === 'End'){
+        e.preventDefault();
+      }
+
+      let nextIndex = currentIndex;
+      if(e.key === 'ArrowRight') nextIndex = (currentIndex + 1) % tabButtons.length;
+      if(e.key === 'ArrowLeft')  nextIndex = (currentIndex - 1 + tabButtons.length) % tabButtons.length;
+      if(e.key === 'Home') nextIndex = 0;
+      if(e.key === 'End')  nextIndex = tabButtons.length - 1;
+
+      if(nextIndex !== currentIndex){
+        tabButtons[nextIndex].focus();
+        activateTab(tabButtons[nextIndex]);
+      }
     });
   </script>
 </body>
