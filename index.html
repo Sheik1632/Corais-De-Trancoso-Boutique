@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <!-- Favicon para navegadores -->
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="images/favicon-64x64.png">
+<link rel="icon" href="images/favicon.ico">
+
+<!-- Favicon para iPhone/iPad -->
+<link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Corais de Trancoso Boutique</title>
@@ -21,11 +30,13 @@
   <nav class="topo-menu">
     <div class="menu-container">
       <!-- LOGO -->
-      <div class="menu-logo">
-        <img src="images/logo-pequena.png.png" alt="Logo da pousada" />
-        <span>Corais de Trancoso</span>
-      </div>
-
+    <!-- LOGO -->
+<div class="menu-logo">
+  <a href="index.html" class="menu-link">
+    <img src="images/logo-pequena.png.png" alt="Logo da pousada" />
+    Corais de Trancoso Boutique
+  </a>
+</div>
       <!-- Botão hambúrguer (mobile) -->
       <button class="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="menuLinks">☰</button>
 
@@ -52,14 +63,34 @@
   </nav>
 
   <!-- ===== HEADER / HERO ===== -->
-  <header>
-    <div class="carousel-container">
-      <div class="carousel-background">
-        <!-- dica: se puder renomear pasta com hífen ao invés de espaço: AREA-EXTERNA -->
-        <img src="images/AREA EXTERNA/4E1A0826.jpg" alt="Entrada da pousada" class="active" />
-        <img src="images/AREA EXTERNA/4E1A0298.jpg" alt="Jardim" />
-        <img src="images/AREA EXTERNA/4E1A0778.jpg" alt="Área externa" />
-      </div>
+  <!-- ===== HEADER / HERO ===== -->
+<header>
+  <div class="carousel-container">
+    <div class="carousel-background">
+      <!-- SLIDE 1 – prioridade alta, sem lazy -->
+      <img
+        class="active hero-slide"
+        src="images/AREA EXTERNA/4E1A0818.jpg"
+        alt="Entrada da pousada"
+        fetchpriority="high"
+        decoding="async">
+
+      <!-- SLIDE 2 – lazy -->
+      <img
+        src="images/AREA EXTERNA/4E1A0778.jpg"
+        alt="Área externa"
+        loading="lazy"
+        decoding="async">
+
+      <!-- SLIDE 3 – lazy -->
+      <img
+        src="images/AREA EXTERNA/4E1A0320.jpg"
+        alt="Jardim"
+        loading="lazy"
+        decoding="async">
+    </div>
+  </div>
+</header>
 
       <div class="welcome-text hero-card">
         <h1>Bem-vindo à Corais de Trancoso Boutique</h1>
@@ -166,41 +197,62 @@
         </div>
       </div>
     </section>
+<!-- ===== PASSEIOS ===== -->
+<section id="passeios" class="passeios-section container">
+  <h2>Serviços de Passeios</h2>
+  <p>Explore as experiências únicas que oferecemos para tornar sua estadia inesquecível.</p>
+  <div class="passeios">
+    
+    <div class="passeio-card">
+      <i class="fas fa-ship" aria-hidden="true"></i>
+      <h3>Passeios de Lancha</h3>
+      <p>Descubra as belezas do litoral com conforto e emoção a bordo de nossas lanchas.</p>
+      <a href="passeios.html" class="btn btn-outline" aria-label="Saiba mais sobre Passeios de Lancha">
+        Saiba Mais
+        <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
 
-    <!-- ===== PASSEIOS ===== -->
-    <section id="passeios" class="passeios-section container">
-      <h2>Serviços de Passeios</h2>
-      <p>Explore as experiências únicas que oferecemos para tornar sua estadia inesquecível.</p>
-      <div class="passeios">
-        <div class="passeio-card">
-          <i class="fas fa-ship" aria-hidden="true"></i>
-          <h3>Passeios de Lancha</h3>
-          <p>Descubra as belezas do litoral com conforto e emoção a bordo de nossas lanchas.</p>
-          <a href="passeios.html" class="btn-saiba-mais">Saiba Mais</a>
-        </div>
+    <div class="passeio-card">
+      <i class="fas fa-motorcycle" aria-hidden="true"></i>
+      <h3>Passeios de Quadriciclo com Pôr do Sol</h3>
+      <p>Aventura e paisagens incríveis para você curtir o pôr do sol de um jeito especial.</p>
+      <a href="passeios.html" class="btn btn-outline" aria-label="Saiba mais sobre Passeios de Quadriciclo">
+        Saiba Mais
+        <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
 
-        <div class="passeio-card">
-          <i class="fas fa-motorcycle" aria-hidden="true"></i>
-          <h3>Passeios de Quadriciclo com Pôr do Sol</h3>
-          <p>Aventura e paisagens incríveis para você curtir o pôr do sol de um jeito especial.</p>
-          <a href="passeios.html" class="btn-saiba-mais">Saiba Mais</a>
-        </div>
+    <div class="passeio-card">
+      <i class="fas fa-horse" aria-hidden="true"></i>
+      <h3>Passeios a Cavalo</h3>
+      <p>Experiência única cavalgando por trilhas e praias da região.</p>
+      <a href="passeios.html" class="btn btn-outline" aria-label="Saiba mais sobre Passeios a Cavalo">
+        Saiba Mais
+        <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
 
-        <div class="passeio-card">
-          <i class="fas fa-horse" aria-hidden="true"></i>
-          <h3>Passeios a Cavalo</h3>
-          <p>Experiência única cavalgando por trilhas e praias da região.</p>
-          <a href="passeios.html" class="btn-saiba-mais">Saiba Mais</a>
-        </div>
+    <div class="passeio-card">
+      <i class="fas fa-shuttle-van" aria-hidden="true"></i>
+      <h3>Serviços de Transfer</h3>
+      <p>Transporte confortável e seguro para você chegar com tranquilidade aos seus destinos.</p>
+      <a href="passeios.html" class="btn btn-outline" aria-label="Saiba mais sobre Serviços de Transfer">
+        Saiba Mais
+        <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
 
-        <div class="passeio-card">
-          <i class="fas fa-shuttle-van" aria-hidden="true"></i>
-          <h3>Serviços de Transfer</h3>
-          <p>Transporte confortável e seguro para você chegar com tranquilidade aos seus destinos.</p>
-          <a href="passeios.html" class="btn-saiba-mais">Saiba Mais</a>
-        </div>
-      </div>
-    </section>
+  </div>
+</section>
 
   <!-- ===== DESTINOS (CARROSSEL) ===== -->
 <section id="praias" class="destinos container">
@@ -370,132 +422,205 @@
   </footer>
 
   <!-- ===== SEU JS (igual ao que você enviou) ===== -->
-  <script>
-    // Carrossel do header
-    let headerIndex = 0;
-    const headerImages = document.querySelectorAll('.carousel-background img');
-    const totalHeaderImages = headerImages.length;
-    function changeHeaderImage() {
-      headerImages.forEach((img, i) => img.style.opacity = (i === headerIndex) ? "1" : "0");
-      headerIndex = (headerIndex + 1) % totalHeaderImages;
-    }
-    setInterval(changeHeaderImage, 3000);
-    changeHeaderImage();
+<script>
+  (function () {
+    const btn = document.querySelector('.hamburger');
+    const menu = document.getElementById('menuLinks');
+    const galleryToggle = document.getElementById('gallery-menu');
+    const dropdown = galleryToggle?.parentElement;
 
-    // Carrossel destinos
-    const slides = document.querySelectorAll('.destino-slide');
-    const prevBtn = document.querySelector('.praia-carousel .prev');
-    const nextBtn = document.querySelector('.praia-carousel .next');
-    const dotsContainer = document.querySelector('.dots-container');
+    // Abre/fecha menu no mobile
+    function toggleMenu() {
+      const aberto = menu.classList.toggle('aberto');
+      btn.setAttribute('aria-expanded', aberto ? 'true' : 'false');
+      // opcional: trava rolagem do body quando o menu abre
+      document.body.style.overflow = aberto ? 'hidden' : '';
+    }
+    btn.addEventListener('click', toggleMenu);
+
+    // Fecha ao tocar fora (mobile)
+    document.addEventListener('click', (e) => {
+      const cliqueDentro = e.target.closest('.topo-menu');
+      if (!cliqueDentro && menu.classList.contains('aberto')) {
+        toggleMenu();
+      }
+    });
+
+    // Dropdown "Galeria" no mobile: abre por clique
+    if (galleryToggle && dropdown) {
+      galleryToggle.addEventListener('click', (e) => {
+        // Em telas pequenas, impedir navegação e só abrir o submenu
+        if (window.matchMedia('(max-width: 900px)').matches) {
+          e.preventDefault();
+          dropdown.classList.toggle('open');
+        }
+      });
+    }
+
+    // Acessibilidade: fechar com Esc
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menu.classList.contains('aberto')) toggleMenu();
+    });
+  })();
+  /*** ========== LAZY (vale para o site todo) ========== ***/
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const img = e.target;
+      if (img.dataset.src)   img.src    = img.dataset.src;
+      if (img.dataset.srcset) img.srcset = img.dataset.srcset;
+      img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
+      io.unobserve(img);
+    });
+  }, { rootMargin: '400px' });
+
+  document.querySelectorAll('img[data-src]').forEach(img => io.observe(img));
+
+  /*** ========== CARROSSEL HERO (header) ========== ***/
+  (function heroCarousel(){
+    const heroSlides = Array.from(document.querySelectorAll('.carousel-background img, .carousel-background picture > img'));
+    if (!heroSlides.length) return;
+
+    let heroIdx = 0;
+    function showHeroSlide(n){
+      heroSlides[heroIdx].classList.remove('active');
+      heroIdx = (n + heroSlides.length) % heroSlides.length;
+      heroSlides[heroIdx].classList.add('active');
+
+      // Pré-carregar próximo, se tiver lazy
+      const next = heroSlides[(heroIdx + 1) % heroSlides.length];
+      const nextSrc = next.dataset ? (next.dataset.src || next.currentSrc || next.src) : (next.currentSrc || next.src);
+      if (nextSrc) {
+        const link = document.createElement('link');
+        link.rel = 'preload'; link.as = 'image'; link.href = nextSrc;
+        document.head.appendChild(link);
+      }
+    }
+    setInterval(() => showHeroSlide(heroIdx + 1), 5000);
+  })();
+
+  /*** ========== CARROSSEL DESTINOS (com setas e bolinhas) ========== ***/
+  (function destinosCarousel(){
+    const wrapper = document.querySelector('.praia-carousel');
+    if (!wrapper) return;
+
+    const destinoSlides = wrapper.querySelectorAll('.destino-slide');
+    if (!destinoSlides.length) return;
+
+    const prevBtn = wrapper.querySelector('.prev');
+    const nextBtn = wrapper.querySelector('.next');
+    const dotsContainer = wrapper.querySelector('.dots-container');
+
     let currentIndex = 0;
     let slideInterval;
 
-    slides.forEach((_, idx) => {
-      const dot = document.createElement('button');
-      dot.setAttribute('aria-label', `Slide ${idx + 1}`);
-      if (idx === 0) dot.classList.add('active');
-      dot.addEventListener('click', () => { showSlide(idx); resetInterval(); });
-      dotsContainer.appendChild(dot);
-    });
-    const dots = dotsContainer.querySelectorAll('button');
-    function showSlide(index) {
-      slides.forEach((slide, i) => {
-        slide.classList.toggle('active', i === index);
-        dots[i].classList.toggle('active', i === index);
+    // Criar dots dentro do próprio carrossel
+    if (dotsContainer) {
+      destinoSlides.forEach((_, idx) => {
+        const dot = document.createElement('button');
+        dot.setAttribute('aria-label', `Slide ${idx + 1}`);
+        if (idx === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => { showDestinoSlide(idx); resetInterval(); });
+        dotsContainer.appendChild(dot);
       });
+    }
+    const dots = dotsContainer ? dotsContainer.querySelectorAll('button') : [];
+
+    function showDestinoSlide(index){
+      destinoSlides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+      dots.forEach((d, i) => d.classList.toggle('active', i === index));
       currentIndex = index;
     }
-    function nextSlide() { showSlide((currentIndex + 1) % slides.length); }
-    function prevSlide() { showSlide((currentIndex - 1 + slides.length) % slides.length); }
-    function resetInterval() { clearInterval(slideInterval); slideInterval = setInterval(nextSlide, 5000); }
-    if (nextBtn && prevBtn) {
-      nextBtn.addEventListener('click', () => { nextSlide(); resetInterval(); });
-      prevBtn.addEventListener('click', () => { prevSlide(); resetInterval(); });
+    function nextSlide(){ showDestinoSlide((currentIndex + 1) % destinoSlides.length); }
+    function prevSlide(){ showDestinoSlide((currentIndex - 1 + destinoSlides.length) % destinoSlides.length); }
+    function resetInterval(){ clearInterval(slideInterval); slideInterval = setInterval(nextSlide, 5000); }
+
+    if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetInterval(); });
+    if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetInterval(); });
+
+    showDestinoSlide(currentIndex);
+    slideInterval = setInterval(nextSlide, 5000);
+  })();
+
+  /*** ========== MENU MOBILE / DROPDOWN (sem mudanças) ========== ***/
+  const btnHamb = document.querySelector('.hamburger');
+  const menu = document.getElementById('menuLinks');
+  if (btnHamb && menu) {
+    btnHamb.addEventListener('click', () => {
+      const opened = menu.classList.toggle('open');
+      btnHamb.setAttribute('aria-expanded', opened ? 'true' : 'false');
+    });
+  }
+  const dropdown = document.querySelector('.dropdown');
+  const galleryMenu = document.getElementById('gallery-menu');
+  if (dropdown && galleryMenu) {
+    galleryMenu.addEventListener('click', (e) => { e.preventDefault(); dropdown.classList.toggle('open'); });
+  }
+
+  /*** ========== MODAL DE RESERVA / OMNIBEES (como já estava) ========== ***/
+  (function () {
+    const OMNIBEES_HOTEL_ID = "22031";
+    const modal     = document.getElementById("modalReserva");
+    const abrirBtn  = document.querySelector(".abrir-reserva");
+    const fecharBtn = modal ? modal.querySelector(".fechar") : null;
+    const form      = document.getElementById("formReserva");
+    const checkin   = document.getElementById("checkin");
+    const checkout  = document.getElementById("checkout");
+
+    if (abrirBtn && modal) abrirBtn.addEventListener("click", () => modal.classList.add("show"));
+    if (fecharBtn && modal) fecharBtn.addEventListener("click", () => modal.classList.remove("show"));
+    window.addEventListener("click", (e) => { if (e.target === modal) modal.classList.remove("show"); });
+    window.addEventListener("keydown", (e) => { if (e.key === "Escape") modal.classList.remove("show"); });
+
+    function todayISO(offset = 0) {
+      const d = new Date(); d.setDate(d.getDate() + offset);
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      return `${d.getFullYear()}-${m}-${day}`;
     }
-    if (slides.length > 0) {
-      slideInterval = setInterval(nextSlide, 5000);
-      showSlide(currentIndex);
+    function toDDMMYYYY(str) {
+      if (!str) return "";
+      if (str.includes("-")) { const [y,m,d]=str.split("-"); return `${d}${m}${y}`; }
+      if (str.includes("/")) { const [dd,mm,yyyy]=str.split("/"); return `${dd}${mm}${yyyy}`; }
+      return "";
     }
 
-    // ===== MENU MOBILE / DROPDOWN =====
-    const btnHamb = document.querySelector('.hamburger');
-    const menu = document.getElementById('menuLinks');
-    if (btnHamb && menu) {
-      btnHamb.addEventListener('click', () => {
-        const opened = menu.classList.toggle('open');
-        btnHamb.setAttribute('aria-expanded', opened ? 'true' : 'false');
+    if (checkin && checkout) {
+      checkin.min  = todayISO(0);
+      checkout.min = todayISO(1);
+      checkin.addEventListener("change", () => {
+        if (!checkin.value) return;
+        const ci = new Date(checkin.value);
+        const coMin = new Date(ci); coMin.setDate(ci.getDate() + 1);
+        const minStr = `${coMin.getFullYear()}-${String(coMin.getMonth()+1).padStart(2,"0")}-${String(coMin.getDate()).padStart(2,"0")}`;
+        checkout.min = minStr;
+        if (!checkout.value || checkout.value < minStr) checkout.value = minStr;
       });
     }
-    const dropdown = document.querySelector('.dropdown');
-    const galleryMenu = document.getElementById('gallery-menu');
-    if (dropdown && galleryMenu) {
-      galleryMenu.addEventListener('click', (e) => { e.preventDefault(); dropdown.classList.toggle('open'); });
+
+    if (form) {
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const ciISO = checkin?.value || "";
+        const coISO = checkout?.value || "";
+        const ad = parseInt(document.getElementById("adultos")?.value || "1", 10);
+        const ch = parseInt(document.getElementById("criancas")?.value || "0", 10);
+        if (!ciISO || !coISO) { alert("Selecione as datas de check-in e check-out."); return; }
+        const ci = toDDMMYYYY(ciISO);
+        const co = toDDMMYYYY(coISO);
+        const url = new URL("https://book.omnibees.com/hotelresults");
+        url.searchParams.set("CheckIn",  ci);
+        url.searchParams.set("CheckOut", co);
+        url.searchParams.set("NRooms",   "1");
+        url.searchParams.set("ad",       String(ad));
+        url.searchParams.set("ch",       String(ch));
+        url.searchParams.set("lang",     "pt-BR");
+        url.searchParams.set("q",        OMNIBEES_HOTEL_ID);
+        window.open(url.toString(), "_blank", "noopener");
+        if (modal) modal.classList.remove("show");
+      });
     }
-
-    // ===== MODAL DE RESERVA + OMNIBEES =====
-    (function () {
-      const OMNIBEES_HOTEL_ID = "22031";
-      const modal     = document.getElementById("modalReserva");
-      const abrirBtn  = document.querySelector(".abrir-reserva");
-      const fecharBtn = modal ? modal.querySelector(".fechar") : null;
-      const form      = document.getElementById("formReserva");
-      const checkin   = document.getElementById("checkin");
-      const checkout  = document.getElementById("checkout");
-
-      if (abrirBtn && modal) abrirBtn.addEventListener("click", () => modal.classList.add("show"));
-      if (fecharBtn && modal) fecharBtn.addEventListener("click", () => modal.classList.remove("show"));
-      window.addEventListener("click", (e) => { if (e.target === modal) modal.classList.remove("show"); });
-      window.addEventListener("keydown", (e) => { if (e.key === "Escape") modal.classList.remove("show"); });
-
-      function todayISO(offset = 0) {
-        const d = new Date(); d.setDate(d.getDate() + offset);
-        const m = String(d.getMonth() + 1).padStart(2, "0");
-        const day = String(d.getDate()).padStart(2, "0");
-        return `${d.getFullYear()}-${m}-${day}`;
-      }
-      function toDDMMYYYY(str) {
-        if (!str) return "";
-        if (str.includes("-")) { const [y,m,d]=str.split("-"); return `${d}${m}${y}`; }
-        if (str.includes("/")) { const [dd,mm,yyyy]=str.split("/"); return `${dd}${mm}${yyyy}`; }
-        return "";
-      }
-
-      if (checkin && checkout) {
-        checkin.min  = todayISO(0);
-        checkout.min = todayISO(1);
-        checkin.addEventListener("change", () => {
-          if (!checkin.value) return;
-          const ci = new Date(checkin.value);
-          const coMin = new Date(ci); coMin.setDate(ci.getDate() + 1);
-          const minStr = `${coMin.getFullYear()}-${String(coMin.getMonth()+1).padStart(2,"0")}-${String(coMin.getDate()).padStart(2,"0")}`;
-          checkout.min = minStr;
-          if (!checkout.value || checkout.value < minStr) checkout.value = minStr;
-        });
-      }
-
-      if (form) {
-        form.addEventListener("submit", (e) => {
-          e.preventDefault();
-          const ciISO = checkin?.value || "";
-          const coISO = checkout?.value || "";
-          const ad = parseInt(document.getElementById("adultos")?.value || "1", 10);
-          const ch = parseInt(document.getElementById("criancas")?.value || "0", 10);
-          if (!ciISO || !coISO) { alert("Selecione as datas de check-in e check-out."); return; }
-          const ci = toDDMMYYYY(ciISO);
-          const co = toDDMMYYYY(coISO);
-          const url = new URL("https://book.omnibees.com/hotelresults");
-          url.searchParams.set("CheckIn",  ci);
-          url.searchParams.set("CheckOut", co);
-          url.searchParams.set("NRooms",   "1");
-          url.searchParams.set("ad",       String(ad));
-          url.searchParams.set("ch",       String(ch));
-          url.searchParams.set("lang",     "pt-BR");
-          url.searchParams.set("q",        OMNIBEES_HOTEL_ID);
-          window.open(url.toString(), "_blank", "noopener");
-          modal.classList.remove("show");
-        });
-      }
-    })();
-  </script>
+  })();
+</script>
 </body>
 </html>

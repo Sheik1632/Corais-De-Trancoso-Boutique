@@ -13,28 +13,76 @@ body { font-family: 'Quicksand', sans-serif; background: #f4f1ee; color: #2c3e50
 /* =========================
    MENU / NAV
 ========================= */
-.topo-menu { position: sticky; top: 0; z-index: 50; background: #ffffffee; backdrop-filter: blur(8px); }
-.menu-container { max-width: 1200px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; }
-.menu-logo { display: flex; align-items: center; gap: 10px; font-family: 'Georgia', serif; font-size: 16px; color: #00695c; }
-.menu-logo img { height: 28px; width: auto; }
-.menu-links { list-style: none; display: flex; align-items: center; gap: 25px; margin: 0; padding: 0; flex-wrap: wrap; }
-.menu-links a { text-decoration: none; color: #004d40; font-weight: 500; transition: color .3s ease, background .3s ease; padding: .55rem .8rem; border-radius: 10px; -webkit-tap-highlight-color: transparent; }
-.menu-links a:hover { color: #1ea57a; background: #f3f4f6; }
+/* ===== Base do topo ===== */
+.topo-menu {
+  background: #121212;
+  position: sticky; top: 0; z-index: 9999;
+}
+.menu-container {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px;
+}
+.menu-logo .menu-link {
+  color: #8de2e2;       /* mesma cor dos links */
+  font-weight: 600;     /* igual aos outros */
+  font-family: inherit; /* usa fonte padrão */
+  font-size: 16px;      /* mesmo tamanho */
+  text-decoration: none;
+  display: flex;        /* alinha logo + texto lado a lado */
+  align-items: center;
+  gap: 8px;             /* espaço entre logo e texto */
+}
+.menu-logo img {
+  height: 32px; 
+  width: auto;
+}
 
-/* Dropdown */
+/* Links do menu (desktop) */
+.menu-links {
+  list-style: none; display: flex; align-items: center; gap: 22px;
+}
+.menu-links a { text-decoration: none; color: #8de2e2; font-weight: 600; }
+
+/* Dropdown (desktop) */
 .dropdown { position: relative; }
 .dropdown-menu {
-  position: absolute; right: 0; top: calc(100% + 6px);
-  background: #fff; border: 1px solid #e5e7eb; border-radius: 12px;
-  padding: .4rem; min-width: 180px; display: none; box-shadow: 0 10px 28px rgba(0,0,0,.08); z-index: 999;
+  position: absolute; left: 0; top: 120%;
+  background:#1a1a1a; list-style:none; padding:8px 0; border-radius:8px;
+  display:none; min-width: 190px; box-shadow: 0 8px 24px rgba(0,0,0,.25);
 }
-.dropdown:hover .dropdown-menu, .dropdown:focus-within .dropdown-menu { display: block; }
-.dropdown-menu a { display: block; padding: .6rem .8rem; border-radius: 10px; color: #333; }
-.dropdown-menu a:hover { background: #f3f4f6; }
+.dropdown:hover .dropdown-menu { display:block; }
+.dropdown-menu li a { display:block; padding:10px 14px; }
 
-/* Mobile dropdown sem hover */
-@media (hover: none) {
-  .dropdown-menu { position: static; box-shadow: none; border: 0; padding-left: 8px; }
+/* Botão hambúrguer (esconde no desktop) */
+.hamburger { display: none; background: none; border: 0; font-size: 28px; color:#8de2e2; }
+
+/* ===== Mobile ===== */
+@media (max-width: 900px) {
+  .hamburger { display: inline-block; }
+
+  /* menu fechado por padrão no mobile */
+  .menu-links {
+    position: absolute; left: 0; right: 0; top: 60px;  /* abaixo do topo */
+    background:#121212;
+    display: block;            /* vira coluna */
+    overflow: hidden;
+    max-height: 0;             /* oculto */
+    transition: max-height .35s ease;
+    border-top: 1px solid rgba(255,255,255,.08);
+  }
+  .menu-links li { border-bottom: 1px solid rgba(255,255,255,.06); }
+  .menu-links li a { display:block; padding:14px 18px; }
+
+  /* menu aberto */
+  .menu-links.aberto { max-height: 80vh; } /* espaço suficiente p/ rolar */
+
+  /* dropdown no mobile: abre/fecha por clique (JS adiciona .open) */
+  .dropdown-menu {
+    position: static; display: none; padding: 0; box-shadow: none; background: transparent;
+  }
+  .dropdown.open > .dropdown-menu { display: block; }
+  .dropdown-menu li a { padding: 12px 28px; }
 }
 
 /* =========================
@@ -47,15 +95,25 @@ body { font-family: 'Quicksand', sans-serif; background: #f4f1ee; color: #2c3e50
 header { position: relative; overflow: hidden; min-height: var(--hero-min-desktop); }
 @media (max-width: 900px){ header{ min-height: var(--hero-min-mobile); } }
 
-.carousel-container { position: relative; min-height: var(--hero-min-desktop); }
-@media (max-width: 900px){ .carousel-container { min-height: var(--hero-min-mobile); } }
-
-.carousel-background { position: absolute; inset: 0; }
-.carousel-background img{
-  position:absolute; inset:0; width:100%; height:100%;
-  object-fit: cover; transition: opacity 0.6s ease; opacity:0; z-index:1; filter: brightness(.82);
+.carousel-container { position: relative; overflow: hidden; }
+.carousel-background {
+  position: relative;
+  width: 100%;
+  /* fixa a razão e evita “pulo” ao carregar */
+  aspect-ratio: 16 / 9;
 }
-.carousel-background img.active { opacity: 1; z-index: 2; }
+.carousel-background img,
+.carousel-background picture > img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; display: none;
+}
+.carousel-background img.active,
+.carousel-background picture > img.active { display: block; }
+
+/* blur placeholder bonito */
+.lazy-blur { filter: blur(12px); transform: scale(1.02); transition: filter .35s ease, transform .35s ease; }
+.lazy-blur.loaded { filter: blur(0); transform: none; }
 
 /* Sombra superior para dar contraste */
 .carousel-container::after{
@@ -280,4 +338,51 @@ footer a:hover{ color:#70d6ff; }
 
 @media (min-width:1024px){
   /* setas fora da imagem e legenda com mais respiro – já aplicado acima */
+}
+.btn{
+  --pad-v: clamp(10px, 1.8vh, 14px);
+  --pad-h: clamp(14px, 2.6vw, 20px);
+  display:inline-flex; align-items:center; justify-content:center; gap:.55rem;
+  padding: var(--pad-v) var(--pad-h);
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: clamp(14px, 1.7vw, 16px);
+  line-height: 1;
+  text-decoration:none;
+  user-select:none;
+  transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+  min-height: 44px;
+}
+
+/* Variante outline */
+.btn-outline{
+  border: 2px solid #0ea5a3;
+  color: #0ea5a3;
+  background: #fff;
+}
+.btn-outline:hover{
+  background: #0ea5a3;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(14,165,163,.25);
+}
+.btn-outline:active{
+  transform: translateY(0);
+}
+
+/* Ícone */
+.btn .icon{
+  width: 1.05em; height: 1.05em;
+}
+
+/* Dentro dos cards */
+.passeio-card .btn{ margin-top: 14px; }
+
+/* Mobile: botão mais largo */
+@media (max-width: 900px){
+  .passeio-card .btn{
+    width: 100%;
+    font-size: 16px;
+    padding: 14px 18px;
+  }
 }
