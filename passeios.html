@@ -4,147 +4,125 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Indicações</title>
+  <meta name="description" content="Indicações de passeios e beach clubs em Trancoso." />
+
+  <!-- FAVICONS (caminho absoluto) -->
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+  <!-- Performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <!-- Font Awesome (não-bloqueante) -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  </noscript>
 
   <style>
     :root{
-      --brand:#2b6cb0;
-      --brand-2:#1a4f8a;
-      --bg:#f9fafb;
-      --card:#fff;
-      --muted:#e2e8f0;
-      --text:#333;
-      --shadow:0 6px 18px rgba(0,0,0,.08);
+      --brand:#2b6cb0; --brand-2:#1a4f8a; --bg:#f9fafb; --card:#fff;
+      --muted:#e2e8f0; --text:#333; --shadow:0 6px 18px rgba(0,0,0,.08);
       --radius:18px;
     }
-
-    /* ====== GLOBAL ====== */
     *{box-sizing:border-box}
-    html{-webkit-text-size-adjust:100%}
+    html{-webkit-text-size-adjust:100%; color-scheme: light}
     body{
       margin:0; background:var(--bg); color:var(--text);
       font-family:'Quicksand',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       line-height:1.6;
     }
-
-    .container{
-      max-width:1200px; margin:auto; padding:clamp(12px,2vw,24px);
-    }
-
+    .container{max-width:1200px; margin:auto; padding:clamp(12px,2vw,24px);}
     h2{
-      text-align:center;
-      font-size:clamp(1.6rem,1.2rem + 1.5vw,2.2rem);
-      margin: 8px 0 20px;
-      color:var(--brand);
+      text-align:center; font-size:clamp(1.6rem,1.2rem + 1.5vw,2.2rem);
+      margin:8px 0 20px; color:var(--brand);
     }
 
-    /* ====== TABS (acessível) ====== */
-    .tabs-wrap{
-      position:sticky; top:0; z-index:10; /* cola no topo em mobile */
+    /* TABS */
+    .tabs-wrap{ position:sticky; top:0; z-index:10;
       background:linear-gradient(#ffffffcc,#ffffffcc);
-      backdrop-filter:saturate(120%) blur(6px);
-      padding:8px 0;
+      backdrop-filter:saturate(120%) blur(6px); padding:8px 0;
     }
-
-    .tabs{
-      display:flex; flex-wrap:wrap; justify-content:center; gap:10px;
+    .tabs{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px;
       list-style:none; padding:0; margin:0 auto; max-width:900px;
     }
-
     .tab{
       border:0; cursor:pointer; user-select:none;
       padding:10px 18px; border-radius:999px;
-      background:var(--muted); color:#111;
-      font-weight:700; display:inline-flex; align-items:center; gap:8px;
-      transition:transform .2s ease, background .25s ease, box-shadow .25s ease;
-      box-shadow:var(--shadow);
-      outline-offset:3px;
+      background:var(--muted); color:#111; font-weight:700;
+      display:inline-flex; align-items:center; gap:8px;
+      transition:transform .2s, background .25s, box-shadow .25s;
+      box-shadow:var(--shadow); outline-offset:3px;
     }
-    .tab[aria-selected="true"]{
-      background:var(--brand); color:#fff; transform:translateY(-1px);
-    }
+    .tab[aria-selected="true"]{ background:var(--brand); color:#fff; transform:translateY(-1px); }
     .tab:focus-visible{ outline:3px solid #93c5fd; }
 
-    /* ====== GRID ====== */
+    /* GRID */
     .grid{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: clamp(12px, 2vw, 20px);
-      margin-top:18px;
+      display:grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap:clamp(12px, 2vw, 20px); margin-top:18px;
     }
 
-    /* ====== CARD ====== */
+    /* CARD */
     .item{
-      background:var(--card);
-      border-radius:var(--radius);
-      padding:22px 16px;
-      text-align:center;
-      box-shadow:var(--shadow);
-      transition:transform .25s ease, box-shadow .25s ease;
-      animation:fadeIn .45s ease both;
+      background:var(--card); border-radius:var(--radius); padding:22px 16px;
+      text-align:center; box-shadow:var(--shadow);
+      transition:transform .25s, box-shadow .25s; animation:fadeIn .45s both;
     }
-    .item:hover{ transform: translateY(-3px); box-shadow:0 12px 28px rgba(0,0,0,.12); }
-    .item i{ font-size:2rem; color:var(--brand); margin-bottom:8px; transition:transform .25s ease }
+    .item:hover{ transform:translateY(-3px); box-shadow:0 12px 28px rgba(0,0,0,.12); }
+    .item i{ font-size:2rem; color:var(--brand); margin-bottom:8px; transition:transform .25s }
     .item:hover i{ transform:scale(1.05) }
-
     .item h3{ font-size:1.1rem; margin:.25rem 0 .35rem }
     .item p{ font-size:.98rem; color:#555; margin:0 }
 
-    /* ====== ANIMAÇÃO ====== */
-    @keyframes fadeIn{
-      from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none}
-    }
-    @media (prefers-reduced-motion: reduce){
-      *{animation:none!important; transition:none!important}
-    }
+    /* ANIMAÇÃO / ACESSIBILIDADE */
+    @keyframes fadeIn{ from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none} }
+    @media (prefers-reduced-motion: reduce){ *{animation:none!important; transition:none!important} }
 
-    /* ====== BOTÃO WHATSAPP FIXO ====== */
+    /* WHATSAPP FIXO */
     .whatsapp-btn{
       position:fixed; right:16px; bottom:18px; z-index:1000;
       display:flex; align-items:center; gap:10px;
       background:#25d366; color:#fff; text-decoration:none;
       padding:12px 18px; border-radius:999px; font-weight:700;
       box-shadow:0 8px 20px rgba(0,0,0,.15);
-      transition:transform .2s ease, background .25s ease;
+      transition:transform .2s, background .25s;
     }
     .whatsapp-btn:hover{ background:#20b958; transform:translateY(-2px) }
-    .whatsapp-btn i{ font-size:1.25rem }
 
-    /* ====== RESPONSIVO FINO ====== */
     @media (max-width: 768px){
       .whatsapp-btn{ right:12px; bottom:12px; padding:11px 16px }
-      .tabs{ gap:8px }
-      .tab{ padding:10px 14px }
+      .tabs{ gap:8px } .tab{ padding:10px 14px }
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <main class="container">
     <h2>Indicações</h2>
 
-    <!-- ====== TABS ====== -->
+    <!-- TABS -->
     <div class="tabs-wrap" role="navigation" aria-label="Categorias de indicações">
       <ul class="tabs" role="tablist">
         <li>
-          <button class="tab"
-                  id="tab-passeios"
-                  role="tab"
-                  aria-selected="true"
-                  aria-controls="painel-passeios"
+          <button class="tab" id="tab-passeios" role="tab"
+                  aria-selected="true" aria-controls="painel-passeios"
                   data-target="passeios">
             <i class="fa-solid fa-sailboat" aria-hidden="true"></i> Passeios
           </button>
         </li>
         <li>
-          <button class="tab"
-                  id="tab-beach"
-                  role="tab"
-                  aria-selected="false"
-                  aria-controls="painel-beach"
+          <button class="tab" id="tab-beach" role="tab"
+                  aria-selected="false" aria-controls="painel-beach"
                   data-target="beach">
             <i class="fa-solid fa-umbrella-beach" aria-hidden="true"></i> Beach Clubs
           </button>
@@ -152,7 +130,7 @@
       </ul>
     </div>
 
-    <!-- ====== PAINEL: PASSEIOS ====== -->
+    <!-- PAINEL: PASSEIOS -->
     <section id="painel-passeios" class="grid" role="tabpanel" aria-labelledby="tab-passeios">
       <article class="item">
         <i class="fa-solid fa-ship" aria-hidden="true"></i>
@@ -191,7 +169,7 @@
       </article>
     </section>
 
-    <!-- ====== PAINEL: BEACH CLUBS ====== -->
+    <!-- PAINEL: BEACH CLUBS -->
     <section id="painel-beach" class="grid" role="tabpanel" aria-labelledby="tab-beach" hidden>
       <article class="item">
         <i class="fa-solid fa-umbrella-beach" aria-hidden="true"></i>
@@ -217,18 +195,17 @@
         <p>Beach Club: <strong>Maion</strong> (necessário reservar)</p>
       </article>
     </section>
-  </div>
+  </main>
 
-  <!-- ====== BOTÃO WHATSAPP FIXO ====== -->
-  <a
-    class="whatsapp-btn"
-    href="https://wa.me/557398678158?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20uma%20reserva%20e%20preciso%20de%20mais%20informa%C3%A7%C3%B5es."
-    target="_blank" rel="noopener">
+  <!-- WHATSAPP FIXO -->
+  <a class="whatsapp-btn"
+     href="https://wa.me/557398678158?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20uma%20reserva%20e%20preciso%20de%20mais%20informa%C3%A7%C3%B5es."
+     target="_blank" rel="noopener">
     <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Reservar agora
   </a>
 
   <script>
-    // ====== TABS ACESSÍVEIS (clique + teclado) ======
+    // TABS ACESSÍVEIS (clique + teclado)
     const tabButtons = Array.from(document.querySelectorAll('.tab'));
     const panels = {
       passeios: document.getElementById('painel-passeios'),
@@ -236,46 +213,32 @@
     };
 
     function activateTab(btn){
-      const target = btn.dataset.target; // 'passeios' | 'beach'
-
-      // Atualiza atributos ARIA e aparência
+      const target = btn.dataset.target;
       tabButtons.forEach(b=>{
         const selected = b === btn;
         b.setAttribute('aria-selected', selected ? 'true' : 'false');
         b.tabIndex = selected ? 0 : -1;
       });
-
-      // Mostra/oculta painéis com hidden (melhor p/ acessibilidade)
       Object.entries(panels).forEach(([key, el])=>{
-        if(key === target){ el.hidden = false; el.scrollIntoView({behavior:'smooth', block:'start'}); }
-        else{ el.hidden = true; }
+        el.hidden = key !== target;
       });
+      // foco visual no início do painel (sem pular muito em desktop)
+      panels[target].querySelector('.item')?.focus?.();
     }
 
-    // Clique do mouse/touch
-    tabButtons.forEach(b=>{
-      b.addEventListener('click', ()=> activateTab(b));
-    });
+    tabButtons.forEach(b=> b.addEventListener('click', ()=> activateTab(b)));
 
-    // Navegação por teclado (setas esquerda/direita, Home/End)
+    // Teclado: setas, Home/End
     document.addEventListener('keydown', (e)=>{
-      const currentIndex = tabButtons.findIndex(b => b.getAttribute('aria-selected') === 'true');
-      if(currentIndex === -1) return;
-
-      if(e.key === 'ArrowRight' || e.key === 'ArrowLeft' || e.key === 'Home' || e.key === 'End'){
-        e.preventDefault();
-      }
-
-      let nextIndex = currentIndex;
-      if(e.key === 'ArrowRight') nextIndex = (currentIndex + 1) % tabButtons.length;
-      if(e.key === 'ArrowLeft')  nextIndex = (currentIndex - 1 + tabButtons.length) % tabButtons.length;
-      if(e.key === 'Home') nextIndex = 0;
-      if(e.key === 'End')  nextIndex = tabButtons.length - 1;
-
-      if(nextIndex !== currentIndex){
-        tabButtons[nextIndex].focus();
-        activateTab(tabButtons[nextIndex]);
-      }
+      const i = tabButtons.findIndex(b => b.getAttribute('aria-selected') === 'true');
+      if(i === -1) return;
+      if(['ArrowRight','ArrowLeft','Home','End'].includes(e.key)) e.preventDefault();
+      let n = i;
+      if(e.key === 'ArrowRight') n = (i + 1) % tabButtons.length;
+      if(e.key === 'ArrowLeft')  n = (i - 1 + tabButtons.length) % tabButtons.length;
+      if(e.key === 'Home') n = 0;
+      if(e.key === 'End')  n = tabButtons.length - 1;
+      if(n !== i){ tabButtons[n].focus(); activateTab(tabButtons[n]); }
     });
   </script>
 </body>

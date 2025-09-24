@@ -1,47 +1,60 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <!-- Favicon para navegadores -->
-<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="64x64" href="images/favicon-64x64.png">
-<link rel="icon" href="images/favicon.ico">
-
-<!-- Favicon para iPhone/iPad -->
-<link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="images/favicon-64x64.png">
+  <link rel="icon" href="images/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Corais de Trancoso Boutique</title>
 
-  <!-- Ícones e fontes -->
+  <!-- Performance: preconnect para fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Ícones e fontes (mantenha só o que usa) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Flatpickr (mover para o head) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <!-- (Opcional) Flatpickr CSS – remova se não usar o calendário -->
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> -->
 
-  <!-- Seu CSS -->
-  <link rel="stylesheet" href="style.css" />
+  <!-- Seu CSS (preload não bloqueante) -->
+  <link rel="preload" href="style.css" as="style" onload="this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="style.css"></noscript>
+
+  <!-- Preload do HERO para melhorar LCP -->
+  <link rel="preload" as="image"
+        href="images/AREA EXTERNA/4E1A0818.jpg?nf_resize=fit&w=1600"
+        imagesrcset="
+          images/AREA EXTERNA/4E1A0818.jpg?nf_resize=fit&w=800 800w,
+          images/AREA EXTERNA/4E1A0818.jpg?nf_resize=fit&w=1200 1200w,
+          images/AREA EXTERNA/4E1A0818.jpg?nf_resize=fit&w=1600 1600w"
+        imagesizes="100vw">
 </head>
+
 <body>
 
-  <!-- ===== NAV ===== -->
+<header class="hero">
   <nav class="topo-menu">
     <div class="menu-container">
       <!-- LOGO -->
-    <!-- LOGO -->
-<div class="menu-logo">
-  <a href="index.html" class="menu-link">
-    <img src="images/logo-pequena.png.png" alt="Logo da pousada" />
-    Corais de Trancoso Boutique
-  </a>
-</div>
+      <div class="menu-logo">
+        <a href="index.html" class="menu-link">
+          <!-- (Dica: renomeie este arquivo para "logo-pequena.png") -->
+          <img src="images/logo_corais_transparente.png" alt="Logo da pousada" width="120" height="120" decoding="async">
+          Corais de Trancoso Boutique
+        </a>
+      </div>
       <!-- Botão hambúrguer (mobile) -->
       <button class="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="menuLinks">☰</button>
 
       <!-- LINKS DO MENU -->
-      <ul id="menuLinks" class="menu-links">
+       <ul id="menuLinks" class="menu-links">
         <li><a href="#sobre">Sobre</a></li>
         <li><a href="#servicos">Serviços</a></li>
         <li><a href="#praias">Destinos</a></li>
@@ -62,94 +75,91 @@
     </div>
   </nav>
 
-  <!-- ===== HEADER / HERO ===== -->
-  <!-- ===== HEADER / HERO ===== -->
-<header>
   <div class="carousel-container">
     <div class="carousel-background">
-      <!-- SLIDE 1 – prioridade alta, sem lazy -->
-      <img
-        class="active hero-slide"
-        src="images/AREA EXTERNA/4E1A0818.jpg"
-        alt="Entrada da pousada"
-        fetchpriority="high"
-        decoding="async">
+      <!-- SLIDE 1 – prioridade alta -->
+      <img class="active hero-slide"
+           src="images/AREA EXTERNA/4E1A0818.jpg?nf_resize=fit&w=1600"
+           srcset="
+             images/AREA EXTERNA/4E1A0818.jpg?nf_resize=fit&w=800 800w,
+             images/AREA EXTERNA/4E1A0818.jpg?nf_resize=fit&w=1200 1200w,
+             images/AREA EXTERNA/4E1A0818.jpg?nf_resize=fit&w=1600 1600w"
+           sizes="100vw" width="1600" height="900"
+           alt="Entrada da pousada" fetchpriority="high" decoding="async">
 
       <!-- SLIDE 2 – lazy -->
       <img
-        src="images\CAFÉ DA MANHÃ\IMG_1273.JPG"
-        alt="Área externa"
-        loading="lazy"
-        decoding="async">
+           src="images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=1600"
+           srcset="
+             images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=800 800w,
+             images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=1200 1200w,
+             images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=1600 1600w"
+           sizes="100vw" width="1600" height="900"
+           alt="Área externa" loading="lazy" decoding="async">
 
       <!-- SLIDE 3 – lazy -->
       <img
-        src="images/AREA EXTERNA/4E1A0320.jpg"
-        alt="Jardim"
-        loading="lazy"
-        decoding="async">
+           src="images/AREA EXTERNA/4E1A0320.jpg?nf_resize=fit&w=1600"
+           srcset="
+             images/AREA EXTERNA/4E1A0320.jpg?nf_resize=fit&w=800 800w,
+             images/AREA EXTERNA/4E1A0320.jpg?nf_resize=fit&w=1200 1200w,
+             images/AREA EXTERNA/4E1A0320.jpg?nf_resize=fit&w=1600 1600w"
+           sizes="100vw" width="1600" height="900"
+           alt="Jardim" loading="lazy" decoding="async">
     </div>
-  </div>
+
 </header>
+    <div class="welcome-text hero-card">
+      <h1>Bem-vindo à Corais de Trancoso Boutique</h1>
+      <p>Um refúgio exclusivo em Trancoso</p>
+      <button class="abrir-reserva btn btn-primary">Reservar</button>
 
-      <div class="welcome-text hero-card">
-        <h1>Bem-vindo à Corais de Trancoso Boutique</h1>
-        <p>Um refúgio exclusivo em Trancoso</p>
+      <div class="modal" id="modalReserva" role="dialog" aria-modal="true" aria-labelledby="tituloReserva">
+        <div class="modal-content">
+          <span class="fechar" aria-label="Fechar">&times;</span>
+          <h2 id="tituloReserva">Reserve sua estadia</h2>
 
-        <!-- Botão para abrir modal -->
-        <button class="abrir-reserva btn btn-primary">Reservar</button>
-
-        <!-- Modal -->
-        <div class="modal" id="modalReserva" role="dialog" aria-modal="true" aria-labelledby="tituloReserva">
-          <div class="modal-content">
-            <span class="fechar" aria-label="Fechar">&times;</span>
-            <h2 id="tituloReserva">Reserve sua estadia</h2>
-
-            <form id="formReserva" novalidate>
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="checkin">Check-in</label>
-                  <input type="date" id="checkin" required />
-                </div>
-
-                <div class="form-group">
-                  <label for="checkout">Check-out</label>
-                  <input type="date" id="checkout" required />
-                </div>
+          <form id="formReserva" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="checkin">Check-in</label>
+                <input type="date" id="checkin" required />
               </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="adultos">Adultos</label>
-                  <input type="number" id="adultos" value="2" min="1" required />
-                </div>
-
-                <div class="form-group">
-                  <label for="criancas">Crianças</label>
-                  <input type="number" id="criancas" value="0" min="0" />
-                </div>
+              <div class="form-group">
+                <label for="checkout">Check-out</label>
+                <input type="date" id="checkout" required />
               </div>
-
-              <button type="submit" class="btn-reservar btn btn-primary">Buscar Disponibilidade</button>
-            </form>
-
-            <!-- Preview boutique (opcional, via JS) -->
-            <div id="quartosPreview" aria-live="polite"></div>
-
-            <!-- Motor Omnibees -->
-            <div id="resultadoDisponivel" style="width:100%;display:none;">
-              <iframe id="omnibeesFrame" title="Disponibilidade Omnibees"
-                      style="width:100%;height:70vh;border:0;border-radius:10px;overflow:auto;"></iframe>
-              <p style="margin-top:10px;text-align:center;">
-                <a id="omnibeesLink" href="#" target="_blank" rel="noopener" style="color:#0A2342;font-weight:700;">
-                  Abrir disponibilidade em nova aba
-                </a>
-              </p>
             </div>
 
-            <div id="mensagemReserva" aria-live="polite"></div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="adultos">Adultos</label>
+                <input type="number" id="adultos" value="2" min="1" required />
+              </div>
+              <div class="form-group">
+                <label for="criancas">Crianças</label>
+                <input type="number" id="criancas" value="0" min="0" />
+              </div>
+            </div>
+
+            <button type="submit" class="btn-reservar btn btn-primary">Buscar Disponibilidade</button>
+          </form>
+
+          <div id="quartosPreview" aria-live="polite"></div>
+
+          <div id="resultadoDisponivel" style="width:100%;display:none;">
+            <iframe id="omnibeesFrame" title="Disponibilidade Omnibees"
+                    style="width:100%;height:70vh;border:0;border-radius:10px;overflow:auto;"></iframe>
+            <p style="margin-top:10px;text-align:center;">
+              <a id="omnibeesLink" href="#" target="_blank" rel="noopener" style="color:#0A2342;font-weight:700;">
+                Abrir disponibilidade em nova aba
+              </a>
+            </p>
           </div>
+
+          <div id="mensagemReserva" aria-live="polite"></div>
         </div>
+      </div>
       </div><!-- /.welcome-text -->
     </div><!-- /.carousel-container -->
   </header>
@@ -201,8 +211,8 @@
 <section id="passeios" class="passeios-section container">
   <h2>Serviços de Passeios</h2>
   <p>Explore as experiências únicas que oferecemos para tornar sua estadia inesquecível.</p>
+
   <div class="passeios">
-    
     <div class="passeio-card">
       <i class="fas fa-ship" aria-hidden="true"></i>
       <h3>Passeios de Lancha</h3>
@@ -250,24 +260,26 @@
         </svg>
       </a>
     </div>
-
   </div>
 </section>
-
-  <!-- ===== DESTINOS (CARROSSEL) ===== -->
+  </div>
+<!-- ===== DESTINOS (CARROSSEL) ===== -->
 <section id="praias" class="destinos container">
   <h2>Destinos Imperdíveis</h2>
 
   <div class="praia-carousel" aria-roledescription="carousel">
-    <!-- Slide 1 -->
+    <!-- Slide 1 (ativo / eager) -->
     <div class="destino-slide active" aria-hidden="false">
       <img
-        src="images/PRAIAS/Nativos.jpg"
-        alt="Praia dos Nativos em Trancoso"
-        loading="eager" fetchpriority="high" decoding="async"
-        width="1600" height="1000"
+        src="images/PRAIAS/Nativos.jpg?nf_resize=fit&w=1600"
+        srcset="
+          images/PRAIAS/Nativos.jpg?nf_resize=fit&w=800 800w,
+          images/PRAIAS/Nativos.jpg?nf_resize=fit&w=1080 1080w,
+          images/PRAIAS/Nativos.jpg?nf_resize=fit&w=1600 1600w"
         sizes="(max-width: 1024px) 100vw, 1080px"
-      >
+        width="1600" height="1000"
+        alt="Praia dos Nativos em Trancoso"
+        loading="eager" fetchpriority="high" decoding="async">
       <div class="praia-info">
         <h3>Praia dos Nativos</h3>
         <p>Um pedacinho do paraíso, vibe descontraída e clima acolhedor.</p>
@@ -277,12 +289,15 @@
     <!-- Slide 2 -->
     <div class="destino-slide" aria-hidden="true">
       <img
-        src="images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg"
-        alt="Praia do Espelho com falésias e águas claras"
-        loading="lazy" decoding="async"
-        width="1600" height="1000"
+        src="images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=1600"
+        srcset="
+          images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=800 800w,
+          images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=1080 1080w,
+          images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=1600 1600w"
         sizes="(max-width: 1024px) 100vw, 1080px"
-      >
+        width="1600" height="1000"
+        alt="Praia do Espelho com falésias e águas claras"
+        loading="lazy" decoding="async">
       <div class="praia-info">
         <h3>Praia do Espelho</h3>
         <p>Águas cristalinas e falésias deslumbrantes.</p>
@@ -292,12 +307,15 @@
     <!-- Slide 3 -->
     <div class="destino-slide" aria-hidden="true">
       <img
-        src="images/PRAIAS/Coqueiros.jpg"
-        alt="Praia dos Coqueiros com mar calmo"
-        loading="lazy" decoding="async"
-        width="1600" height="1000"
+        src="images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=1600"
+        srcset="
+          images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=800 800w,
+          images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=1080 1080w,
+          images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=1600 1600w"
         sizes="(max-width: 1024px) 100vw, 1080px"
-      >
+        width="1600" height="1000"
+        alt="Praia dos Coqueiros com mar calmo"
+        loading="lazy" decoding="async">
       <div class="praia-info">
         <h3>Praia dos Coqueiros</h3>
         <p>Águas calmas e quentes, perfeita para relaxar.</p>
@@ -307,27 +325,33 @@
     <!-- Slide 4 -->
     <div class="destino-slide" aria-hidden="true">
       <img
-        src="images/PRAIAS/Praia-de-Itapororoca.jpeg"
-        alt="Praia de Itapororoca com falésias e mar tranquilo"
-        loading="lazy" decoding="async"
-        width="1600" height="1000"
+        src="images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=1600"
+        srcset="
+          images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=800 800w,
+          images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=1080 1080w,
+          images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=1600 1600w"
         sizes="(max-width: 1024px) 100vw, 1080px"
-      >
+        width="1600" height="1000"
+        alt="Praia de Itapororoca com falésias e mar tranquilo"
+        loading="lazy" decoding="async">
       <div class="praia-info">
         <h3>Praia de Itapororoca</h3>
         <p>Natureza preservada e sossego com belas falésias.</p>
       </div>
     </div>
 
-    <!-- Slide 5 -->
+    <!-- Slide 5 (nome com espaço — URL codificada) -->
     <div class="destino-slide" aria-hidden="true">
       <img
-        src="images/PRAIAS/Rio verde.jpg"
-        alt="Praia do Rio Verde de mar calmo"
-        loading="lazy" decoding="async"
-        width="1600" height="1000"
+        src="images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=1600"
+        srcset="
+          images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=800 800w,
+          images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=1080 1080w,
+          images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=1600 1600w"
         sizes="(max-width: 1024px) 100vw, 1080px"
-      >
+        width="1600" height="1000"
+        alt="Praia do Rio Verde de mar calmo"
+        loading="lazy" decoding="async">
       <div class="praia-info">
         <h3>Praia do Rio Verde</h3>
         <p>Mar calmo e águas cristalinas.</p>
@@ -337,27 +361,33 @@
     <!-- Slide 6 -->
     <div class="destino-slide" aria-hidden="true">
       <img
-        src="images/PRAIAS/Tartarugas.jpg"
-        alt="Praia das Tartarugas com natureza preservada"
-        loading="lazy" decoding="async"
-        width="1600" height="1000"
+        src="images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=1600"
+        srcset="
+          images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=800 800w,
+          images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=1080 1080w,
+          images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=1600 1600w"
         sizes="(max-width: 1024px) 100vw, 1080px"
-      >
+        width="1600" height="1000"
+        alt="Praia das Tartarugas com natureza preservada"
+        loading="lazy" decoding="async">
       <div class="praia-info">
         <h3>Praia das Tartarugas</h3>
         <p>Sossego e contato com a natureza.</p>
       </div>
     </div>
 
-    <!-- Slide 7 -->
+    <!-- Slide 7 (nome com espaço — URL codificada) -->
     <div class="destino-slide" aria-hidden="true">
       <img
-        src="images/PRAIAS/Rio da barra.jpg"
-        alt="Praia do Rio da Barra com dunas e manguezais"
-        loading="lazy" decoding="async"
-        width="1600" height="1000"
+        src="images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=1600"
+        srcset="
+          images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=800 800w,
+          images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=1080 1080w,
+          images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=1600 1600w"
         sizes="(max-width: 1024px) 100vw, 1080px"
-      >
+        width="1600" height="1000"
+        alt="Praia do Rio da Barra com dunas e manguezais"
+        loading="lazy" decoding="async">
       <div class="praia-info">
         <h3>Praia do Rio da Barra</h3>
         <p>Ambiente rústico com dunas e manguezais, ideal para relaxar.</p>
@@ -367,26 +397,30 @@
     <!-- Slide 8 -->
     <div class="destino-slide" aria-hidden="true">
       <img
-        src="images/PRAIAS/Caraiva.png"
-        alt="Encontro do rio com o mar em Caraíva"
-        loading="lazy" decoding="async"
-        width="1600" height="1000"
+        src="images/PRAIAS/Caraiva.png?nf_resize=fit&w=1600"
+        srcset="
+          images/PRAIAS/Caraiva.png?nf_resize=fit&w=800 800w,
+          images/PRAIAS/Caraiva.png?nf_resize=fit&w=1080 1080w,
+          images/PRAIAS/Caraiva.png?nf_resize=fit&w=1600 1600w"
         sizes="(max-width: 1024px) 100vw, 1080px"
-      >
+        width="1600" height="1000"
+        alt="Encontro do rio com o mar em Caraíva"
+        loading="lazy" decoding="async">
       <div class="praia-info">
         <h3>Praia do Rio Caraíva</h3>
         <p>Lugar rústico e tranquilo, visual de mangues e muito sossego.</p>
       </div>
     </div>
 
+    <!-- Dots (precisa estar DENTRO do .praia-carousel) -->
+    <div class="dots-container" aria-label="Navegação de slides"></div>
+
     <!-- Botões -->
     <button class="prev" aria-label="Slide anterior">❮</button>
     <button class="next" aria-label="Próximo slide">❯</button>
   </div>
-
-  <!-- Dots -->
-  <div class="dots-container" aria-label="Navegação de slides"></div>
 </section>
+
     <!-- ===== RESERVA ===== -->
     <section id="reserva" class="container">
       <h2>Reservas</h2>
@@ -400,15 +434,27 @@
     </section>
 
     <!-- ===== MAPA ===== -->
-    <section id="mapa" class="mapa container">
-      <h2>Localização</h2>
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3823.60435661718!2d-39.0988038!3d-16.596411!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7369d0c3a51b683%3A0x24628b28ec2f9bdc!2sCorais%20de%20Trancoso%20Boutique!5e0!3m2!1spt-BR!2sbr!4v1757190368070!5m2!1spt-BR!2sbr"
-        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-        title="Mapa de localização">
-      </iframe>
-    </section>
+<section id="mapa" class="mapa container">
+  <h2>Localização</h2>
+
+  <div id="mapa-shell" class="mapa-shell">
+    <button id="carregar-mapa" class="btn btn-primary">Ver mapa</button>
+  </div>
+
+  <div id="mapa-embed" class="mapa-embed"></div>
+</section>
+
+<style>
+  .mapa-shell{
+    position:relative;max-width:900px;margin:auto;
+    aspect-ratio:16/9;border-radius:10px;
+    background:linear-gradient(135deg,#eef2f3, #d9e4ec);
+    display:grid;place-items:center;
+    box-shadow:0 6px 20px rgba(0,0,0,.06);
+  }
+  .mapa-embed iframe{width:100%;height:min(70vh,600px);border:0;border-radius:10px}
+</style>
+
   </main>
 
   <!-- ===== RODAPÉ ===== -->
@@ -423,204 +469,220 @@
 
   <!-- ===== SEU JS (igual ao que você enviou) ===== -->
 <script>
-  (function () {
-    const btn = document.querySelector('.hamburger');
-    const menu = document.getElementById('menuLinks');
-    const galleryToggle = document.getElementById('gallery-menu');
-    const dropdown = galleryToggle?.parentElement;
+    document.getElementById('carregar-mapa')?.addEventListener('click', () => {
+    const embed = document.getElementById('mapa-embed');
+    if (embed.dataset.loaded) return;
+    const iframe = document.createElement('iframe');
+    iframe.title = "Mapa de localização";
+    iframe.loading = "lazy";
+    iframe.referrerPolicy = "no-referrer-when-downgrade";
+    iframe.allowFullscreen = true;
+    iframe.style = "width:100%;height:min(70vh,600px);border:0;border-radius:10px;overflow:hidden";
+    iframe.src = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3823.60435661718!2d-39.0988038!3d-16.596411!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7369d0c3a51b683%3A0x24628b28ec2f9bdc!2sCorais%20de%20Trancoso%20Boutique!5e0!3m2!1spt-BR!2sbr!4v1757190368070!5m2!1spt-BR!2sbr";
+    embed.appendChild(iframe);
+    embed.dataset.loaded = "1";
+    document.getElementById('mapa-shell').style.display = 'none';
+  });
+(() => {
+  /* ===================== MENU / DROPDOWN ===================== */
+  const btn = document.querySelector('.hamburger');
+  const menu = document.getElementById('menuLinks');
+  const galleryToggle = document.getElementById('gallery-menu');
+  const dropdown = galleryToggle ? galleryToggle.parentElement : null;
 
-    // Abre/fecha menu no mobile
-    function toggleMenu() {
-      const aberto = menu.classList.toggle('aberto');
-      btn.setAttribute('aria-expanded', aberto ? 'true' : 'false');
-      // opcional: trava rolagem do body quando o menu abre
-      document.body.style.overflow = aberto ? 'hidden' : '';
-    }
-    btn.addEventListener('click', toggleMenu);
+  function lockScroll(lock) { document.body.style.overflow = lock ? 'hidden' : ''; }
+  function toggleMenu(force) {
+    const open = typeof force === 'boolean' ? force : !menu.classList.contains('aberto');
+    menu.classList.toggle('aberto', open);
+    btn?.setAttribute('aria-expanded', open ? 'true' : 'false');
+    lockScroll(open);
+  }
 
-    // Fecha ao tocar fora (mobile)
-    document.addEventListener('click', (e) => {
-      const cliqueDentro = e.target.closest('.topo-menu');
-      if (!cliqueDentro && menu.classList.contains('aberto')) {
-        toggleMenu();
+  btn?.addEventListener('click', () => toggleMenu());
+  document.addEventListener('click', (e) => {
+    if (!menu.classList.contains('aberto')) return;
+    if (e.target.closest('.topo-menu')) return;
+    toggleMenu(false);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu.classList.contains('aberto')) toggleMenu(false);
+  });
+
+  // Submenu "Galeria" só abre por clique no mobile
+  if (galleryToggle && dropdown) {
+    galleryToggle.addEventListener('click', (e) => {
+      if (window.matchMedia('(max-width: 900px)').matches) {
+        e.preventDefault();
+        dropdown.classList.toggle('open');
       }
     });
+  }
 
-    // Dropdown "Galeria" no mobile: abre por clique
-    if (galleryToggle && dropdown) {
-      galleryToggle.addEventListener('click', (e) => {
-        // Em telas pequenas, impedir navegação e só abrir o submenu
-        if (window.matchMedia('(max-width: 900px)').matches) {
-          e.preventDefault();
-          dropdown.classList.toggle('open');
+  /* ===================== LAZY (data-*) ===================== */
+  const io = 'IntersectionObserver' in window
+    ? new IntersectionObserver((entries, obs) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const el = entry.target;
+          if (el.dataset.src) el.src = el.dataset.src;
+          if (el.dataset.srcset) el.srcset = el.dataset.srcset;
+          el.addEventListener('load', () => el.classList.add('loaded'), { once: true });
+          obs.unobserve(el);
         }
-      });
+      }, { rootMargin: '400px' })
+    : null;
+
+  if (io) document.querySelectorAll('img[data-src], source[data-srcset]').forEach(el => io.observe(el));
+
+  /* ===================== CARROSSEL HERO ===================== */
+  (() => {
+    const slides = Array.from(document.querySelectorAll('.carousel-background img, .carousel-background picture > img'));
+    if (!slides.length) return;
+
+    let idx = slides.findIndex(s => s.classList.contains('active'));
+    if (idx < 0) { idx = 0; slides[0].classList.add('active'); }
+
+    const preloaded = new Set();
+    function preload(src) {
+      if (!src || preloaded.has(src)) return;
+      const l = document.createElement('link');
+      l.rel = 'preload'; l.as = 'image'; l.href = src;
+      document.head.appendChild(l);
+      preloaded.add(src);
     }
 
-    // Acessibilidade: fechar com Esc
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && menu.classList.contains('aberto')) toggleMenu();
-    });
-  })();
-  /*** ========== LAZY (vale para o site todo) ========== ***/
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      const img = e.target;
-      if (img.dataset.src)   img.src    = img.dataset.src;
-      if (img.dataset.srcset) img.srcset = img.dataset.srcset;
-      img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
-      io.unobserve(img);
-    });
-  }, { rootMargin: '400px' });
-
-  document.querySelectorAll('img[data-src]').forEach(img => io.observe(img));
-
-  /*** ========== CARROSSEL HERO (header) ========== ***/
-  (function heroCarousel(){
-    const heroSlides = Array.from(document.querySelectorAll('.carousel-background img, .carousel-background picture > img'));
-    if (!heroSlides.length) return;
-
-    let heroIdx = 0;
-    function showHeroSlide(n){
-      heroSlides[heroIdx].classList.remove('active');
-      heroIdx = (n + heroSlides.length) % heroSlides.length;
-      heroSlides[heroIdx].classList.add('active');
-
-      // Pré-carregar próximo, se tiver lazy
-      const next = heroSlides[(heroIdx + 1) % heroSlides.length];
-      const nextSrc = next.dataset ? (next.dataset.src || next.currentSrc || next.src) : (next.currentSrc || next.src);
-      if (nextSrc) {
-        const link = document.createElement('link');
-        link.rel = 'preload'; link.as = 'image'; link.href = nextSrc;
-        document.head.appendChild(link);
-      }
+    function show(n) {
+      slides[idx].classList.remove('active');
+      idx = (n + slides.length) % slides.length;
+      slides[idx].classList.add('active');
+      const next = slides[(idx + 1) % slides.length];
+      const src = next.dataset?.src || next.currentSrc || next.src;
+      preload(src);
     }
-    setInterval(() => showHeroSlide(heroIdx + 1), 5000);
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce && slides.length > 1) setInterval(() => show(idx + 1), 5000);
   })();
 
-  /*** ========== CARROSSEL DESTINOS (com setas e bolinhas) ========== ***/
-  (function destinosCarousel(){
+  /* ===================== CARROSSEL DESTINOS ===================== */
+  (() => {
     const wrapper = document.querySelector('.praia-carousel');
     if (!wrapper) return;
 
-    const destinoSlides = wrapper.querySelectorAll('.destino-slide');
-    if (!destinoSlides.length) return;
+    const slides = Array.from(wrapper.querySelectorAll('.destino-slide'));
+    if (slides.length <= 1) return;
 
     const prevBtn = wrapper.querySelector('.prev');
     const nextBtn = wrapper.querySelector('.next');
     const dotsContainer = wrapper.querySelector('.dots-container');
 
-    let currentIndex = 0;
-    let slideInterval;
+    let current = Math.max(0, slides.findIndex(s => s.classList.contains('active')));
+    if (current === -1) { current = 0; slides[0].classList.add('active'); }
 
-    // Criar dots dentro do próprio carrossel
+    const dots = [];
     if (dotsContainer) {
-      destinoSlides.forEach((_, idx) => {
-        const dot = document.createElement('button');
-        dot.setAttribute('aria-label', `Slide ${idx + 1}`);
-        if (idx === 0) dot.classList.add('active');
-        dot.addEventListener('click', () => { showDestinoSlide(idx); resetInterval(); });
-        dotsContainer.appendChild(dot);
+      slides.forEach((_, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('aria-label', `Slide ${i + 1}`);
+        if (i === current) b.classList.add('active');
+        b.addEventListener('click', () => { show(i); reset(); });
+        dotsContainer.appendChild(b);
+        dots.push(b);
       });
     }
-    const dots = dotsContainer ? dotsContainer.querySelectorAll('button') : [];
 
-    function showDestinoSlide(index){
-      destinoSlides.forEach((slide, i) => slide.classList.toggle('active', i === index));
-      dots.forEach((d, i) => d.classList.toggle('active', i === index));
-      currentIndex = index;
+    function show(i) {
+      slides[current].classList.remove('active');
+      slides[current].setAttribute('aria-hidden', 'true');
+      dots[current]?.classList.remove('active');
+
+      current = (i + slides.length) % slides.length;
+
+      slides[current].classList.add('active');
+      slides[current].setAttribute('aria-hidden', 'false');
+      dots[current]?.classList.add('active');
     }
-    function nextSlide(){ showDestinoSlide((currentIndex + 1) % destinoSlides.length); }
-    function prevSlide(){ showDestinoSlide((currentIndex - 1 + destinoSlides.length) % destinoSlides.length); }
-    function resetInterval(){ clearInterval(slideInterval); slideInterval = setInterval(nextSlide, 5000); }
 
-    if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetInterval(); });
-    if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetInterval(); });
+    function next() { show(current + 1); }
+    function prev() { show(current - 1); }
 
-    showDestinoSlide(currentIndex);
-    slideInterval = setInterval(nextSlide, 5000);
+    prevBtn?.addEventListener('click', () => { prev(); reset(); });
+    nextBtn?.addEventListener('click', () => { next(); reset(); });
+
+    let timer;
+    function reset() {
+      clearInterval(timer);
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        timer = setInterval(next, 5000);
+      }
+    }
+    reset();
   })();
 
-  /*** ========== MENU MOBILE / DROPDOWN (sem mudanças) ========== ***/
-  const btnHamb = document.querySelector('.hamburger');
-  const menu = document.getElementById('menuLinks');
-  if (btnHamb && menu) {
-    btnHamb.addEventListener('click', () => {
-      const opened = menu.classList.toggle('open');
-      btnHamb.setAttribute('aria-expanded', opened ? 'true' : 'false');
-    });
-  }
-  const dropdown = document.querySelector('.dropdown');
-  const galleryMenu = document.getElementById('gallery-menu');
-  if (dropdown && galleryMenu) {
-    galleryMenu.addEventListener('click', (e) => { e.preventDefault(); dropdown.classList.toggle('open'); });
-  }
+  /* ===================== MODAL / OMNIBEES ===================== */
+  (() => {
+    const OMNIBEES_HOTEL_ID = '22031';
+    const modal = document.getElementById('modalReserva');
+    const abrirBtn = document.querySelector('.abrir-reserva');
+    const fecharBtn = modal ? modal.querySelector('.fechar') : null;
+    const form = document.getElementById('formReserva');
+    const checkin = document.getElementById('checkin');
+    const checkout = document.getElementById('checkout');
 
-  /*** ========== MODAL DE RESERVA / OMNIBEES (como já estava) ========== ***/
-  (function () {
-    const OMNIBEES_HOTEL_ID = "22031";
-    const modal     = document.getElementById("modalReserva");
-    const abrirBtn  = document.querySelector(".abrir-reserva");
-    const fecharBtn = modal ? modal.querySelector(".fechar") : null;
-    const form      = document.getElementById("formReserva");
-    const checkin   = document.getElementById("checkin");
-    const checkout  = document.getElementById("checkout");
-
-    if (abrirBtn && modal) abrirBtn.addEventListener("click", () => modal.classList.add("show"));
-    if (fecharBtn && modal) fecharBtn.addEventListener("click", () => modal.classList.remove("show"));
-    window.addEventListener("click", (e) => { if (e.target === modal) modal.classList.remove("show"); });
-    window.addEventListener("keydown", (e) => { if (e.key === "Escape") modal.classList.remove("show"); });
+    abrirBtn?.addEventListener('click', () => modal?.classList.add('show'));
+    fecharBtn?.addEventListener('click', () => modal?.classList.remove('show'));
+    window.addEventListener('click', (e) => { if (e.target === modal) modal?.classList.remove('show'); }, { passive: true });
+    window.addEventListener('keydown', (e) => { if (e.key === 'Escape') modal?.classList.remove('show'); });
 
     function todayISO(offset = 0) {
       const d = new Date(); d.setDate(d.getDate() + offset);
-      const m = String(d.getMonth() + 1).padStart(2, "0");
-      const day = String(d.getDate()).padStart(2, "0");
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
       return `${d.getFullYear()}-${m}-${day}`;
     }
     function toDDMMYYYY(str) {
-      if (!str) return "";
-      if (str.includes("-")) { const [y,m,d]=str.split("-"); return `${d}${m}${y}`; }
-      if (str.includes("/")) { const [dd,mm,yyyy]=str.split("/"); return `${dd}${mm}${yyyy}`; }
-      return "";
+      if (!str) return '';
+      if (str.includes('-')) { const [y,m,d] = str.split('-'); return `${d}${m}${y}`; }
+      if (str.includes('/')) { const [dd,mm,yyyy] = str.split('/'); return `${dd}${mm}${yyyy}`; }
+      return '';
     }
 
     if (checkin && checkout) {
-      checkin.min  = todayISO(0);
+      checkin.min = todayISO(0);
       checkout.min = todayISO(1);
-      checkin.addEventListener("change", () => {
+      checkin.addEventListener('change', () => {
         if (!checkin.value) return;
         const ci = new Date(checkin.value);
         const coMin = new Date(ci); coMin.setDate(ci.getDate() + 1);
-        const minStr = `${coMin.getFullYear()}-${String(coMin.getMonth()+1).padStart(2,"0")}-${String(coMin.getDate()).padStart(2,"0")}`;
+        const minStr = `${coMin.getFullYear()}-${String(coMin.getMonth()+1).padStart(2,'0')}-${String(coMin.getDate()).padStart(2,'0')}`;
         checkout.min = minStr;
         if (!checkout.value || checkout.value < minStr) checkout.value = minStr;
       });
     }
 
-    if (form) {
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const ciISO = checkin?.value || "";
-        const coISO = checkout?.value || "";
-        const ad = parseInt(document.getElementById("adultos")?.value || "1", 10);
-        const ch = parseInt(document.getElementById("criancas")?.value || "0", 10);
-        if (!ciISO || !coISO) { alert("Selecione as datas de check-in e check-out."); return; }
-        const ci = toDDMMYYYY(ciISO);
-        const co = toDDMMYYYY(coISO);
-        const url = new URL("https://book.omnibees.com/hotelresults");
-        url.searchParams.set("CheckIn",  ci);
-        url.searchParams.set("CheckOut", co);
-        url.searchParams.set("NRooms",   "1");
-        url.searchParams.set("ad",       String(ad));
-        url.searchParams.set("ch",       String(ch));
-        url.searchParams.set("lang",     "pt-BR");
-        url.searchParams.set("q",        OMNIBEES_HOTEL_ID);
-        window.open(url.toString(), "_blank", "noopener");
-        if (modal) modal.classList.remove("show");
-      });
-    }
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const ciISO = checkin?.value || '';
+      const coISO = checkout?.value || '';
+      const ad = parseInt(document.getElementById('adultos')?.value || '1', 10);
+      const ch = parseInt(document.getElementById('criancas')?.value || '0', 10);
+      if (!ciISO || !coISO) { alert('Selecione as datas de check-in e check-out.'); return; }
+      const ci = toDDMMYYYY(ciISO);
+      const co = toDDMMYYYY(coISO);
+      const url = new URL('https://book.omnibees.com/hotelresults');
+      url.searchParams.set('CheckIn', ci);
+      url.searchParams.set('CheckOut', co);
+      url.searchParams.set('NRooms', '1');
+      url.searchParams.set('ad', String(ad));
+      url.searchParams.set('ch', String(ch));
+      url.searchParams.set('lang', 'pt-BR');
+      url.searchParams.set('q', OMNIBEES_HOTEL_ID);
+      window.open(url.toString(), '_blank', 'noopener');
+      modal?.classList.remove('show');
+    });
   })();
+})();
 </script>
 </body>
 </html>

@@ -1,91 +1,71 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <!-- FAVICON / LOGO DA ABA (caminhos absolutos p/ valer em todas as páginas) -->
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Galeria - Café da Manhã</title>
+
+  <!-- Fonte Quicksand (antes não estava sendo carregada) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
+
   <style>
     :root {
       --brand: #007bff;
       --bg: #f9fafb;
       --card-bg: #fff;
-      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --shadow: 0 4px 12px rgba(0,0,0,.08);
       --radius: 10px;
     }
-
     body {
       font-family: 'Quicksand', Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: var(--bg);
-      color: #333;
+      margin: 0; padding: 20px;
+      background: var(--bg); color: #333;
     }
-
     h1 {
       text-align: center;
       font-size: clamp(1.5rem, 1.2rem + 1vw, 2.2rem);
       color: var(--brand);
       margin-bottom: 25px;
     }
-
-    /* ==== GRID GALERIA ==== */
+    /* GRID */
     .gallery {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
-      max-width: 1200px;
-      margin: 0 auto;
+      grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+      gap: 18px; max-width: 1200px; margin: 0 auto;
     }
-
     .gallery img {
       width: 100%;
-      aspect-ratio: 4/3;
+      aspect-ratio: 4/3;            /* evita layout shift */
       object-fit: cover;
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform .3s, box-shadow .3s;
       cursor: pointer;
     }
+    .gallery img:hover { transform: scale(1.03); box-shadow: 0 8px 20px rgba(0,0,0,.15); }
 
-    .gallery img:hover {
-      transform: scale(1.03);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    /* ==== BOTÃO VOLTAR ==== */
+    /* BOTÃO VOLTAR */
     .back-btn {
-      margin: 40px auto 0;
-      display: block;
-      width: fit-content;
-      padding: 12px 20px;
-      background: var(--brand);
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      border-radius: 999px;
-      box-shadow: var(--shadow);
-      transition: background 0.3s ease, transform 0.2s ease;
+      margin: 40px auto 0; display: block; width: fit-content;
+      padding: 12px 20px; background: var(--brand); color:#fff; text-decoration:none;
+      font-weight: 600; border-radius: 999px; box-shadow: var(--shadow);
+      transition: background .3s, transform .2s;
     }
+    .back-btn:hover { background:#0056b3; transform: translateY(-2px); }
 
-    .back-btn:hover {
-      background: #0056b3;
-      transform: translateY(-2px);
-    }
-
-    /* ==== RESPONSIVO ==== */
-    @media (max-width: 600px) {
-      body {
-        padding: 15px;
-      }
-
-      .gallery {
-        gap: 12px;
-      }
-
-      .back-btn {
-        font-size: 0.9rem;
-        padding: 10px 16px;
-      }
+    @media (max-width: 600px){
+      body { padding: 15px; }
+      .gallery { gap: 12px; }
+      .back-btn { font-size:.9rem; padding:10px 16px; }
     }
   </style>
 </head>
@@ -93,21 +73,22 @@
   <h1>Galeria - Café da Manhã</h1>
 
   <div class="gallery">
-    <img src="images/CAFÉ DA MANHÃ/4E1A0548.jpg" alt="Café da Manhã 1" />
-    <img src="images/CAFÉ DA MANHÃ/4E1A0552.jpg" alt="Café da Manhã 2" />
-    <img src="images/CAFÉ DA MANHÃ/café-4.jpg" alt="Café da Manhã 3" />
-    <img src="images/CAFÉ DA MANHÃ/café-13.jpg" alt="Café da Manhã 4" />
-    <img src="images/CAFÉ DA MANHÃ/café-30.jpg" alt="Café da Manhã 5" />
-    <img src="images/CAFÉ DA MANHÃ/café-37.jpg" alt="Café da Manhã 6" />
-    <img src="images/CAFÉ DA MANHÃ/IMG_1329.JPG" alt="Café da Manhã 7" />
-    <img src="images/CAFÉ DA MANHÃ/IMG_1333.JPG" alt="Café da Manhã 8" />
-    <img src="images/CAFÉ DA MANHÃ/Cópia de IMG_1279.JPG" alt="Café da Manhã 9" />
-    <img src="images/CAFÉ DA MANHÃ/villadoscorais-78.jpg" alt="Café da Manhã 10" />
-    <img src="images/CAFÉ DA MANHÃ/villadoscorais-120.jpg" alt="Café da Manhã 11" />
-    <img src="images/CAFÉ DA MANHÃ/café-10.jpg" alt="Café da Manhã 12" />
-    <img src="images/CAFÉ DA MANHÃ/villadoscorais-146.jpg" alt="Café da Manhã 13" />
+    <!-- Pasta e nomes com acentos/espacos codificados -->
+    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/4E1A0548.jpg" alt="Café da Manhã 1" width="1200" height="900" loading="lazy" decoding="async">
+    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/4E1A0552.jpg" alt="Café da Manhã 2" width="1200" height="900" loading="lazy" decoding="async">
+    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/caf%C3%A9-4.jpg" alt="Café da Manhã 3" width="1200" height="900" loading="lazy" decoding="async">
+    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/caf%C3%A9-13.jpg" alt="Café da Manhã 4" width="1200" height="900" loading="lazy" decoding="async">
+    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/caf%C3%A9-30.jpg" alt="Café da Manhã 5" width="1200" height="900" loading="lazy" decoding="async">
+    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/caf%C3%A9-37.jpg" alt="Café da Manhã 6" width="1200" height="900" loading="lazy" decoding="async">
+    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1329.JPG" alt="Café da Manhã 7" width="1200" height="900" loading="lazy" decoding="async">
+    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1333.JPG" alt="Café da Manhã 8" width="1200" height="900" loading="lazy" decoding="async">
+    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/C%C3%B3pia%20de%20IMG_1279.JPG" alt="Café da Manhã 9" width="1200" height="900" loading="lazy" decoding="async">
+    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/villadoscorais-78.jpg" alt="Café da Manhã 10" width="1200" height="900" loading="lazy" decoding="async">
+    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/villadoscorais-120.jpg" alt="Café da Manhã 11" width="1200" height="900" loading="lazy" decoding="async">
+    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/caf%C3%A9-10.jpg" alt="Café da Manhã 12" width="1200" height="900" loading="lazy" decoding="async">
+    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/villadoscorais-146.jpg" alt="Café da Manhã 13" width="1200" height="900" loading="lazy" decoding="async">
   </div>
 
-  <a href="index.html" class="back-btn">⬅ Voltar para o site</a>
+  <a href="/index.html" class="back-btn">⬅ Voltar para o site</a>
 </body>
 </html>
