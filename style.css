@@ -386,3 +386,5 @@ footer a:hover{ color:#70d6ff; }
     padding: 14px 18px;
   }
 }
+.praia-carousel{ touch-action: pan-y; user-select: none; }
+.praia-carousel .prev, .praia-carousel .next{ user-select: none; }
