@@ -414,3 +414,91 @@ footer a:hover{ color:#70d6ff; }
 /* AJUSTE 6: swipe e seleção — manter em um só lugar */
 .praia-carousel{ touch-action: pan-y; user-select: none; }
 .praia-carousel .prev, .praia-carousel .next{ user-select: none; }
+/* =========================
+   AJUSTES MOBILE EXTRAS
+========================= */
+@media (max-width: 600px){
+  body{ font-size: 15px; line-height: 1.5; }
+
+  .container{ padding: 30px 14px; }
+
+  /* Menu */
+  .menu-container{ padding: 8px 12px; }
+  .menu-links li a{ padding: 12px 16px; font-size: 15px; }
+  .hamburger{ font-size: 26px; }
+
+  /* Hero */
+  header{ min-height: 50svh; }
+  .welcome-text{
+    width: 95%; padding: 14px; border-radius: 10px;
+  }
+  .welcome-text h1{ font-size: 1.4rem; }
+  .welcome-text p{ font-size: .95rem; }
+
+  .abrir-reserva{ padding: 10px 18px; font-size: .9rem; }
+
+  /* Seção sobre */
+  .texto-sobre h2{ font-size: 1.6rem; text-align: center; }
+  .texto-sobre p{ font-size: .95rem; }
+
+  /* Cards */
+  .servicos, .passeios{ gap: 18px; }
+  .servico-card, .passeio-card{ padding: 18px 14px; }
+  .servico-card h3, .passeio-card h3{ font-size: 1.1rem; }
+  .servico-card p, .passeio-card p{ font-size: .92rem; }
+
+  /* Carrossel */
+  .praia-carousel .prev, .praia-carousel .next{
+    width: 36px; height: 36px; font-size: 16px;
+  }
+  .praia-info{ padding: 10px; font-size: .9rem; }
+  .praia-info h3{ font-size: 1rem; }
+  .praia-info p{ font-size: .85rem; }
+
+  /* Modal */
+  .modal-content{ 
+    width: 95% !important;
+    padding: 14px; border-radius: 10px; margin: 8vh auto;
+  }
+  .form-row{ grid-template-columns: 1fr; gap: 8px; }
+  .btn-reservar{ font-size: .95rem; padding: 12px; }
+
+  /* Quarto preview */
+  .quarto-card{
+    grid-template-columns: 70px 1fr;
+    padding: 8px; gap: 8px;
+  }
+  .quarto-card img{ width:70px; height:70px; }
+  .quarto-info h3{ font-size: .92rem; }
+  .quarto-info p{ font-size: .82rem; }
+
+  /* Footer */
+  footer{ font-size: .9rem; padding: 18px 12px; }
+}
+/* Botão primário (usado no Ver mapa e no CTA do hero via classe .btn-primary) */
+.btn-primary{
+  background:#0A2342;
+  color:#fff;
+  border: 0;
+}
+.btn-primary:hover{
+  background:#133B6C;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(10,35,66,.25);
+}
+.btn-primary:active{ transform:none; box-shadow:none; }
+/* Habilita o fade do HERO quando JS está ativo (evita display:none bloquear a transição) */
+html.js .carousel-background img,
+html.js .carousel-background picture > img{
+  display: block !important;
+}
+
+/* Modal também abre com .is-open (além de .show), compatível com o JS */
+.modal.is-open{
+  display: flex;
+  opacity: 1;
+}
+.modal.is-open .modal-content{
+  transform: translateY(0);
+  opacity: 1;
+}
