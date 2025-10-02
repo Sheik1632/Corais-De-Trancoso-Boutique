@@ -502,3 +502,21 @@ html.js .carousel-background picture > img{
   transform: translateY(0);
   opacity: 1;
 }
+/* === Hero: sem fundo cinza e sem overlay === */
+.carousel-container::after{
+  background: none !important;            /* remove o gradiente por cima da foto */
+}
+
+.welcome-text{
+  background: transparent !important;     /* tira o bloco cinza */
+  box-shadow: none !important;            /* tira a sombra do “cartão” */
+  backdrop-filter: none !important;       /* remove o blur */
+  padding: 0.5rem 1rem;                   /* opcional: deixa mais leve */
+  border-radius: 0;                       /* sem cantos arredondados visíveis */
+}
+
+/* Para manter a legibilidade do texto direto na foto */
+.welcome-text h1,
+.welcome-text p{
+  text-shadow: 0 2px 14px rgba(0,0,0,.45);
+}
