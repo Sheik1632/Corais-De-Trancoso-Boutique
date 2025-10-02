@@ -2,36 +2,45 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Galeria - Piscina</title>
 
-  <!-- FAVICON / LOGO DA ABA -->
+  <!-- FAVICON -->
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
 
-  <!-- Fonte (você usa Quicksand no CSS) -->
+  <!-- Fontes -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
 
+  <!-- Preload da 1ª imagem para LCP -->
+  <link rel="preload" as="image"
+        href="images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=1200&q=75"
+        imagesrcset="
+          images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=480&q=75 480w,
+          images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=800&q=75 800w,
+          images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=1200&q=75 1200w"
+        imagesizes="(max-width: 900px) 90vw, 360px" />
+
   <style>
     :root{
-      --brand:#007bff; --bg:#f5f5f5; --card:#fff;
-      --radius:12px; --shadow:0 6px 16px rgba(0,0,0,.12);
+      --brand:#007bff; --bg:#f5f5f5; --card:#fff; --ink:#333;
+      --radius:12px; --shadow:0 8px 20px rgba(0,0,0,.12);
     }
-
-    *{box-sizing:border-box}
+    *,*::before,*::after{ box-sizing:border-box; }
+    html{ -webkit-text-size-adjust:100%; }
     body{
-      margin:0; font-family:"Quicksand", Arial, sans-serif;
-      background:var(--bg); color:#333; line-height:1.5;
+      margin:0; font-family:"Quicksand", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:var(--bg); color:var(--ink); line-height:1.6;
     }
 
     h1{
       text-align:center; padding:24px 12px 12px;
-      font-size:clamp(1.6rem, 1.8vw + 1rem, 2.4rem); color:var(--brand);
+      font-size:clamp(1.6rem, 1.8vw + 1rem, 2.4rem); color:var(--brand); margin:0;
     }
 
     /* GRID */
@@ -40,34 +49,49 @@
       grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
       max-width:1200px; margin:0 auto; padding:20px;
     }
+    .gallery picture{ display:block; }
     .gallery img{
       width:100%; aspect-ratio:4/3; object-fit:cover;
       border-radius:var(--radius); cursor:pointer; background:#e9eef3;
       box-shadow:var(--shadow);
-      transition:transform .25s ease, box-shadow .25s ease;
+      transition:transform .25s ease, box-shadow .25s ease, opacity .25s ease;
+      opacity:0;
     }
-    .gallery img:hover{ transform:scale(1.03); box-shadow:0 12px 24px rgba(0,0,0,.18); }
+    .gallery img.loaded{ opacity:1; }
+    .gallery img:hover{ transform:scale(1.03); box-shadow:0 14px 28px rgba(0,0,0,.18); }
 
     /* BOTÃO VOLTAR */
     .back-btn{
-      display:block; max-width:max-content; margin:20px auto 40px;
+      display:block; max-width:max-content; margin:6px auto 40px;
       padding:12px 20px; background:var(--brand); color:#fff; text-decoration:none;
-      border-radius:999px; font-weight:600; transition:background .25s, transform .2s;
+      border-radius:999px; font-weight:700; transition:background .25s, transform .2s;
     }
     .back-btn:hover{ background:#0056b3; transform:translateY(-2px); }
 
     /* LIGHTBOX */
     .lightbox{
       position:fixed; inset:0; display:none; align-items:center; justify-content:center;
-      background:rgba(0,0,0,.85); z-index:1000; cursor:zoom-out;
+      background:rgba(0,0,0,.85); z-index:1000;
     }
     .lightbox.open{ display:flex; }
     .lightbox img{
       max-width:min(92vw, 1400px); max-height:90vh;
       border-radius:var(--radius); box-shadow:var(--shadow);
-      cursor:auto;
+      background:#111;
     }
-    .lightbox .visually-hidden{
+    .lb-close, .lb-arrow{
+      position:absolute; display:grid; place-items:center; border:0; cursor:pointer;
+      width:46px; height:46px; border-radius:50%; color:#fff; background:rgba(0,0,0,.5);
+      transition:background .2s ease, transform .2s ease;
+    }
+    .lb-close{ top:18px; right:18px; font-size:1.1rem; }
+    .lb-arrow{ top:50%; transform:translateY(-50%); font-size:1.2rem; }
+    .lb-prev{ left:16px; }
+    .lb-next{ right:16px; }
+    .lb-close:hover, .lb-arrow:hover{ background:rgba(0,0,0,.7); transform:translateY(-50%) scale(1.05); }
+    .lb-close:hover{ transform:none; }
+
+    .visually-hidden{
       position:absolute; width:1px; height:1px; margin:-1px; padding:0; border:0;
       clip:rect(0 0 0 0); overflow:hidden; white-space:nowrap;
     }
@@ -75,6 +99,10 @@
     @media (max-width: 600px){
       .gallery{ gap:12px; padding:12px; }
       .back-btn{ padding:10px 16px; font-size:.95rem; }
+      .lb-arrow{ width:42px; height:42px; }
+    }
+    @media (prefers-reduced-motion: reduce){
+      *{ animation:none!important; transition:none!important; scroll-behavior:auto!important; }
     }
   </style>
 </head>
@@ -82,54 +110,271 @@
   <h1>Galeria - Piscina</h1>
 
   <div class="gallery" id="galeria">
-    <img src="images/PISCINA/4E1A0272.jpg" alt="Piscina 1" loading="lazy" decoding="async">
-    <img src="images/PISCINA/4E1A0276.jpg" alt="Piscina 2" loading="lazy" decoding="async">
-    <img src="images/PISCINA/4E1A0278.jpg" alt="Piscina 3" loading="lazy" decoding="async">
-    <img src="images/PISCINA/4E1A0280.jpg" alt="Piscina 4" loading="lazy" decoding="async">
-    <img src="images/PISCINA/4E1A0320.jpg" alt="Piscina 5" loading="lazy" decoding="async">
-    <img src="images/PISCINA/4E1A0298.jpg" alt="Piscina 6" loading="lazy" decoding="async">
-    <img src="images/PISCINA/4E1A0579.jpg" alt="Piscina 7" loading="lazy" decoding="async">
-    <img src="images/PISCINA/4E1A0834.jpg" alt="Piscina 8" loading="lazy" decoding="async">
+    <!-- 1 -->
+    <picture>
+      <source type="image/avif"
+        srcset="
+          images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
+          images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
+          images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
+      <source type="image/webp"
+        srcset="
+          images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
+          images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
+          images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
+      <img
+        src="images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=1200&q=75"
+        srcset="
+          images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=480&q=75 480w,
+          images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=800&q=75 800w,
+          images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=1200&q=75 1200w"
+        sizes="(max-width: 900px) 90vw, 360px"
+        loading="lazy" decoding="async" alt="Piscina 1">
+    </picture>
+
+    <!-- 2 -->
+    <picture>
+      <source type="image/avif"
+        srcset="
+          images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
+          images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
+          images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
+      <source type="image/webp"
+        srcset="
+          images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
+          images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
+          images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
+      <img
+        src="images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=1200&q=75"
+        srcset="
+          images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=480&q=75 480w,
+          images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=800&q=75 800w,
+          images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=1200&q=75 1200w"
+        sizes="(max-width: 900px) 90vw, 360px"
+        loading="lazy" decoding="async" alt="Piscina 2">
+    </picture>
+
+    <!-- 3 -->
+    <picture>
+      <source type="image/avif"
+        srcset="
+          images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
+          images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
+          images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
+      <source type="image/webp"
+        srcset="
+          images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
+          images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
+          images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
+      <img
+        src="images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=1200&q=75"
+        srcset="
+          images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=480&q=75 480w,
+          images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=800&q=75 800w,
+          images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=1200&q=75 1200w"
+        sizes="(max-width: 900px) 90vw, 360px"
+        loading="lazy" decoding="async" alt="Piscina 3">
+    </picture>
+
+    <!-- 4 -->
+    <picture>
+      <source type="image/avif"
+        srcset="
+          images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
+          images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
+          images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
+      <source type="image/webp"
+        srcset="
+          images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
+          images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
+          images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
+      <img
+        src="images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=1200&q=75"
+        srcset="
+          images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=480&q=75 480w,
+          images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=800&q=75 800w,
+          images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=1200&q=75 1200w"
+        sizes="(max-width: 900px) 90vw, 360px"
+        loading="lazy" decoding="async" alt="Piscina 4">
+    </picture>
+
+    <!-- 5 -->
+    <picture>
+      <source type="image/avif"
+        srcset="
+          images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
+          images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
+          images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
+      <source type="image/webp"
+        srcset="
+          images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
+          images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
+          images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
+      <img
+        src="images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=1200&q=75"
+        srcset="
+          images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=480&q=75 480w,
+          images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=800&q=75 800w,
+          images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=1200&q=75 1200w"
+        sizes="(max-width: 900px) 90vw, 360px"
+        loading="lazy" decoding="async" alt="Piscina 5">
+    </picture>
+
+    <!-- 6 -->
+    <picture>
+      <source type="image/avif"
+        srcset="
+          images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
+          images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
+          images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
+      <source type="image/webp"
+        srcset="
+          images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
+          images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
+          images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
+      <img
+        src="images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=1200&q=75"
+        srcset="
+          images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=480&q=75 480w,
+          images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=800&q=75 800w,
+          images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=1200&q=75 1200w"
+        sizes="(max-width: 900px) 90vw, 360px"
+        loading="lazy" decoding="async" alt="Piscina 6">
+    </picture>
+
+    <!-- 7 -->
+    <picture>
+      <source type="image/avif"
+        srcset="
+          images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
+          images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
+          images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
+      <source type="image/webp"
+        srcset="
+          images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
+          images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
+          images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
+      <img
+        src="images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=1200&q=75"
+        srcset="
+          images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=480&q=75 480w,
+          images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=800&q=75 800w,
+          images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=1200&q=75 1200w"
+        sizes="(max-width: 900px) 90vw, 360px"
+        loading="lazy" decoding="async" alt="Piscina 7">
+    </picture>
+
+    <!-- 8 -->
+    <picture>
+      <source type="image/avif"
+        srcset="
+          images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
+          images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
+          images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
+      <source type="image/webp"
+        srcset="
+          images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
+          images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
+          images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
+      <img
+        src="images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=1200&q=75"
+        srcset="
+          images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=480&q=75 480w,
+          images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=800&q=75 800w,
+          images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=1200&q=75 1200w"
+        sizes="(max-width: 900px) 90vw, 360px"
+        loading="lazy" decoding="async" alt="Piscina 8">
+    </picture>
   </div>
 
   <a href="/index.html" class="back-btn">← Voltar para o site</a>
 
-  <!-- Lightbox acessível -->
+  <!-- Lightbox com setas -->
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lb-title">
     <span id="lb-title" class="visually-hidden">Foto ampliada</span>
+    <button class="lb-close" aria-label="Fechar">✕</button>
+    <button class="lb-arrow lb-prev" aria-label="Anterior">❮</button>
     <img src="" alt="">
+    <button class="lb-arrow lb-next" aria-label="Próxima">❯</button>
   </div>
 
   <script>
     (function (){
-      const gallery = Array.from(document.querySelectorAll('#galeria img'));
-      const box = document.getElementById('lightbox');
-      const img = box.querySelector('img');
+      const nodes = Array.from(document.querySelectorAll('#galeria picture'));
+      const imgs  = nodes.map(n => n.querySelector('img'));
+      const box   = document.getElementById('lightbox');
+      const lbImg = box.querySelector('img');
+      const btnPrev = box.querySelector('.lb-prev');
+      const btnNext = box.querySelector('.lb-next');
+      const btnClose= box.querySelector('.lb-close');
       let idx = -1;
+
+      // Fade-in quando cada img carregar
+      imgs.forEach(img => {
+        if (img.complete) img.classList.add('loaded');
+        else img.addEventListener('load', ()=> img.classList.add('loaded'), {once:true});
+      });
+
+      function setLB(src, alt){
+        lbImg.src = src;
+        lbImg.alt = alt || 'Foto ampliada da piscina';
+        // Preload da próxima imagem
+        const nextIdx = (idx + 1) % imgs.length;
+        const link = document.createElement('link');
+        link.rel = 'preload'; link.as = 'image';
+        link.href = imgs[nextIdx].currentSrc || imgs[nextIdx].src;
+        document.head.appendChild(link);
+      }
 
       function openAt(i){
         idx = i;
-        const src = gallery[idx].currentSrc || gallery[idx].src;
-        img.src = src;
-        img.alt = gallery[idx].alt || 'Foto ampliada da piscina';
+        setLB(imgs[idx].currentSrc || imgs[idx].src, imgs[idx].alt);
         box.classList.add('open');
       }
-      function closeBox(){ box.classList.remove('open'); img.src = ''; idx = -1; }
-      function prev(){ if(idx<=0) idx = gallery.length; openAt((idx-1)%gallery.length); }
-      function next(){ openAt((idx+1)%gallery.length); }
+      function closeBox(){
+        box.classList.remove('open');
+        lbImg.src = '';
+        idx = -1;
+      }
+      function prev(){
+        idx = (idx - 1 + imgs.length) % imgs.length;
+        setLB(imgs[idx].currentSrc || imgs[idx].src, imgs[idx].alt);
+      }
+      function next(){
+        idx = (idx + 1) % imgs.length;
+        setLB(imgs[idx].currentSrc || imgs[idx].src, imgs[idx].alt);
+      }
 
-      gallery.forEach((g, i) => g.addEventListener('click', () => openAt(i)));
+      // Abrir pelo clique
+      nodes.forEach((wrap, i) => {
+        wrap.addEventListener('click', () => openAt(i));
+      });
 
-      // fechar ao clicar fora da imagem
-      box.addEventListener('click', (e) => { if(e.target === box) closeBox(); });
+      // Controles
+      btnClose.addEventListener('click', closeBox);
+      btnPrev.addEventListener('click', prev);
+      btnNext.addEventListener('click', next);
 
-      // teclado: Esc fecha; ← → navega
-      window.addEventListener('keydown', (e) => {
+      // Fechar clicando fora da imagem
+      box.addEventListener('click', (e)=>{ if(e.target === box) closeBox(); });
+
+      // Teclado
+      window.addEventListener('keydown', (e)=>{
         if(!box.classList.contains('open')) return;
         if(e.key === 'Escape') closeBox();
         if(e.key === 'ArrowLeft') prev();
         if(e.key === 'ArrowRight') next();
       });
+
+      // Swipe no lightbox (mobile)
+      let startX = 0, swiping = false;
+      box.addEventListener('touchstart', (e)=>{ startX = e.touches[0].clientX; swiping = true; }, {passive:true});
+      box.addEventListener('touchmove', (e)=>{
+        if(!swiping) return;
+        const dx = e.touches[0].clientX - startX;
+        if(Math.abs(dx) > 50){ swiping = false; dx < 0 ? next() : prev(); }
+      }, {passive:true});
+      box.addEventListener('touchend', ()=>{ swiping = false; });
     })();
   </script>
 </body>

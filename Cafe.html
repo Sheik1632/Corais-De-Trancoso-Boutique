@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <!-- FAVICON / LOGO DA ABA (caminhos absolutos p/ valer em todas as páginas) -->
+  <!-- FAVICON / LOGO DA ABA -->
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
@@ -9,86 +9,108 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
 
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Galeria - Café da Manhã</title>
 
-  <!-- Fonte Quicksand (antes não estava sendo carregada) -->
+  <!-- Fonte -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
 
   <style>
-    :root {
-      --brand: #007bff;
-      --bg: #f9fafb;
-      --card-bg: #fff;
-      --shadow: 0 4px 12px rgba(0,0,0,.08);
-      --radius: 10px;
-    }
-    body {
-      font-family: 'Quicksand', Arial, sans-serif;
-      margin: 0; padding: 20px;
-      background: var(--bg); color: #333;
-    }
-    h1 {
-      text-align: center;
-      font-size: clamp(1.5rem, 1.2rem + 1vw, 2.2rem);
-      color: var(--brand);
-      margin-bottom: 25px;
-    }
-    /* GRID */
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
-      gap: 18px; max-width: 1200px; margin: 0 auto;
-    }
-    .gallery img {
-      width: 100%;
-      aspect-ratio: 4/3;            /* evita layout shift */
-      object-fit: cover;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      transition: transform .3s, box-shadow .3s;
-      cursor: pointer;
-    }
-    .gallery img:hover { transform: scale(1.03); box-shadow: 0 8px 20px rgba(0,0,0,.15); }
+    :root { --brand:#007bff; --bg:#f9fafb; --shadow:0 4px 12px rgba(0,0,0,.08); --radius:10px; }
+    *{box-sizing:border-box}
+    body{ font-family:'Quicksand', Arial, sans-serif; margin:0; padding:20px; background:var(--bg); color:#333; }
+    h1{ text-align:center; font-size:clamp(1.5rem,1.2rem + 1vw,2.2rem); color:var(--brand); margin-bottom:25px; }
 
-    /* BOTÃO VOLTAR */
-    .back-btn {
-      margin: 40px auto 0; display: block; width: fit-content;
-      padding: 12px 20px; background: var(--brand); color:#fff; text-decoration:none;
-      font-weight: 600; border-radius: 999px; box-shadow: var(--shadow);
-      transition: background .3s, transform .2s;
+    /* GRID (mesmo estilo das outras) */
+    .gallery{
+      display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+      gap:18px; max-width:1200px; margin:0 auto;
     }
-    .back-btn:hover { background:#0056b3; transform: translateY(-2px); }
+    .gallery img{
+      width:100%; aspect-ratio:4/3; object-fit:cover;
+      border-radius:var(--radius); box-shadow:var(--shadow);
+      transition:transform .3s, box-shadow .3s; background:#e9eef3;
+    }
+    .gallery img:hover{ transform:scale(1.03); box-shadow:0 8px 20px rgba(0,0,0,.15); }
 
-    @media (max-width: 600px){
-      body { padding: 15px; }
-      .gallery { gap: 12px; }
-      .back-btn { font-size:.9rem; padding:10px 16px; }
+    .back-btn{
+      margin:40px auto 0; display:block; width:fit-content;
+      padding:12px 20px; background:#007bff; color:#fff; text-decoration:none;
+      font-weight:600; border-radius:999px; box-shadow:var(--shadow);
+      transition:background .3s, transform .2s;
+    }
+    .back-btn:hover{ background:#0056b3; transform:translateY(-2px); }
+
+    @media (max-width:600px){
+      body{padding:15px}
+      .gallery{gap:12px}
+      .back-btn{font-size:.9rem; padding:10px 16px}
+    }
+
+    /* Destaca imagens quebradas (igual às outras páginas) */
+    .img-error{ outline:3px solid #e11d48; position:relative; border-radius:var(--radius) }
+    .img-error::after{
+      content:"Arquivo não encontrado";
+      position:absolute; inset:auto 6px 6px 6px; background:#e11d48; color:#fff;
+      font:600 12px/1.2 Quicksand,Arial; padding:6px 8px; border-radius:6px;
     }
   </style>
 </head>
 <body>
   <h1>Galeria - Café da Manhã</h1>
 
-  <div class="gallery">
-    <!-- Pasta e nomes com acentos/espacos codificados -->
-    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/4E1A0548.jpg" alt="Café da Manhã 1" width="1200" height="900" loading="lazy" decoding="async">
-    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/4E1A0552.jpg" alt="Café da Manhã 2" width="1200" height="900" loading="lazy" decoding="async">
-    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/caf%C3%A9-4.jpg" alt="Café da Manhã 3" width="1200" height="900" loading="lazy" decoding="async">
-    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/caf%C3%A9-13.jpg" alt="Café da Manhã 4" width="1200" height="900" loading="lazy" decoding="async">
-    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/caf%C3%A9-30.jpg" alt="Café da Manhã 5" width="1200" height="900" loading="lazy" decoding="async">
-    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/caf%C3%A9-37.jpg" alt="Café da Manhã 6" width="1200" height="900" loading="lazy" decoding="async">
-    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1329.JPG" alt="Café da Manhã 7" width="1200" height="900" loading="lazy" decoding="async">
-    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1333.JPG" alt="Café da Manhã 8" width="1200" height="900" loading="lazy" decoding="async">
-    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/C%C3%B3pia%20de%20IMG_1279.JPG" alt="Café da Manhã 9" width="1200" height="900" loading="lazy" decoding="async">
-    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/villadoscorais-78.jpg" alt="Café da Manhã 10" width="1200" height="900" loading="lazy" decoding="async">
-    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/villadoscorais-120.jpg" alt="Café da Manhã 11" width="1200" height="900" loading="lazy" decoding="async">
-    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/caf%C3%A9-10.jpg" alt="Café da Manhã 12" width="1200" height="900" loading="lazy" decoding="async">
-    <img src="images/CAF%C3%89%20DA%20MANH%C3%83/villadoscorais-146.jpg" alt="Café da Manhã 13" width="1200" height="900" loading="lazy" decoding="async">
+  <div class="gallery" id="galeria">
+    <!-- Usei data-src com nomes “bonitos”. O JS abaixo faz o encode automático e tenta .JPG/.jpg. -->
+    <img data-src="/images/CAFÉ DA MANHÃ/4E1A0548.jpg" alt="Café da Manhã 1" loading="lazy" decoding="async">
+    <img data-src="/images/CAFÉ DA MANHÃ/4E1A0552.jpg" alt="Café da Manhã 2" loading="lazy" decoding="async">
+    <img data-src="/images/CAFÉ DA MANHÃ/café-4.jpg" alt="Café da Manhã 3" loading="lazy" decoding="async">
+    <img data-src="/images/CAFÉ DA MANHÃ/café-13.jpg" alt="Café da Manhã 4" loading="lazy" decoding="async">
+    <img data-src="/images/CAFÉ DA MANHÃ/café-30.jpg" alt="Café da Manhã 5" loading="lazy" decoding="async">
+    <img data-src="/images/CAFÉ DA MANHÃ/café-37.jpg" alt="Café da Manhã 6" loading="lazy" decoding="async">
+    <img data-src="/images/CAFÉ DA MANHÃ/IMG_1329.JPG" alt="Café da Manhã 7" loading="lazy" decoding="async">
+    <img data-src="/images/CAFÉ DA MANHÃ/IMG_1333.JPG" alt="Café da Manhã 8" loading="lazy" decoding="async">
+    <img data-src="/images/CAFÉ DA MANHÃ/Cópia de IMG_1279.JPG" alt="Café da Manhã 9" loading="lazy" decoding="async">
+    <img data-src="/images/CAFÉ DA MANHÃ/villadoscorais-78.jpg" alt="Café da Manhã 10" loading="lazy" decoding="async">
+    <img data-src="/images/CAFÉ DA MANHÃ/villadoscorais-120.jpg" alt="Café da Manhã 11" loading="lazy" decoding="async">
+    <img data-src="/images/CAFÉ DA MANHÃ/café-10.jpg" alt="Café da Manhã 12" loading="lazy" decoding="async">
+    <img data-src="/images/CAFÉ DA MANHÃ/villadoscorais-146.jpg" alt="Café da Manhã 13" loading="lazy" decoding="async">
   </div>
 
   <a href="/index.html" class="back-btn">⬅ Voltar para o site</a>
+
+  <script>
+    // 1) Faz o encode correto de espaços/acentos (CAFÉ, “café-*.jpg”, “Cópia de …”)
+    // 2) Se falhar, tenta alternar a extensão .jpg <-> .JPG (e .jpeg <-> .JPEG)
+    // 3) Se ainda falhar, aplica o destaque .img-error
+    document.querySelectorAll('#galeria img').forEach(img => {
+      const raw = img.getAttribute('data-src');              // caminho com acentos/espacos
+      const encoded = encodeURI(raw);                        // vira /images/CAF%C3%89%20DA%20MANH%C3%83/...
+      img.src = encoded;
+
+      img.addEventListener('error', function onErr() {
+        // tenta uma única vez trocar a extensão
+        if (!img.dataset.retry) {
+          img.dataset.retry = '1';
+          try {
+            const u = new URL(img.src, location.origin);
+            const m = u.pathname.match(/\.(jpg|JPG|jpeg|JPEG)$/);
+            if (m) {
+              const ext = m[1];
+              const alt = (ext === 'jpg') ? 'JPG'
+                        : (ext === 'JPG') ? 'jpg'
+                        : (ext === 'jpeg') ? 'JPEG'
+                        : 'jpeg';
+              u.pathname = u.pathname.replace(new RegExp(`\\.${ext}$`), `.${alt}`);
+              img.src = u.pathname + u.search + u.hash;
+              return;
+            }
+          } catch(_) {}
+        }
+        img.classList.add('img-error');
+      });
+    });
+  </script>
 </body>
 </html>

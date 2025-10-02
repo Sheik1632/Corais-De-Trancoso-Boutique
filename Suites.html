@@ -2,17 +2,14 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Galeria de Suítes - Pousada</title>
 
-<!-- FAVICON / LOGO DA ABA -->
+<!-- FAVICON -->
 <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
 <link rel="shortcut icon" href="/images/favicon.ico">
-
-<!-- iPhone/iPad (ao adicionar à tela inicial) -->
 <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
 
 <!-- Fontes e ícones -->
@@ -20,6 +17,15 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<!-- Preload da primeira imagem principal (melhora LCP) -->
+<link rel="preload" as="image"
+      href="images/SUITES/Imagens/Mar%C3%A9%20alta/mare%20alta%201.jpg?nf_resize=fit&w=980&q=75"
+      imagesrcset="
+        images/SUITES/Imagens/Mar%C3%A9%20alta/mare%20alta%201.jpg?nf_resize=fit&w=800&q=75 800w,
+        images/SUITES/Imagens/Mar%C3%A9%20alta/mare%20alta%201.jpg?nf_resize=fit&w=980&q=75 980w,
+        images/SUITES/Imagens/Mar%C3%A9%20alta/mare%20alta%201.jpg?nf_resize=fit&w=1400&q=75 1400w"
+      imagesizes="(max-width: 980px) 100vw, 980px">
 
 <style>
   /* ===== BASE ===== */
@@ -70,12 +76,15 @@
     border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow);
     background:#e9eef3;
   }
-  #mainImage{
-    width:100%; height:100%; object-fit:cover; cursor:pointer;
-    transition:transform .25s ease, opacity .25s ease; opacity:0;
+  /* O <picture> da principal preenche tudo; o <img> interno faz o fade */
+  #mainPicture, #mainPicture picture, #mainPicture img{
+    width:100%; height:100%;
   }
-  #mainImage.loaded{ opacity:1; }
-  #mainImage:hover{ transform:scale(1.02); }
+  #mainPicture img{
+    object-fit:cover; cursor:pointer; opacity:0; transition:opacity .25s ease, transform .25s ease;
+  }
+  #mainPicture img.loaded{ opacity:1; }
+  #mainPicture img:hover{ transform:scale(1.02); }
 
   /* Setas */
   .nav-arrow{
@@ -83,10 +92,11 @@
     width:44px; height:44px; display:grid; place-items:center;
     border-radius:50%; color:#fff; background:rgba(0,0,0,.45);
     user-select:none; cursor:pointer; border:0; font-size:1.3rem;
-    transition:background .25s ease, transform .2s ease;
+    transition:background .25s ease, transform .2s ease, opacity .2s ease;
   }
   .nav-arrow:hover{ background:rgba(0,0,0,.65); transform:translateY(-50%) scale(1.05); }
   .nav-left{ left:12px; } .nav-right{ right:12px; }
+  .nav-arrow[disabled]{ opacity:.4; cursor:not-allowed; }
 
   /* Título da principal */
   #mainTitle{
@@ -105,6 +115,7 @@
     transition:transform .2s ease, box-shadow .25s ease; cursor:pointer;
   }
   .item:hover{ transform:translateY(-4px); box-shadow:0 14px 28px rgba(0,0,0,.15); }
+  .item picture{ width:100%; }
   .item img{ width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:10px; margin-bottom:8px; background:#eef2f7; }
   .item p{ margin:0; font-weight:700; display:flex; align-items:center; gap:8px; font-size:.95rem; }
 
@@ -155,7 +166,7 @@
 <section class="section" aria-label="Galeria de Suítes">
   <h2>Suítes da Pousada</h2>
 
-  <!-- Menu de Categorias (igual aos seus rótulos) -->
+  <!-- Menu de Categorias -->
   <nav class="categoria-menu" aria-label="Filtrar por categoria">
     <button class="active" data-cat="todas" type="button"><i class="fa-solid fa-layer-group"></i> Todas</button>
     <button data-cat="mare-alta" type="button"><i class="fa-solid fa-bed"></i> Maré Alta</button>
@@ -171,15 +182,12 @@
   <div class="main-image-container">
     <button class="nav-arrow nav-left" id="prev" aria-label="Imagem anterior" type="button"><i class="fa-solid fa-chevron-left"></i></button>
 
-    <img id="mainImage"
-         src="images/mare-alta1.jpg"
-         alt="Imagem principal da suíte"
-         decoding="async"
-         fetchpriority="high" />
+    <!-- picture da imagem principal será montado por JS -->
+    <div id="mainPicture" aria-hidden="false"></div>
 
     <button class="nav-arrow nav-right" id="next" aria-label="Próxima imagem" type="button"><i class="fa-solid fa-chevron-right"></i></button>
   </div>
-  <p id="mainTitle" aria-live="polite"><i class="fa-solid fa-bed"></i> Suite Maré Alta</p>
+  <p id="mainTitle" aria-live="polite"><i class="fa-solid fa-bed"></i> SUÍTE MARÉ ALTA</p>
 
   <!-- Miniaturas -->
   <div class="galeria" id="galeria"></div>
@@ -197,7 +205,7 @@
 </a>
 
 <script>
-/* ================== DADOS (mantidos) ================== */
+/* ================== DADOS ================== */
 const suites = {
   "mare-alta":[
     {src:"images/SUITES/Imagens/Maré alta/mare alta 1.jpg", icon:"fa-bed"},
@@ -251,20 +259,59 @@ const suites = {
 };
 
 /* ================== ELEMENTOS ================== */
-const galeria = document.getElementById("galeria");
-const buttons = document.querySelectorAll(".categoria-menu button");
-const mainImage = document.getElementById("mainImage");
+const galeria   = document.getElementById("galeria");
+const buttons   = document.querySelectorAll(".categoria-menu button");
+const mainWrap  = document.getElementById("mainPicture");
 const mainTitle = document.getElementById("mainTitle");
-const lightbox = document.getElementById("lightbox");
+const lightbox  = document.getElementById("lightbox");
 const lightboxImg = lightbox.querySelector("img");
-const prevBtn = document.getElementById("prev");
-const nextBtn = document.getElementById("next");
+const prevBtn   = document.getElementById("prev");
+const nextBtn   = document.getElementById("next");
 
 let currentCategory = "mare-alta";
 let currentIndex = 0;
+const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ================== HELPERS ================== */
-const encodePath = (p) => encodeURI(p);
+const enc = (p) => encodeURI(p);
+
+/* monta um <picture> com AVIF/WebP + fallback JPG (com srcset responsivo) */
+function buildPicture(src, {sizes, widths=[800,980,1400], eager=false, alt=""}={}){
+  const s = enc(src);
+  const avif = widths.map(w => `${s}?nf_resize=fit&w=${w}&fm=avif&q=65 ${w}w`).join(", ");
+  const webp = widths.map(w => `${s}?nf_resize=fit&w=${w}&fm=webp&q=75 ${w}w`).join(", ");
+  const jpg  = widths.map(w => `${s}?nf_resize=fit&w=${w}&q=75 ${w}w`).join(", ");
+
+  const picture = document.createElement("picture");
+
+  const avifEl = document.createElement("source");
+  avifEl.type = "image/avif";
+  avifEl.setAttribute("srcset", avif);
+  picture.appendChild(avifEl);
+
+  const webpEl = document.createElement("source");
+  webpEl.type = "image/webp";
+  webpEl.setAttribute("srcset", webp);
+  picture.appendChild(webpEl);
+
+  const img = document.createElement("img");
+  img.setAttribute("src", `${s}?nf_resize=fit&w=${widths[widths.length-1]}&q=75`);
+  img.setAttribute("srcset", jpg);
+  if (sizes) img.setAttribute("sizes", sizes);
+  img.alt = alt || "";
+  img.decoding = "async";
+  img.loading  = eager ? "eager" : "lazy";
+  if (eager) img.fetchPriority = "high";
+  picture.appendChild(img);
+
+  return {picture, img};
+}
+
+/* habilita/desabilita setas */
+function setArrowsEnabled(enabled){
+  prevBtn.disabled = !enabled;
+  nextBtn.disabled = !enabled;
+}
 
 /* cria/atualiza as miniaturas */
 function criarGaleria(cat){
@@ -276,52 +323,81 @@ function criarGaleria(cat){
   const frag = document.createDocumentFragment();
 
   lista.forEach((item, index) => {
-    const div = document.createElement("button");
-    div.type = "button";
-    div.className = "item";
-    div.setAttribute("aria-label", `Abrir ${item.categoria.replace(/-/g," ")}`);
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "item";
+    btn.setAttribute("aria-label", `Abrir ${item.categoria.replace(/-/g," ")}`);
 
-    const img = new Image();
-    img.loading = "lazy";
-    img.decoding = "async";
-    img.alt = `Suíte ${item.categoria}`;
-    img.src = encodePath(item.src);
+    // picture da miniatura (4:3 no CSS)
+    const {picture} = buildPicture(item.src, {
+      sizes:"(max-width:640px) 45vw, (max-width:900px) 30vw, 220px",
+      widths:[280,360,480],
+      eager:false,
+      alt:`Suíte ${item.categoria}`
+    });
 
     const p = document.createElement("p");
     p.innerHTML = `<i class="fa-solid ${item.icon}"></i> ${item.categoria.replace(/-/g," ").toUpperCase()}`;
 
-    div.appendChild(img);
-    div.appendChild(p);
+    btn.appendChild(picture);
+    btn.appendChild(p);
 
-    div.addEventListener("click", () => {
-      setMainImage(item.src, item.icon, item.categoria);
+    btn.addEventListener("click", () => {
+      setMainImage(item.src, item.icon, item.categoria, {eager:false});
       currentIndex = index;
     });
 
-    frag.appendChild(div);
+    frag.appendChild(btn);
   });
 
   galeria.appendChild(frag);
 }
 
-/* troca imagem principal + título com fade */
-function setMainImage(src, icon, categoria) {
-  mainImage.classList.remove("loaded");
-  const newSrc = encodePath(src);
-  const onLoad = () => {
-    mainImage.classList.add("loaded");
-    mainImage.removeEventListener("load", onLoad);
-  };
-  mainImage.addEventListener("load", onLoad, { once:true });
-  mainImage.src = newSrc;
+/* coloca picture na principal + prefetch do próximo */
+function setMainImage(src, icon, categoria, {eager=false}={}){
+  // limpa e monta novo picture
+  mainWrap.innerHTML = "";
+  const {picture, img} = buildPicture(src, {
+    sizes:"(max-width: 980px) 100vw, 980px",
+    widths:[800,980,1400],
+    eager,
+    alt:`Imagem principal da suíte ${categoria.replace(/-/g," ")}`
+  });
+  // fade-in quando carregar
+  img.addEventListener("load", ()=> img.classList.add("loaded"), {once:true});
+  mainWrap.appendChild(picture);
+
+  // título
   mainTitle.innerHTML = `<i class="fa-solid ${icon}"></i> ${categoria.replace(/-/g," ").toUpperCase()}`;
+
+  // click abre lightbox
+  img.addEventListener("click", ()=>{
+    lightboxImg.src = img.currentSrc || img.src;
+    lightbox.classList.add("open");
+  });
+
+  // prefetch próximo (se não for "todas")
+  if (currentCategory !== "todas"){
+    const nextIdx = (currentIndex + 1) % suites[currentCategory].length;
+    const nextItem = suites[currentCategory][nextIdx];
+    if (nextItem){
+      const l = document.createElement("link");
+      l.rel = "preload";
+      l.as  = "image";
+      l.href = enc(nextItem.src) + "?nf_resize=fit&w=980&q=75";
+      document.head.appendChild(l);
+    }
+  }
 }
 
-/* inicialização */
+/* init */
 function init(){
   criarGaleria(currentCategory);
   const first = suites[currentCategory][0];
-  setMainImage(first.src, first.icon, currentCategory);
+  if (first) {
+    setMainImage(first.src, first.icon, currentCategory, {eager:true});
+    setArrowsEnabled(true);
+  }
 }
 init();
 
@@ -332,17 +408,23 @@ buttons.forEach(btn=>{
     btn.classList.add("active");
     currentCategory = btn.getAttribute("data-cat");
     currentIndex = 0;
+
     criarGaleria(currentCategory);
+
     if(currentCategory !== "todas"){
       const first = suites[currentCategory][0];
-      setMainImage(first.src, first.icon, currentCategory);
+      if (first) setMainImage(first.src, first.icon, currentCategory, {eager:false});
+      setArrowsEnabled(true);
     } else {
-      // mantém a última principal ao usar "todas"
+      // mantém a imagem atual e desativa setas
+      setArrowsEnabled(false);
     }
+
+    document.getElementById('galeria').scrollIntoView({behavior: reducedMotion ? 'auto' : 'smooth', block:'start'});
   });
 });
 
-/* setas (desligadas em 'todas') */
+/* navegação por setas (desligadas em "todas") */
 function goPrev(){
   if(currentCategory==="todas") return;
   currentIndex = (currentIndex - 1 + suites[currentCategory].length) % suites[currentCategory].length;
@@ -358,49 +440,33 @@ function goNext(){
 prevBtn.addEventListener("click", goPrev);
 nextBtn.addEventListener("click", goNext);
 
-/* teclado (setas esquerda/direita e ESC no lightbox) */
+/* teclado (setas e ESC no lightbox) */
 window.addEventListener("keydown",(e)=>{
   if(lightbox.classList.contains("open")){
     if(e.key === "Escape"){ lightbox.classList.remove("open"); }
-    if(e.key === "ArrowRight"){ // navega dentro do lightbox também
-      goNext(); lightboxImg.src = mainImage.src;
-    }
-    if(e.key === "ArrowLeft"){
-      goPrev(); lightboxImg.src = mainImage.src;
-    }
+    if(e.key === "ArrowRight"){ goNext(); lightboxImg.src = document.querySelector('#mainPicture img')?.currentSrc || lightboxImg.src; }
+    if(e.key === "ArrowLeft"){  goPrev();  lightboxImg.src = document.querySelector('#mainPicture img')?.currentSrc || lightboxImg.src; }
     return;
   }
   if(e.key === "ArrowRight"){ goNext(); }
-  if(e.key === "ArrowLeft"){ goPrev(); }
+  if(e.key === "ArrowLeft"){  goPrev(); }
 });
 
 /* swipe em mobile na imagem principal */
 let startX = 0, swiping = false;
-mainImage.addEventListener("touchstart", (e)=>{ startX = e.touches[0].clientX; swiping = true; }, {passive:true});
-mainImage.addEventListener("touchmove", (e)=>{
+mainWrap.addEventListener("touchstart", (e)=>{ startX = e.touches[0].clientX; swiping = true; }, {passive:true});
+mainWrap.addEventListener("touchmove", (e)=>{
   if(!swiping) return;
   const dx = e.touches[0].clientX - startX;
-  // arrasto leve já troca (50px)
   if(Math.abs(dx) > 50){
     swiping = false;
     dx < 0 ? goNext() : goPrev();
   }
 },{passive:true});
-mainImage.addEventListener("touchend", ()=>{ swiping = false; });
+mainWrap.addEventListener("touchend", ()=>{ swiping = false; });
 
-/* lightbox */
-mainImage.addEventListener("click", ()=>{
-  lightboxImg.src = mainImage.src;
-  lightbox.classList.add("open");
-});
+/* lightbox fecha ao clicar no fundo */
 lightbox.addEventListener("click", ()=> lightbox.classList.remove("open"));
-
-/* melhora foco ao clicar rótulos no mobile (scroll suave até a grade) */
-document.querySelector('.categoria-menu').addEventListener('click', (e)=>{
-  if(e.target.closest('button')){
-    document.getElementById('galeria').scrollIntoView({behavior:'smooth', block:'start'});
-  }
-});
 </script>
 </body>
 </html>

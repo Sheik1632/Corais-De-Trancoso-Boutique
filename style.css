@@ -33,8 +33,10 @@ body { font-family: 'Quicksand', sans-serif; background: #f4f1ee; color: #2c3e50
   align-items: center;
   gap: 8px;             /* espaço entre logo e texto */
 }
-.menu-logo img {
-  height: 32px; 
+/* AJUSTE 1: altura consistente da logo */
+.menu-logo img{
+  height: auto;
+  max-height: 32px;
   width: auto;
 }
 
@@ -61,9 +63,17 @@ body { font-family: 'Quicksand', sans-serif; background: #f4f1ee; color: #2c3e50
 @media (max-width: 900px) {
   .hamburger { display: inline-block; }
 
+  /* AJUSTE 2: texto da marca no mobile (span não existia) */
+  .menu-logo .menu-link{ font-size: 16px; font-weight: 600; }
+
+  /* AJUSTE 1 (continuação): logo um pouco maior no mobile */
+  .menu-logo img{ max-height: 36px; }
+
   /* menu fechado por padrão no mobile */
   .menu-links {
-    position: absolute; left: 0; right: 0; top: 60px;  /* abaixo do topo */
+    position: absolute; left: 0; right: 0;
+    /* AJUSTE 3: respeitar notch/área segura */
+    top: calc(60px + env(safe-area-inset-top, 0px));
     background:#121212;
     display: block;            /* vira coluna */
     overflow: hidden;
@@ -212,6 +222,13 @@ header { position: relative; overflow: hidden; min-height: var(--hero-min-deskto
 .praia-carousel .prev { left: 8px; }
 .praia-carousel .next { right: 8px; }
 
+/* AJUSTE 4: acessibilidade no foco das setas */
+.praia-carousel .prev:focus-visible,
+.praia-carousel .next:focus-visible{
+  outline: 3px solid #93c5fd;
+  outline-offset: 2px;
+}
+
 .dots-container{ display:flex; gap:.5rem; justify-content: center; margin-top: .8rem; }
 .dots-container button{ width:10px; height:10px; border-radius:50%; border:0; background:#d1d5db; cursor:pointer; }
 .dots-container button.active{ background:#0A2342; }
@@ -307,9 +324,14 @@ header { position: relative; overflow: hidden; min-height: var(--hero-min-deskto
    MAPA
 ========================= */
 .mapa{ margin-top:50px; text-align:center; }
-.mapa iframe{
-  display:block; width:100% !important; height:auto; aspect-ratio: 16/9;
-  border:0; border-radius:14px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+/* AJUSTE 5: alinhar com o HTML (.mapa-embed) e evitar conflito */
+.mapa-embed iframe{
+  display:block;
+  width:100%;
+  height:min(70vh, 600px);
+  border:0;
+  border-radius:14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
 /* =========================
@@ -324,8 +346,6 @@ footer a:hover{ color:#70d6ff; }
 ========================= */
 @media (max-width: 768px){
   .menu-container { padding: 10px 16px; }
-  .menu-logo img { max-height: 36px; }
-  .menu-logo span { font-size: 16px; font-weight: 600; }
 
   .welcome-text{
     width: 92%; max-width: 480px; padding: 16px; border-radius: 14px;
@@ -339,6 +359,10 @@ footer a:hover{ color:#70d6ff; }
 @media (min-width:1024px){
   /* setas fora da imagem e legenda com mais respiro – já aplicado acima */
 }
+
+/* =========================
+   BOTÕES GENÉRICOS
+========================= */
 .btn{
   --pad-v: clamp(10px, 1.8vh, 14px);
   --pad-h: clamp(14px, 2.6vw, 20px);
@@ -386,5 +410,7 @@ footer a:hover{ color:#70d6ff; }
     padding: 14px 18px;
   }
 }
+
+/* AJUSTE 6: swipe e seleção — manter em um só lugar */
 .praia-carousel{ touch-action: pan-y; user-select: none; }
 .praia-carousel .prev, .praia-carousel .next{ user-select: none; }
