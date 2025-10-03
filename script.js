@@ -3,29 +3,128 @@
 /* =========================================
    CONFIGURAÇÃO
 ========================================= */
-const OMNIBEES_HOTEL_ID = '22031';
+const OMNIBEES_HOTEL_ID = '22031'; // ex.: ''
+const OMNIBEES_BASE_URL = 'https://book.omnibees.com/hotelresults';
 const OMNIBEES_LANG     = 'pt-BR';
 const OMNIBEES_CURRENCY = 'BRL';
 
-// URL do Omnibees
-function buildOmnibeesURL(checkInISO, checkOutISO, adults, children){
-  const toDDMMYYYY = (iso) => {
-    if (!iso) return '';
-    const [y,m,d] = iso.split('-');
-    return d + m + y;
-  };
-  const url = new URL('https://book.omnibees.com/hotelresults');
-  url.searchParams.set('CheckIn',  toDDMMYYYY(checkInISO));
-  url.searchParams.set('CheckOut', toDDMMYYYY(checkOutISO));
+// ==============================
+// HELPERS
+// ==============================
+function todayISO(){
+  const d = new Date();
+  const local = new Date(d.getTime() - d.getTimezoneOffset()*60000);
+  return local.toISOString().slice(0,10); // YYYY-MM-DD
+}
+function addDays(iso, days){
+  const d = new Date(iso);
+  d.setDate(d.getDate() + days);
+  const local = new Date(d.getTime() - d.getTimezoneOffset()*60000);
+  return local.toISOString().slice(0,10);
+}
+function toDDMMYYYY(iso){
+  if (!iso) return '';
+  const [y,m,d] = iso.split('-');
+  return d + m + y;
+}
+
+// Monta URL do Omnibees usando q=<hotel_id>
+function buildOmnibeesURL({checkinISO, checkoutISO, adultos=2, criancas=0}){
+  if (!checkinISO)  checkinISO  = todayISO();
+  if (!checkoutISO) checkoutISO = addDays(checkinISO, 1);
+
+  const url = new URL(OMNIBEES_BASE_URL);
+  url.searchParams.set('q',        OMNIBEES_HOTEL_ID); // <- parâmetro correto
+  url.searchParams.set('CheckIn',  toDDMMYYYY(checkinISO));
+  url.searchParams.set('CheckOut', toDDMMYYYY(checkoutISO));
   url.searchParams.set('NRooms',   '1');
-  url.searchParams.set('ad',       String(adults || 1));
-  url.searchParams.set('ch',       String(children || 0));
+  url.searchParams.set('ad',       String(adultos ?? 2));
+  url.searchParams.set('ch',       String(criancas ?? 0));
   url.searchParams.set('lang',     OMNIBEES_LANG);
-  url.searchParams.set('currency', OMNIBEES_CURRENCY);
-  url.searchParams.set('q',        OMNIBEES_HOTEL_ID);
+  url.searchParams.set('cur',      OMNIBEES_CURRENCY);
   return url.toString();
 }
 
+// ==============================
+// UI/INTEGRAÇÃO COM SEU MODAL
+// ==============================
+(function reservasUI(){
+  const btnAbrir     = document.querySelector('.abrir-reserva');
+  const modal        = document.getElementById('modalReserva');
+  const btnFechar    = modal?.querySelector('.fechar');
+  const form         = document.getElementById('formReserva');
+  const inCheckin    = document.getElementById('checkin');
+  const inCheckout   = document.getElementById('checkout');
+  const inAdultos    = document.getElementById('adultos');
+  const inCriancas   = document.getElementById('criancas');
+
+  const wrapResultado= document.getElementById('resultadoDisponivel');
+  const iframe       = document.getElementById('omnibeesFrame');
+  const linkExt      = document.getElementById('omnibeesLink');
+  const msg          = document.getElementById('mensagemReserva');
+
+  // Datas padrão e mínimos
+  if (inCheckin && inCheckout){
+    const t = todayISO();
+    inCheckin.value  = t;
+    inCheckout.value = addDays(t, 1);
+    inCheckin.min    = t;
+    inCheckout.min   = addDays(t, 1);
+  }
+
+  // Abrir/Fechar modal
+  btnAbrir?.addEventListener('click', () => modal.style.display = 'block');
+  btnFechar?.addEventListener('click', () => modal.style.display = 'none');
+  modal?.addEventListener('click', (e)=>{ if (e.target === modal) modal.style.display = 'none'; });
+
+  // Submit do formulário
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    msg.textContent = '';
+
+    let checkinISO  = inCheckin?.value || '';
+    let checkoutISO = inCheckout?.value || '';
+    const adultos   = parseInt(inAdultos?.value || '2', 10);
+    const criancas  = parseInt(inCriancas?.value || '0', 10);
+
+    if (!checkinISO)  checkinISO  = todayISO();
+    if (!checkoutISO) checkoutISO = addDays(checkinISO, 1);
+    if (new Date(checkoutISO) <= new Date(checkinISO)){
+      checkoutISO = addDays(checkinISO, 1);
+    }
+
+    const url = buildOmnibeesURL({checkinISO, checkoutISO, adultos, criancas});
+    console.log('URL Omnibees:', url);
+    linkExt.href = url;
+
+    // Mostra a área de resultado
+    wrapResultado.style.display = 'block';
+
+    // Tenta carregar no iframe (pode ser bloqueado pelo X-Frame-Options)
+    iframe.style.display = 'block';
+    iframe.removeAttribute('src');
+
+    // Fallback: se em ~2s não carregar, abrimos em nova aba
+    let fallbackTimer = setTimeout(() => {
+      try { window.open(url, '_blank', 'noopener,noreferrer'); } catch (_){}
+      iframe.style.display = 'none';
+      msg.textContent = 'Abrimos a disponibilidade em nova aba (o provedor não permite exibir dentro do site).';
+    }, 2000);
+
+    iframe.onload = () => {
+      clearTimeout(fallbackTimer);
+      msg.textContent = '';
+    };
+    iframe.onerror = () => {
+      clearTimeout(fallbackTimer);
+      try { window.open(url, '_blank', 'noopener,noreferrer'); } catch (_){}
+      iframe.style.display = 'none';
+      msg.textContent = 'Abrimos a disponibilidade em nova aba (o provedor não permite exibir dentro do site).';
+    };
+
+    iframe.src = url;
+  });
+})();
 // Google Maps iframe SRC
 const MAPS_EMBED_SRC =
   'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3823.6043569321937!2d-39.101378724852744!3d-16.596410984162116!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7369d0c3a51b683%3A0x24628b28ec2f9bdc!2sCorais%20de%20Trancoso%20Boutique!5e0!3m2!1spt-BR!2sbr!4v1759438391051!5m2!1spt-BR!2sbr';
