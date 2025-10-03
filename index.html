@@ -19,10 +19,8 @@
   <!-- Ícones e fontes -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
-
-  <!-- Seu CSS (preload não bloqueante) -->
-  <link rel="preload" href="style.css" as="style" onload="this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="style.css"></noscript>
+<link rel="preload" as="style" href="/style.css">
+<link rel="stylesheet" href="/style.css">
 
   <!-- Preload do HERO para melhorar LCP (prioridade real) -->
   <link rel="preload" as="image" fetchpriority="high"
