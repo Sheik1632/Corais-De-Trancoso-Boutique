@@ -3,18 +3,17 @@
 /* =========================================
    CONFIGURAÇÃO
 ========================================= */
-const OMNIBEES_HOTEL_ID = '22031'; // ex.: ''
+// CONFIG
+const OMNIBEES_HOTEL_ID = '22031'; // coloque o ID certo do seu hotel
 const OMNIBEES_BASE_URL = 'https://book.omnibees.com/hotelresults';
 const OMNIBEES_LANG     = 'pt-BR';
 const OMNIBEES_CURRENCY = 'BRL';
 
-// ==============================
-// HELPERS
-// ==============================
+// Helpers de datas
 function todayISO(){
   const d = new Date();
   const local = new Date(d.getTime() - d.getTimezoneOffset()*60000);
-  return local.toISOString().slice(0,10); // YYYY-MM-DD
+  return local.toISOString().slice(0,10);
 }
 function addDays(iso, days){
   const d = new Date(iso);
@@ -28,13 +27,13 @@ function toDDMMYYYY(iso){
   return d + m + y;
 }
 
-// Monta URL do Omnibees usando q=<hotel_id>
+// Monta URL (usa ?q=ID)
 function buildOmnibeesURL({checkinISO, checkoutISO, adultos=2, criancas=0}){
   if (!checkinISO)  checkinISO  = todayISO();
   if (!checkoutISO) checkoutISO = addDays(checkinISO, 1);
 
   const url = new URL(OMNIBEES_BASE_URL);
-  url.searchParams.set('q',        OMNIBEES_HOTEL_ID); // <- parâmetro correto
+  url.searchParams.set('q',        OMNIBEES_HOTEL_ID);
   url.searchParams.set('CheckIn',  toDDMMYYYY(checkinISO));
   url.searchParams.set('CheckOut', toDDMMYYYY(checkoutISO));
   url.searchParams.set('NRooms',   '1');
@@ -45,9 +44,7 @@ function buildOmnibeesURL({checkinISO, checkoutISO, adultos=2, criancas=0}){
   return url.toString();
 }
 
-// ==============================
-// UI/INTEGRAÇÃO COM SEU MODAL
-// ==============================
+// Integração com o modal
 (function reservasUI(){
   const btnAbrir     = document.querySelector('.abrir-reserva');
   const modal        = document.getElementById('modalReserva');
@@ -58,12 +55,7 @@ function buildOmnibeesURL({checkinISO, checkoutISO, adultos=2, criancas=0}){
   const inAdultos    = document.getElementById('adultos');
   const inCriancas   = document.getElementById('criancas');
 
-  const wrapResultado= document.getElementById('resultadoDisponivel');
-  const iframe       = document.getElementById('omnibeesFrame');
-  const linkExt      = document.getElementById('omnibeesLink');
-  const msg          = document.getElementById('mensagemReserva');
-
-  // Datas padrão e mínimos
+  // Datas padrão
   if (inCheckin && inCheckout){
     const t = todayISO();
     inCheckin.value  = t;
@@ -72,15 +64,14 @@ function buildOmnibeesURL({checkinISO, checkoutISO, adultos=2, criancas=0}){
     inCheckout.min   = addDays(t, 1);
   }
 
-  // Abrir/Fechar modal
+  // Abrir/fechar modal
   btnAbrir?.addEventListener('click', () => modal.style.display = 'block');
   btnFechar?.addEventListener('click', () => modal.style.display = 'none');
   modal?.addEventListener('click', (e)=>{ if (e.target === modal) modal.style.display = 'none'; });
 
-  // Submit do formulário
+  // Submit: abre direto em nova aba
   form?.addEventListener('submit', (e) => {
     e.preventDefault();
-    msg.textContent = '';
 
     let checkinISO  = inCheckin?.value || '';
     let checkoutISO = inCheckout?.value || '';
@@ -94,35 +85,8 @@ function buildOmnibeesURL({checkinISO, checkoutISO, adultos=2, criancas=0}){
     }
 
     const url = buildOmnibeesURL({checkinISO, checkoutISO, adultos, criancas});
-    console.log('URL Omnibees:', url);
-    linkExt.href = url;
-
-    // Mostra a área de resultado
-    wrapResultado.style.display = 'block';
-
-    // Tenta carregar no iframe (pode ser bloqueado pelo X-Frame-Options)
-    iframe.style.display = 'block';
-    iframe.removeAttribute('src');
-
-    // Fallback: se em ~2s não carregar, abrimos em nova aba
-    let fallbackTimer = setTimeout(() => {
-      try { window.open(url, '_blank', 'noopener,noreferrer'); } catch (_){}
-      iframe.style.display = 'none';
-      msg.textContent = 'Abrimos a disponibilidade em nova aba (o provedor não permite exibir dentro do site).';
-    }, 2000);
-
-    iframe.onload = () => {
-      clearTimeout(fallbackTimer);
-      msg.textContent = '';
-    };
-    iframe.onerror = () => {
-      clearTimeout(fallbackTimer);
-      try { window.open(url, '_blank', 'noopener,noreferrer'); } catch (_){}
-      iframe.style.display = 'none';
-      msg.textContent = 'Abrimos a disponibilidade em nova aba (o provedor não permite exibir dentro do site).';
-    };
-
-    iframe.src = url;
+    console.log('Abrindo Omnibees:', url);
+    window.open(url, '_blank', 'noopener,noreferrer');
   });
 })();
 // Google Maps iframe SRC
