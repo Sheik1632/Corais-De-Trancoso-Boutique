@@ -143,58 +143,79 @@
           alt="Jardim" loading="lazy" decoding="async">
       </picture>
     </div>
+<div class="welcome-text hero-card">
+  <h1>Bem-vindo à Corais de Trancoso Boutique</h1>
+  <p>Um refúgio exclusivo em Trancoso</p>
 
-    <div class="welcome-text hero-card">
-      <h1>Bem-vindo à Corais de Trancoso Boutique</h1>
-      <p>Um refúgio exclusivo em Trancoso</p>
-      <button class="abrir-reserva btn btn-primary">Reservar</button>
+  <button class="abrir-reserva btn btn-primary" aria-haspopup="dialog" aria-controls="modalReserva">
+    Reservar
+  </button>
 
-      <div class="modal" id="modalReserva" role="dialog" aria-modal="true" aria-labelledby="tituloReserva">
-        <div class="modal-content">
-          <span class="fechar" aria-label="Fechar">&times;</span>
-          <h2 id="tituloReserva">Reserve sua estadia</h2>
+  <div class="modal" id="modalReserva" role="dialog" aria-modal="true" aria-labelledby="tituloReserva" aria-hidden="true">
+    <div class="modal-content">
+      <button class="fechar" aria-label="Fechar">&times;</button>
+      <h2 id="tituloReserva">Reserve sua estadia</h2>
 
-          <form id="formReserva" novalidate>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="checkin">Check-in</label>
-                <input type="date" id="checkin" required />
-              </div>
-              <div class="form-group">
-                <label for="checkout">Check-out</label>
-                <input type="date" id="checkout" required />
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label for="adultos">Adultos</label>
-                <input type="number" id="adultos" value="2" min="1" required />
-              </div>
-              <div class="form-group">
-                <label for="criancas">Crianças</label>
-                <input type="number" id="criancas" value="0" min="0" />
-              </div>
-            </div>
-
-            <button type="submit" class="btn-reservar btn btn-primary">Buscar Disponibilidade</button>
-          </form>
-
-          <div id="quartosPreview" aria-live="polite"></div>
-
-          <div id="resultadoDisponivel" style="width:100%;display:none;">
-            <iframe id="omnibeesFrame" title="Disponibilidade Omnibees"
-                    style="width:100%;height:70vh;border:0;border-radius:10px;overflow:auto;"></iframe>
-            <p style="margin-top:10px;text-align:center;">
-              <a id="omnibeesLink" href="#" target="_blank" rel="noopener" style="color:#0A2342;font-weight:700;">
-                Abrir disponibilidade em nova aba
-              </a>
-            </p>
+      <form id="formReserva" class="booking" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="checkin">Check-in</label>
+            <input
+              type="date" id="checkin" name="checkin" required
+              inputmode="none" autocomplete="off"
+              aria-describedby="hint-checkin">
+            <small id="hint-checkin" class="hint">Selecione a data de entrada</small>
           </div>
 
-          <div id="mensagemReserva" aria-live="polite"></div>
+          <div class="form-group">
+            <label for="checkout">Check-out</label>
+            <input
+              type="date" id="checkout" name="checkout" required
+              inputmode="none" autocomplete="off"
+              aria-describedby="hint-checkout">
+            <small id="hint-checkout" class="hint">Selecione a data de saída</small>
+          </div>
         </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="adultos">Adultos</label>
+            <input
+              type="number" id="adultos" name="adultos" value="2" min="1" max="6" step="1"
+              inputmode="numeric" pattern="[0-9]*" aria-label="Quantidade de adultos" required>
+          </div>
+
+          <div class="form-group">
+            <label for="criancas">Crianças</label>
+            <input
+              type="number" id="criancas" name="criancas" value="0" min="0" max="6" step="1"
+              inputmode="numeric" pattern="[0-9]*" aria-label="Quantidade de crianças">
+          </div>
+        </div>
+
+        <!-- Botão fica sempre visível no rodapé do modal no mobile -->
+        <button type="submit" class="btn-reservar btn btn-primary cta-mobile">
+          Buscar Disponibilidade
+        </button>
+      </form>
+
+      <div id="quartosPreview" aria-live="polite"></div>
+
+      <div id="resultadoDisponivel" style="width:100%;display:none;">
+        <iframe id="omnibeesFrame" title="Disponibilidade Omnibees"
+                style="width:100%;height:70vh;border:0;border-radius:10px;overflow:auto;"></iframe>
+        <p style="margin-top:10px;text-align:center;">
+          <a id="omnibeesLink" href="#" target="_blank" rel="noopener" style="color:#0A2342;font-weight:700;">
+            Abrir disponibilidade em nova aba
+          </a>
+        </p>
       </div>
+
+      <div id="mensagemReserva" aria-live="polite"></div>
+    </div>
+  </div>
+</div>
+
     </div><!-- /.welcome-text -->
   </div><!-- /.carousel-container -->
 </header>

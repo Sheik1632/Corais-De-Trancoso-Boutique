@@ -520,3 +520,45 @@ html.js .carousel-background picture > img{
 .welcome-text p{
   text-shadow: 0 2px 14px rgba(0,0,0,.45);
 }
+/* dá espaço interno extra para o CTA fixo no mobile */
+@media (max-width: 900px){
+  .modal-content{
+    padding-bottom: 100px !important; /* espaço para o botão fixo */
+  }
+}
+/* CTA fixo sobre o modal (mobile) */
+.cta-mobile{
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: max(12px, env(safe-area-inset-bottom));
+  z-index: 10001;              /* acima do conteúdo do modal */
+  height: 56px;
+  border-radius: 14px;
+}
+@media (min-width: 768px){
+  .cta-mobile{ position: static; width: 100%; height: 56px; }
+}
+/* evita rolar a página por trás do modal */
+body.modal-open{
+  overflow: hidden;
+  overscroll-behavior: none;      /* Chrome/Android */
+  touch-action: none;             /* ajuda no iOS */
+}
+/* remove setas dos number no mobile/desktop */
+.modal-content input[type="number"]{
+  -moz-appearance: textfield;
+}
+.modal-content input[type="number"]::-webkit-outer-spin-button,
+.modal-content input[type="number"]::-webkit-inner-spin-button{
+  -webkit-appearance: none; margin: 0;
+}
+
+/* altura confortável de toque (se algum input ficar menor) */
+.modal-content input,
+.modal-content select{
+  min-height: 52px;
+}
+@media (max-width: 900px){
+  #omnibeesFrame{ height: 72vh; }
+}
