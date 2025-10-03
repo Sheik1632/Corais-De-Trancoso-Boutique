@@ -562,3 +562,201 @@ body.modal-open{
 @media (max-width: 900px){
   #omnibeesFrame{ height: 72vh; }
 }
+/* força o modal a ficar acima do header no mobile e desktop */
+.modal{
+  position: fixed;
+  z-index: 100000; /* maior que o header (9999) */
+}
+
+/* se quiser, pode até baixar um pouco o header */
+.topo-menu{ z-index: 100; }
+@media (max-width: 900px){
+  .modal-content{
+    margin-top: 10vh;            /* já tem nos seus @media, reforçamos */
+    padding-top: 16px;           /* um respiro extra */
+    padding-bottom: 100px !important; /* para o CTA fixo caber */
+  }
+  .cta-mobile{
+    position: fixed;
+    left: 16px; right: 16px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    z-index: 100001; /* acima do conteúdo do modal */
+  }
+}
+/* safe areas do iPhone */
+.modal{
+  padding: max(12px, env(safe-area-inset-top)) 12px
+           calc(12px + env(safe-area-inset-bottom)) 12px;
+}
+/* ===== PRIORIDADE: modal sempre acima do header ===== */
+.topo-menu{ z-index: 100; }                 /* header abaixo do modal */
+.modal{
+  position: fixed;
+  inset: 0;
+  z-index: 100000;                          /* bem acima do header */
+  padding: max(12px, env(safe-area-inset-top)) 12px
+           calc(12px + env(safe-area-inset-bottom)) 12px;
+  display: none;
+  background: rgba(0,0,0,.55);
+}
+
+/* quando abrir via .show ou .is-open (compatível com seu JS) */
+.modal.show, .modal.is-open{ display: flex; }
+
+/* ===== Conteúdo do modal: usa altura de tela real (sem cortar) ===== */
+:root{ --vh: 1vh; }                         /* será ajustado via JS abaixo */
+.modal-content{
+  width: min(92vw, 560px);
+  max-height: calc((var(--vh, 1vh) * 100) - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  overflow: auto;                            /* rola dentro do modal */
+  overscroll-behavior: contain;              /* impede “puxar” o fundo */
+  margin: auto;
+  border-radius: 14px;
+  padding: 16px 16px 100px;                  /* espaço para o CTA fixo */
+}
+
+/* ===== Botão principal fixo no rodapé do modal ===== */
+.cta-mobile{
+  position: fixed;
+  left: 16px; right: 16px;
+  bottom: max(12px, env(safe-area-inset-bottom));
+  z-index: 100001;
+  height: 56px;
+  border-radius: 14px;
+}
+@media (min-width: 768px){
+  .cta-mobile{ position: static; width: 100%; }
+  .modal-content{ padding-bottom: 24px; }
+}
+
+/* ===== Trava o scroll do fundo quando modal aberto ===== */
+body.modal-open{
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none; /* ajuda no iOS */
+}
+
+/* ===== Inputs mobile-friendly (evita zoom e recorte) ===== */
+.modal-content label{ font-weight: 700; color: #0A2342; }
+.modal-content input,
+.modal-content select{
+  min-height: 52px;
+  font-size: 16px; /* evita zoom no iOS */
+  line-height: 1.2;
+  padding: 12px 14px;
+}
+.modal-content input[type="number"]{ -moz-appearance: textfield; }
+.modal-content input[type="number"]::-webkit-outer-spin-button,
+.modal-content input[type="number"]::-webkit-inner-spin-button{ -webkit-appearance: none; margin:0; }
+
+/* linhas do form: 1 coluna no mobile, 2 no desktop */
+.form-row{ display: grid; gap: 12px; }
+@media (min-width: 768px){ .form-row{ grid-template-columns: repeat(2,1fr); } }
+
+/* ===== Iframe mais alto no mobile ===== */
+@media (max-width: 900px){ #omnibeesFrame{ height: 72vh; } }
+/* botão fixo sempre clicável acima do conteúdo */
+.cta-mobile{ z-index: 100001; pointer-events: auto; }
+/* overlay do modal não deve cobrir o botão */
+.modal{ pointer-events: auto; }
+/* ===== Modal: alinhamento, espaçamento e ícone do calendário ===== */
+.modal-content{ text-align: left; }
+
+.modal-content h2{
+  text-align: center;
+  margin: 6px 0 18px;           /* mais respiro abaixo do título */
+}
+
+.modal-content .form-row{
+  display: grid;
+  gap: 12px;                    /* espaço entre as colunas/linhas */
+  margin-bottom: 12px;          /* respiro entre os "blocos" do form */
+}
+
+.modal-content .form-group{ text-align: left; }
+
+.modal-content label{
+  display: block;
+  margin: 0 0 6px;              /* rótulo mais perto do campo, e alinhado à esquerda */
+  font-weight: 700;
+}
+
+/* inputs confortáveis e com espaço para o ícone */
+.modal-content input{
+  min-height: 52px;
+  font-size: 16px;
+  padding: 12px 14px;
+}
+
+.modal-content input[type="date"]{
+  padding-right: 44px;          /* abre espaço para o ícone do calendário */
+}
+
+/* WebKit (Chrome/Safari): melhora a legibilidade do ícone */
+.modal-content input[type="date"]::-webkit-calendar-picker-indicator{
+  opacity: .75;
+  cursor: pointer;
+}
+
+/* (opcional) deixa os placeholders um pouco mais claros */
+.modal-content input::placeholder{ color: #8e9aa7; }
+/* ==== Modal menor / compacto (apenas #modalReserva) ==== */
+#modalReserva .modal-content{
+  width: min(90vw, 420px);      /* antes ~560px */
+  max-width: 420px;
+  border-radius: 12px;
+  padding: 16px 16px 72px;      /* menos respiro + espaço p/ CTA */
+  gap: 12px;                    /* menos espaçamento entre blocos */
+}
+
+/* título e textos menores */
+#modalReserva h2{
+  font-size: 1.25rem;           /* antes 1.5rem */
+  margin: 4px 0 8px;
+}
+#modalReserva label{
+  font-size: .9rem;
+  font-weight: 700;
+}
+
+/* inputs mais baixinhos */
+#modalReserva input,
+#modalReserva select{
+  min-height: 46px;             /* antes 52px */
+  font-size: 16px;              /* mantém 16 para evitar zoom no iOS */
+  padding: 10px 12px;
+}
+
+/* linhas e grupos com menos espaço */
+#modalReserva .form-row{ gap: 10px; }
+#modalReserva .form-group{ gap: 4px; }
+
+/* botão principal mais baixo */
+#modalReserva .cta-mobile{
+  height: 48px;                 /* antes 56px */
+  border-radius: 12px;
+}
+
+/* desktop/tablet: ainda menor e sem CTA fixo */
+@media (min-width: 768px){
+  #modalReserva .modal-content{
+    width: min(78vw, 440px);
+    max-width: 440px;
+    padding: 18px;              /* sem rodapé extra */
+  }
+  #modalReserva .cta-mobile{
+    position: static;
+    width: 100%;
+    height: 46px;
+  }
+}
+
+/* telas muito pequenas: usa quase toda a largura, mas continua compacto */
+@media (max-width: 360px){
+  #modalReserva .modal-content{
+    width: 94vw;
+    max-width: none;
+    padding: 14px 14px 68px;
+  }
+  #modalReserva h2{ font-size: 1.15rem; }
+}
