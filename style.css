@@ -319,6 +319,47 @@ header { position: relative; overflow: hidden; min-height: var(--hero-min-deskto
 
 @keyframes fade { from{opacity:0;} to{opacity:1;} }
 @keyframes fadeIn { from{ opacity:0; transform: translateY(10px);} to{ opacity:1; transform: translateY(0);} }
+/* Modal: vira área rolável e com respiro nas bordas da tela */
+.modal{ padding: clamp(8px, 2vh, 20px); }
+.modal-content{
+  max-height: min(92svh, 640px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Botões laterais de rolagem (up/down) */
+.modal-scroll-rail{
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 3;
+}
+.modal-scroll-btn{
+  width: 40px; height: 40px;
+  border-radius: 9999px; border: 0;
+  background: #0A2342; color: #fff;
+  font-size: 18px; line-height: 1;
+  display: grid; place-items: center;
+  box-shadow: 0 4px 14px rgba(0,0,0,.25);
+  cursor: pointer;
+  transition: transform .12s ease, opacity .12s ease;
+}
+.modal-scroll-btn:active{ transform: scale(.96); }
+.modal-scroll-btn[disabled]{ opacity:.4; cursor:not-allowed; }
+
+/* Botão “Reservar” sempre visível dentro do modal */
+.modal-content .btn-reservar{
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  box-shadow: 0 -10px 20px rgba(0,0,0,.06);
+  margin-top: 10px;
+}
 
 /* =========================
    MAPA
@@ -519,4 +560,92 @@ html.js .carousel-background picture > img{
 .welcome-text h1,
 .welcome-text p{
   text-shadow: 0 2px 14px rgba(0,0,0,.45);
+}
+/* ====== POLISH MOBILE EXTRA ====== */
+
+/* 1) Menu mobile ocupa a tela toda sem cortar (leva notch em conta) */
+@media (max-width: 900px){
+  .menu-links.aberto{
+    max-height: calc(100svh - (60px + env(safe-area-inset-top, 0px)));
+    overflow:auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* 2) Variável de viewport real p/ modais (fallback -> svh; prefere dvh se disponível) */
+:root{ --vh: 100svh; }
+@supports (height: 100dvh){
+  :root{ --vh: 100dvh; }
+}
+
+/* 3) Modal: rolagem interna + safe areas + bloqueio do fundo */
+.modal{
+  padding: max(12px, env(safe-area-inset-top)) 12px
+           max(12px, env(safe-area-inset-bottom)) 12px 12px;
+}
+.modal-content{
+  width: min(94vw, 520px);
+  max-height: calc(var(--vh) - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+body.modal-open{
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+/* 4) CTA do modal sempre acessível sem ficar “flutuando” sobre tudo */
+.modal .cta-mobile{
+  position: sticky; /* gruda no fim do scroll do modal */
+  bottom: 0;
+  left: 0; right: 0;
+  margin-top: 12px;
+  height: 56px;
+  border-radius: 14px;
+}
+
+/* 5) Reduz animações para quem prefere menos movimento */
+@media (prefers-reduced-motion: reduce){
+  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+/* Modal: permite rolagem interna e dá espaço no topo */
+.modal{
+  align-items: flex-start;              /* alinha no topo */
+  padding: min(5svh, 40px) 12px;        /* respiro no topo/laterais */
+}
+
+/* O conteúdo vira o "scroll container" */
+.modal-content{
+  max-height: min(90svh, 680px);        /* limita altura no viewport */
+  overflow-y: auto;                     /* <— fundamental para rolar */
+  -webkit-overflow-scrolling: touch;    /* rolagem suave no iOS */
+  position: relative;                   /* âncora pro rail */
+}
+
+/* Trilho e botões laterais (▲ ▼) */
+.modal-scroll-rail{
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  display: grid;
+  gap: 8px;
+  z-index: 5;
+  pointer-events: none;                 /* deixa cliques passarem... */
+}
+.modal-scroll-btn{
+  pointer-events: auto;                 /* ...exceto nos botões */
+  width: 40px; height: 40px;
+  display: grid; place-items: center;
+  border: 0; border-radius: 9999px;
+  background: rgba(10,35,66,.9);
+  color: #fff; font-weight: 800;
+  box-shadow: 0 6px 16px rgba(0,0,0,.25);
+  cursor: pointer;
+  transition: transform .15s ease, opacity .15s ease;
+}
+.modal-scroll-btn:hover{ transform: translateY(-1px); }
+.modal-scroll-btn:disabled{ opacity: .35; cursor: default; }
+@media (max-width: 600px){
+  .modal-scroll-btn{ width: 36px; height: 36px; }
 }
