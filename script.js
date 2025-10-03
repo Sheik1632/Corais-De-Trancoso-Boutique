@@ -375,146 +375,97 @@ document.addEventListener('DOMContentLoaded', function(){
   })();
 
 
-/* =========================
-   6) MODAL DE RESERVA + OMNIBEES (MOBILE UX)
-========================= */
-(function(){
-  const modal     = $('#modalReserva');
-  const openBtn   = $('.abrir-reserva');
-  const closeBtn  = modal ? $('.fechar', modal) : null;
-  const content   = modal ? $('.modal-content', modal) : null;
-  const form      = $('#formReserva');
-  const ci        = $('#checkin');
-  const co        = $('#checkout');
-  const adultsEl  = $('#adultos');
-  const kidsEl    = $('#criancas');
+  /* =========================
+     6) MODAL DE RESERVA + OMNIBEES
+     (compatível com .show e .is-open no CSS)
+  ========================= */
+  (function(){
+    const modal     = $('#modalReserva');
+    const openBtn   = $('.abrir-reserva');
+    const closeBtn  = modal ? $('.fechar', modal) : null;
+    const content   = modal ? $('.modal-content', modal) : null;
+    const form      = $('#formReserva');
+    const ci        = $('#checkin');
+    const co        = $('#checkout');
+    const iframe    = $('#omnibeesFrame');       // opcional
+    const aLink     = $('#omnibeesLink');        // opcional
+    const resultBox = $('#resultadoDisponivel'); // opcional
 
-  const iframe    = $('#omnibeesFrame');       // opcional
-  const aLink     = $('#omnibeesLink');        // opcional
-  const resultBox = $('#resultadoDisponivel'); // opcional
+    if (!modal || !openBtn) return;
 
-  if (!modal || !openBtn) return;
+    // Datas mínimas
+    const pad = (n)=> String(n).padStart(2,'0');
+    const today = new Date();
+    const yyyy = today.getFullYear(), mm = pad(today.getMonth()+1), dd = pad(today.getDate());
+    if (ci) ci.min = `${yyyy}-${mm}-${dd}`;
+    if (ci && co){
+      on(ci, 'change', ()=>{
+        const d = ci.value ? new Date(ci.value) : new Date();
+        d.setDate(d.getDate()+1);
+        const min = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+        co.min = min;
+        if(!co.value || co.value <= ci.value) co.value = min;
+      });
+    }
 
-  // ===== Datas mínimas =====
-  const pad = (n)=> String(n).padStart(2,'0');
-  const today = new Date();
-  const yyyy = today.getFullYear(), mm = pad(today.getMonth()+1), dd = pad(today.getDate());
-  if (ci) ci.min = `${yyyy}-${mm}-${dd}`;
-  if (ci && co){
-    on(ci, 'change', ()=>{
-      const d = ci.value ? new Date(ci.value) : new Date();
-      d.setDate(d.getDate()+1);
-      const min = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
-      co.min = min;
-      if(!co.value || co.value <= ci.value) co.value = min;
+    // Focus trap + travar scroll
+    function trapHandler(e){
+      const isOpen = modal.classList.contains('is-open') || modal.classList.contains('show');
+      if (e.key !== 'Tab' || !isOpen) return;
+      const focusables = $$('a,button,input,select,textarea,[tabindex]:not([tabindex="-1"])', content)
+        .filter(el=> !el.disabled && el.offsetParent !== null);
+      if (!focusables.length) return;
+      const first = focusables[0];
+      const last  = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first)  { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+    function openModal(){
+      modal.classList.add('is-open','show');
+      modal.style.display = 'flex';
+      document.body.classList.add('modal-open');
+      const firstInput = $('input, select, textarea, button', content);
+      if (firstInput) setTimeout(()=>{ firstInput.focus(); }, 60);
+      document.addEventListener('keydown', trapHandler);
+    }
+    function closeModal(){
+      modal.classList.remove('is-open','show');
+      document.body.classList.remove('modal-open');
+      setTimeout(()=>{ if (!modal.classList.contains('is-open') && !modal.classList.contains('show')) modal.style.display = 'none'; }, 250);
+      document.removeEventListener('keydown', trapHandler);
+      openBtn.focus();
+    }
+
+    on(openBtn,  'click', openModal);
+    on(closeBtn, 'click', closeModal);
+    on(modal, 'click', (e)=>{ if (e.target === modal) closeModal(); }, { passive: true });
+    on(window, 'keydown', (e)=>{ if (e.key === 'Escape' && (modal.classList.contains('is-open') || modal.classList.contains('show'))) closeModal(); });
+
+    // Submeter → URL do Omnibees
+    on(form, 'submit', (e)=>{
+      e.preventDefault();
+
+      const adults   = parseInt(($('#adultos')  && $('#adultos').value)  || '2', 10);
+      const children = parseInt(($('#criancas') && $('#criancas').value) || '0', 10);
+      const checkIn  = ci && ci.value ? ci.value : '';
+      const checkOut = co && co.value ? co.value : '';
+
+      if (!checkIn || !checkOut){
+        alert('Selecione as datas de check-in e check-out.');
+        return;
+      }
+
+      const url = buildOmnibeesURL(checkIn, checkOut, adults, children);
+
+      if (iframe && aLink && resultBox){
+        iframe.src = url;
+        aLink.href = url;
+        resultBox.style.display = 'block';
+      } else {
+        window.open(url, '_blank', 'noopener');
+        closeModal();
+      }
     });
-  }
-
-  // ===== Clamp de quantidades (NEW) =====
-  function clamp(el){
-    if (!el) return;
-    const min = el.min ? parseInt(el.min,10) : -Infinity;
-    const max = el.max ? parseInt(el.max,10) : Infinity;
-    let v = parseInt(el.value || (min>0?min:0), 10);
-    if (Number.isNaN(v)) v = min>0 ? min : 0;
-    el.value = Math.min(Math.max(v, min), max);
-  }
-  [adultsEl, kidsEl].forEach(el=>{
-    el && on(el, 'change', ()=>clamp(el));
-    el && on(el, 'blur',   ()=>clamp(el));
-  });
-
-  // ===== Abrir/fechar modal =====
-  let touchBlocker = null; // (NEW) para iOS impedir overscroll do fundo
-
-  function trapHandler(e){
-    if (e.key !== 'Tab') return;
-    const focusables = $$(
-      'a,button,input,select,textarea,[tabindex]:not([tabindex="-1"])',
-      content
-    ).filter(el => !el.disabled && el.offsetParent !== null);
-    if (!focusables.length) return;
-    const first = focusables[0];
-    const last  = focusables[focusables.length - 1];
-    if (e.shiftKey && document.activeElement === first)      { e.preventDefault(); last.focus(); }
-    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-  }
-
-  function lockPageScroll(lock){
-    document.body.classList.toggle('modal-open', !!lock);
-    document.documentElement.style.overscrollBehavior = lock ? 'none' : '';
-    // (NEW) Bloqueia touchmove fora do conteúdo no iOS
-    if (lock && !touchBlocker){
-      touchBlocker = (e)=>{
-        if (!content.contains(e.target)) e.preventDefault();
-      };
-      document.addEventListener('touchmove', touchBlocker, { passive:false });
-    } else if (!lock && touchBlocker){
-      document.removeEventListener('touchmove', touchBlocker);
-      touchBlocker = null;
-    }
-  }
-
-  function openModal(){
-    modal.classList.add('is-open','show');
-    modal.style.display = 'flex';
-    lockPageScroll(true);
-    // foca no check-in (NEW: pequeno atraso p/ iOS subir teclado)
-    setTimeout(()=> ci?.focus(), 60);
-    document.addEventListener('keydown', trapHandler);
-  }
-
-  function closeModal(){
-    modal.classList.remove('is-open','show');
-    setTimeout(()=>{ if (!modal.classList.contains('is-open') && !modal.classList.contains('show')) modal.style.display = 'none'; }, 200);
-    document.removeEventListener('keydown', trapHandler);
-    lockPageScroll(false);
-    openBtn.focus();
-  }
-
-  on(openBtn,  'click', openModal);
-  on(closeBtn, 'click', closeModal);
-  on(modal, 'click', (e)=>{ if (e.target === modal) closeModal(); }, { passive: true });
-  on(window, 'keydown', (e)=>{ if (e.key === 'Escape' && (modal.classList.contains('is-open') || modal.classList.contains('show'))) closeModal(); });
-
-  // ===== UX mobile: rolar campo focado para o centro (NEW) =====
-  const focusScroll = debounce((el)=>{
-    try { el.scrollIntoView({ behavior:'smooth', block:'center' }); } catch(_) {}
-  }, 80);
-  on(form, 'focusin', (e)=>{
-    const el = e.target;
-    if (/input|select|textarea/i.test(el.tagName)) focusScroll(el);
-  });
-
-  // ===== Submit → URL do Omnibees =====
-  on(form, 'submit', (e)=>{
-    e.preventDefault();
-
-    clamp(adultsEl); clamp(kidsEl);
-
-    const adults   = parseInt((adultsEl && adultsEl.value) || '2', 10);
-    const children = parseInt((kidsEl    && kidsEl.value)  || '0', 10);
-    const checkIn  = ci && ci.value ? ci.value : '';
-    const checkOut = co && co.value ? co.value : '';
-
-    if (!checkIn || !checkOut){
-      alert('Selecione as datas de check-in e check-out.');
-      return;
-    }
-
-    const url = buildOmnibeesURL(checkIn, checkOut, adults, children);
-
-    if (iframe && aLink && resultBox){
-      iframe.src = url;
-      aLink.href = url;
-      resultBox.style.display = 'block';
-      // Mantém modal aberto mostrando o iframe (sua lógica atual)
-    } else {
-      window.open(url, '_blank', 'noopener');
-      closeModal();
-    }
-  });
-})();
-
+  })();
 
 }); // DOMContentLoaded
