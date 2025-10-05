@@ -1,6 +1,20 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" dir="ltr">
 <head>
+  <!-- Charset & Compatibility -->
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- Viewport: mobile & iOS safe-area -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+  <meta name="format-detection" content="telephone=no, address=no, email=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#0b7c8b" />
+  <meta name="color-scheme" content="light" />
+
+  <title>Corais de Trancoso Boutique</title>
+
   <!-- Favicons -->
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
@@ -8,34 +22,71 @@
   <link rel="icon" href="images/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
 
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Corais de Trancoso Boutique</title>
-
   <!-- Performance: preconnect para fontes -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <!-- Ícones e fontes -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
-<link rel="preload" as="style" href="/style.css">
-<link rel="stylesheet" href="/style.css">
+
+  <!-- CSS -->
+  <link rel="preload" as="style" href="/style.css">
+  <link rel="stylesheet" href="/style.css">
 
   <!-- Preload do HERO para melhorar LCP (prioridade real) -->
-  <link rel="preload" as="image" fetchpriority="high"
-        href="images/AREA EXTERNA/4E1A0818.jpg?nf_resize=fit&w=1600"
-        imagesrcset="
-          images/AREA EXTERNA/4E1A0818.jpg?nf_resize=fit&w=800 800w,
-          images/AREA EXTERNA/4E1A0818.jpg?nf_resize=fit&w=1200 1200w,
-          images/AREA EXTERNA/4E1A0818.jpg?nf_resize=fit&w=1600 1600w"
-        imagesizes="100vw">
+  <link
+    rel="preload"
+    as="image"
+    fetchpriority="high"
+    href="images/AREA EXTERNA/4E1A0818.jpg?nf_resize=fit&w=1600"
+    imagesrcset="images/AREA EXTERNA/4E1A0818.jpg?nf_resize=fit&w=800 800w, images/AREA EXTERNA/4E1A0818.jpg?nf_resize=fit&w=1200 1200w, images/AREA EXTERNA/4E1A0818.jpg?nf_resize=fit&w=1600 1600w"
+    imagesizes="100vw"
+  />
+
+  <!-- Fixes universais e acessibilidade mínima (não altera layout visual) -->
+  <style>
+    :root {
+      --safe-top: env(safe-area-inset-top);
+      --safe-right: env(safe-area-inset-right);
+      --safe-bottom: env(safe-area-inset-bottom);
+      --safe-left: env(safe-area-inset-left);
+    }
+    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    body { margin: 0; padding: 0; font-family: 'Quicksand', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    /* Evita quebra/estouro de imagens e vídeos em telas pequenas */
+    img, picture, video { max-width: 100%; height: auto; display: block; }
+    /* Botões tocáveis (iOS/Android) */
+    button, .btn, .btn-reserva, .btn-primary, .btn-outline {
+      min-height: 44px; min-width: 44px; touch-action: manipulation;
+    }
+    /* Prefere reduzir animações quando usuário solicita */
+    @media (prefers-reduced-motion: reduce) {
+      * { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+    }
+    /* Safe area para iPhones com notch ao abrir em app/fullscreen */
+    body { padding-bottom: max(0px, var(--safe-bottom)); }
+    /* Melhor foco visível para navegação por teclado */
+    :focus-visible { outline: 3px solid rgba(11,124,139,.6); outline-offset: 2px; }
+    /* Evita CLS do cabeçalho/carrossel sem depender do CSS externo */
+    .hero { position: relative; min-height: min(90vh, 820px); }
+    .carousel-container, .carousel-background { position: relative; width: 100%; height: 100%; }
+    .carousel-background picture, .carousel-background img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    /* Menu responsivo básico de contingência (caso o CSS externo falhe) */
+    .hamburger { display: none; }
+    @media (max-width: 1024px) {
+      .hamburger { display: inline-flex; align-items: center; justify-content: center; font-size: 1.25rem; background: transparent; border: 0; }
+      .menu-links { display: none; }
+      .menu-links[data-open="true"] { display: grid; gap: .5rem; }
+    }
+  </style>
+
+  <noscript><style>.dropdown-menu{display:block}.modal{display:block}</style></noscript>
 </head>
 
 <body>
-
-<header class="hero">
-  <nav class="topo-menu">
+<header class="hero" role="banner">
+  <nav class="topo-menu" role="navigation" aria-label="Principal">
     <div class="menu-container">
       <!-- LOGO -->
       <div class="menu-logo">
@@ -59,8 +110,8 @@
 
         <!-- MENU DROPDOWN GALERIA -->
         <li class="dropdown">
-          <a href="#" id="gallery-menu">Galeria ▼</a>
-          <ul class="dropdown-menu">
+          <a href="#" id="gallery-menu" aria-haspopup="true" aria-expanded="false">Galeria ▼</a>
+          <ul class="dropdown-menu" aria-label="Galeria">
             <li><a href="Area interna.html">Área Interna</a></li>
             <li><a href="Cafe.html">Café da Manhã</a></li>
             <li><a href="Piscina.html">Piscina</a></li>
@@ -70,122 +121,80 @@
     </div>
   </nav>
 
-  <div class="carousel-container">
+  <div class="carousel-container" aria-roledescription="carousel">
     <div class="carousel-background">
       <!-- SLIDE 1 – prioridade alta -->
       <picture>
-        <source type="image/avif"
-          srcset="
-            images/AREA EXTERNA/4E1A0818.avif?w=800 800w,
-            images/AREA EXTERNA/4E1A0818.avif?w=1200 1200w,
-            images/AREA EXTERNA/4E1A0818.avif?w=1600 1600w">
-        <source type="image/webp"
-          srcset="
-            images/AREA EXTERNA/4E1A0818.webp?w=800 800w,
-            images/AREA EXTERNA/4E1A0818.webp?w=1200 1200w,
-            images/AREA EXTERNA/4E1A0818.webp?w=1600 1600w">
+        <source type="image/avif" srcset="images/AREA EXTERNA/4E1A0818.avif?w=800 800w, images/AREA EXTERNA/4E1A0818.avif?w=1200 1200w, images/AREA EXTERNA/4E1A0818.avif?w=1600 1600w">
+        <source type="image/webp" srcset="images/AREA EXTERNA/4E1A0818.webp?w=800 800w, images/AREA EXTERNA/4E1A0818.webp?w=1200 1200w, images/AREA EXTERNA/4E1A0818.webp?w=1600 1600w">
         <img class="active hero-slide"
              src="images/AREA EXTERNA/4E1A0818.jpg?nf_resize=fit&w=1600"
-             srcset="
-               images/AREA EXTERNA/4E1A0818.jpg?nf_resize=fit&w=800 800w,
-               images/AREA EXTERNA/4E1A0818.jpg?nf_resize=fit&w=1200 1200w,
-               images/AREA EXTERNA/4E1A0818.jpg?nf_resize=fit&w=1600 1600w"
+             srcset="images/AREA EXTERNA/4E1A0818.jpg?nf_resize=fit&w=800 800w, images/AREA EXTERNA/4E1A0818.jpg?nf_resize=fit&w=1200 1200w, images/AREA EXTERNA/4E1A0818.jpg?nf_resize=fit&w=1600 1600w"
              sizes="100vw" width="1600" height="900"
              alt="Entrada da pousada" fetchpriority="high" decoding="async">
       </picture>
 
       <!-- SLIDE 2 – lazy -->
       <picture>
-        <!-- AVIF gerado do JPG original -->
-        <source type="image/avif"
-          srcset="
-            images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=800&fm=avif&q=70 800w,
-            images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=1200&fm=avif&q=70 1200w,
-            images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=1600&fm=avif&q=70 1600w">
-        <!-- WebP gerado do JPG original -->
-        <source type="image/webp"
-          srcset="
-            images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=800&fm=webp&q=75 800w,
-            images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=1200&fm=webp&q=75 1200w,
-            images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=1600&fm=webp&q=75 1600w">
-        <!-- Fallback JPG -->
-        <img
-          src="images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=1600&q=75"
-          srcset="
-            images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=800&q=75 800w,
-            images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=1200&q=75 1200w,
-            images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=1600&q=75 1600w"
-          sizes="100vw"
-          width="1600" height="900"
-          alt="Café da manhã servido na pousada"
-          loading="lazy" decoding="async">
+        <source type="image/avif" srcset="images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=800&fm=avif&q=70 800w, images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=1200&fm=avif&q=70 1200w, images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=1600&fm=avif&q=70 1600w">
+        <source type="image/webp" srcset="images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=800&fm=webp&q=75 800w, images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=1200&fm=webp&q=75 1200w, images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=1600&fm=webp&q=75 1600w">
+        <img src="images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=1600&q=75"
+             srcset="images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=800&q=75 800w, images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=1200&q=75 1200w, images/CAF%C3%89%20DA%20MANH%C3%83/IMG_1273.JPG?nf_resize=fit&w=1600&q=75 1600w"
+             sizes="100vw" width="1600" height="900" alt="Café da manhã servido na pousada" loading="lazy" decoding="async">
       </picture>
 
       <!-- SLIDE 3 – lazy -->
       <picture>
-        <source type="image/avif"
-          srcset="
-            images/AREA EXTERNA/4E1A0320.avif?w=800 800w,
-            images/AREA EXTERNA/4E1A0320.avif?w=1200 1200w,
-            images/AREA EXTERNA/4E1A0320.avif?w=1600 1600w">
-        <source type="image/webp"
-          srcset="
-            images/AREA EXTERNA/4E1A0320.webp?w=800 800w,
-            images/AREA EXTERNA/4E1A0320.webp?w=1200 1200w,
-            images/AREA EXTERNA/4E1A0320.webp?w=1600 1600w">
-        <img
-          src="images/AREA EXTERNA/4E1A0320.jpg?nf_resize=fit&w=1600"
-          srcset="
-            images/AREA EXTERNA/4E1A0320.jpg?nf_resize=fit&w=800 800w,
-            images/AREA EXTERNA/4E1A0320.jpg?nf_resize=fit&w=1200 1200w,
-            images/AREA EXTERNA/4E1A0320.jpg?nf_resize=fit&w=1600 1600w"
-          sizes="100vw" width="1600" height="900"
-          alt="Jardim" loading="lazy" decoding="async">
+        <source type="image/avif" srcset="images/AREA EXTERNA/4E1A0320.avif?w=800 800w, images/AREA EXTERNA/4E1A0320.avif?w=1200 1200w, images/AREA EXTERNA/4E1A0320.avif?w=1600 1600w">
+        <source type="image/webp" srcset="images/AREA EXTERNA/4E1A0320.webp?w=800 800w, images/AREA EXTERNA/4E1A0320.webp?w=1200 1200w, images/AREA EXTERNA/4E1A0320.webp?w=1600 1600w">
+        <img src="images/AREA EXTERNA/4E1A0320.jpg?nf_resize=fit&w=1600"
+             srcset="images/AREA EXTERNA/4E1A0320.jpg?nf_resize=fit&w=800 800w, images/AREA EXTERNA/4E1A0320.jpg?nf_resize=fit&w=1200 1200w, images/AREA EXTERNA/4E1A0320.jpg?nf_resize=fit&w=1600 1600w"
+             sizes="100vw" width="1600" height="900" alt="Jardim" loading="lazy" decoding="async">
       </picture>
     </div>
 
-   <div class="welcome-text hero-card">
-  <h1>Bem-vindo à Corais de Trancoso Boutique</h1>
-  <p>Um refúgio exclusivo em Trancoso</p>
-  <button class="abrir-reserva btn btn-primary">Reservar</button>
+    <div class="welcome-text hero-card">
+      <h1>Bem-vindo à Corais de Trancoso Boutique</h1>
+      <p>Um refúgio exclusivo em Trancoso</p>
+      <button class="abrir-reserva btn btn-primary">Reservar</button>
 
-  <div class="modal" id="modalReserva" role="dialog" aria-modal="true" aria-labelledby="tituloReserva">
-    <div class="modal-content">
-      <span class="fechar" aria-label="Fechar">&times;</span>
-      <h2 id="tituloReserva">Reserve sua estadia</h2>
+      <div class="modal" id="modalReserva" role="dialog" aria-modal="true" aria-labelledby="tituloReserva" aria-hidden="true">
+        <div class="modal-content" role="document">
+          <button class="fechar" aria-label="Fechar" type="button">&times;</button>
+          <h2 id="tituloReserva">Reserve sua estadia</h2>
 
-      <form id="formReserva" novalidate>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="checkin">Check-in</label>
-            <input type="date" id="checkin" required />
-          </div>
-          <div class="form-group">
-            <label for="checkout">Check-out</label>
-            <input type="date" id="checkout" required />
-          </div>
+          <form id="formReserva" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="checkin">Check-in</label>
+                <input type="date" id="checkin" required />
+              </div>
+              <div class="form-group">
+                <label for="checkout">Check-out</label>
+                <input type="date" id="checkout" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="adultos">Adultos</label>
+                <input type="number" id="adultos" value="2" min="1" required />
+              </div>
+              <div class="form-group">
+                <label for="criancas">Crianças</label>
+                <input type="number" id="criancas" value="0" min="0" />
+              </div>
+            </div>
+
+            <button type="submit" class="btn-reservar btn btn-primary">Buscar Disponibilidade</button>
+          </form>
         </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="adultos">Adultos</label>
-            <input type="number" id="adultos" value="2" min="1" required />
-          </div>
-          <div class="form-group">
-            <label for="criancas">Crianças</label>
-            <input type="number" id="criancas" value="0" min="0" />
-          </div>
-        </div>
-
-        <button type="submit" class="btn-reservar btn btn-primary">Buscar Disponibilidade</button>
-      </form>
-    </div>
-  </div>
-</div><!-- /.welcome-text -->
-</div><!-- /.carousel-container -->
+      </div>
+    </div><!-- /.welcome-text -->
+  </div><!-- /.carousel-container -->
 </header>
 
-<main>
+<main role="main">
   <!-- ===== SOBRE ===== -->
   <section id="sobre" class="container sobre-profissional">
     <div class="sobre-conteudo">
@@ -197,25 +206,12 @@
       </div>
       <div class="imagem-sobre">
         <picture>
-          <source type="image/avif"
-            srcset="
-              images/AREA EXTERNA/4E1A0320.avif?w=480 480w,
-              images/AREA EXTERNA/4E1A0320.avif?w=768 768w,
-              images/AREA EXTERNA/4E1A0320.avif?w=1080 1080w">
-          <source type="image/webp"
-            srcset="
-              images/AREA EXTERNA/4E1A0320.webp?w=480 480w,
-              images/AREA EXTERNA/4E1A0320.webp?w=768 768w,
-              images/AREA EXTERNA/4E1A0320.webp?w=1080 1080w">
+          <source type="image/avif" srcset="images/AREA EXTERNA/4E1A0320.avif?w=480 480w, images/AREA EXTERNA/4E1A0320.avif?w=768 768w, images/AREA EXTERNA/4E1A0320.avif?w=1080 1080w">
+          <source type="image/webp" srcset="images/AREA EXTERNA/4E1A0320.webp?w=480 480w, images/AREA EXTERNA/4E1A0320.webp?w=768 768w, images/AREA EXTERNA/4E1A0320.webp?w=1080 1080w">
           <img src="images/AREA EXTERNA/4E1A0320.jpg?nf_resize=fit&w=1080"
-               srcset="
-                 images/AREA EXTERNA/4E1A0320.jpg?nf_resize=fit&w=480 480w,
-                 images/AREA EXTERNA/4E1A0320.jpg?nf_resize=fit&w=768 768w,
-                 images/AREA EXTERNA/4E1A0320.jpg?nf_resize=fit&w=1080 1080w"
+               srcset="images/AREA EXTERNA/4E1A0320.jpg?nf_resize=fit&w=480 480w, images/AREA EXTERNA/4E1A0320.jpg?nf_resize=fit&w=768 768w, images/AREA EXTERNA/4E1A0320.jpg?nf_resize=fit&w=1080 1080w"
                sizes="(max-width: 768px) 92vw, 540px"
-               width="1080" height="720"
-               alt="Vista da pousada Corais de Trancoso"
-               loading="lazy" decoding="async" style="object-fit:cover;aspect-ratio:3/2;">
+               width="1080" height="720" alt="Vista da pousada Corais de Trancoso" loading="lazy" decoding="async" style="object-fit:cover;aspect-ratio:3/2;">
         </picture>
       </div>
     </div>
@@ -313,26 +309,11 @@
       <!-- Slide 1 (ativo / eager) -->
       <div class="destino-slide active" aria-hidden="false">
         <picture>
-          <source type="image/avif"
-            srcset="
-              images/PRAIAS/Nativos.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
-              images/PRAIAS/Nativos.jpg?nf_resize=fit&w=1080&fm=avif&q=65 1080w,
-              images/PRAIAS/Nativos.jpg?nf_resize=fit&w=1600&fm=avif&q=65 1600w">
-          <source type="image/webp"
-            srcset="
-              images/PRAIAS/Nativos.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
-              images/PRAIAS/Nativos.jpg?nf_resize=fit&w=1080&fm=webp&q=75 1080w,
-              images/PRAIAS/Nativos.jpg?nf_resize=fit&w=1600&fm=webp&q=75 1600w">
-          <img
-            src="images/PRAIAS/Nativos.jpg?nf_resize=fit&w=1600&q=75"
-            srcset="
-              images/PRAIAS/Nativos.jpg?nf_resize=fit&w=800&q=75 800w,
-              images/PRAIAS/Nativos.jpg?nf_resize=fit&w=1080&q=75 1080w,
-              images/PRAIAS/Nativos.jpg?nf_resize=fit&w=1600&q=75 1600w"
-            sizes="(max-width: 1024px) 100vw, 1080px"
-            width="1600" height="1000"
-            alt="Praia dos Nativos em Trancoso"
-            loading="eager" fetchpriority="high" decoding="async">
+          <source type="image/avif" srcset="images/PRAIAS/Nativos.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w, images/PRAIAS/Nativos.jpg?nf_resize=fit&w=1080&fm=avif&q=65 1080w, images/PRAIAS/Nativos.jpg?nf_resize=fit&w=1600&fm=avif&q=65 1600w">
+          <source type="image/webp" srcset="images/PRAIAS/Nativos.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w, images/PRAIAS/Nativos.jpg?nf_resize=fit&w=1080&fm=webp&q=75 1080w, images/PRAIAS/Nativos.jpg?nf_resize=fit&w=1600&fm=webp&q=75 1600w">
+          <img src="images/PRAIAS/Nativos.jpg?nf_resize=fit&w=1600&q=75"
+               srcset="images/PRAIAS/Nativos.jpg?nf_resize=fit&w=800&q=75 800w, images/PRAIAS/Nativos.jpg?nf_resize=fit&w=1080&q=75 1080w, images/PRAIAS/Nativos.jpg?nf_resize=fit&w=1600&q=75 1600w"
+               sizes="(max-width: 1024px) 100vw, 1080px" width="1600" height="1000" alt="Praia dos Nativos em Trancoso" loading="eager" fetchpriority="high" decoding="async">
         </picture>
         <div class="praia-info">
           <h3>Praia dos Nativos</h3>
@@ -343,26 +324,11 @@
       <!-- Slide 2 -->
       <div class="destino-slide" aria-hidden="true">
         <picture>
-          <source type="image/avif"
-            srcset="
-              images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
-              images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=1080&fm=avif&q=65 1080w,
-              images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=1600&fm=avif&q=65 1600w">
-          <source type="image/webp"
-            srcset="
-              images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
-              images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=1080&fm=webp&q=75 1080w,
-              images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=1600&fm=webp&q=75 1600w">
-          <img
-            src="images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=1600&q=75"
-            srcset="
-              images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=800&q=75 800w,
-              images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=1080&q=75 1080w,
-              images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=1600&q=75 1600w"
-            sizes="(max-width: 1024px) 100vw, 1080px"
-            width="1600" height="1000"
-            alt="Praia do Espelho com falésias e águas claras"
-            loading="lazy" decoding="async">
+          <source type="image/avif" srcset="images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w, images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=1080&fm=avif&q=65 1080w, images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=1600&fm=avif&q=65 1600w">
+          <source type="image/webp" srcset="images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w, images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=1080&fm=webp&q=75 1080w, images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=1600&fm=webp&q=75 1600w">
+          <img src="images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=1600&q=75"
+               srcset="images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=800&q=75 800w, images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=1080&q=75 1080w, images/PRAIAS/outeiro-das-brisas-bahia-brasil.jpg?nf_resize=fit&w=1600&q=75 1600w"
+               sizes="(max-width: 1024px) 100vw, 1080px" width="1600" height="1000" alt="Praia do Espelho com falésias e águas claras" loading="lazy" decoding="async">
         </picture>
         <div class="praia-info">
           <h3>Praia do Espelho</h3>
@@ -373,26 +339,11 @@
       <!-- Slide 3 -->
       <div class="destino-slide" aria-hidden="true">
         <picture>
-          <source type="image/avif"
-            srcset="
-              images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
-              images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=1080&fm=avif&q=65 1080w,
-              images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=1600&fm=avif&q=65 1600w">
-          <source type="image/webp"
-            srcset="
-              images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
-              images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=1080&fm=webp&q=75 1080w,
-              images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=1600&fm=webp&q=75 1600w">
-          <img
-            src="images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=1600&q=75"
-            srcset="
-              images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=800&q=75 800w,
-              images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=1080&q=75 1080w,
-              images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=1600&q=75 1600w"
-            sizes="(max-width: 1024px) 100vw, 1080px"
-            width="1600" height="1000"
-            alt="Praia dos Coqueiros com mar calmo"
-            loading="lazy" decoding="async">
+          <source type="image/avif" srcset="images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w, images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=1080&fm=avif&q=65 1080w, images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=1600&fm=avif&q=65 1600w">
+          <source type="image/webp" srcset="images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w, images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=1080&fm=webp&q=75 1080w, images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=1600&fm=webp&q=75 1600w">
+          <img src="images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=1600&q=75"
+               srcset="images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=800&q=75 800w, images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=1080&q=75 1080w, images/PRAIAS/Coqueiros.jpg?nf_resize=fit&w=1600&q=75 1600w"
+               sizes="(max-width: 1024px) 100vw, 1080px" width="1600" height="1000" alt="Praia dos Coqueiros com mar calmo" loading="lazy" decoding="async">
         </picture>
         <div class="praia-info">
           <h3>Praia dos Coqueiros</h3>
@@ -403,26 +354,11 @@
       <!-- Slide 4 -->
       <div class="destino-slide" aria-hidden="true">
         <picture>
-          <source type="image/avif"
-            srcset="
-              images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=800&fm=avif&q=65 800w,
-              images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=1080&fm=avif&q=65 1080w,
-              images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=1600&fm=avif&q=65 1600w">
-          <source type="image/webp"
-            srcset="
-              images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=800&fm=webp&q=75 800w,
-              images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=1080&fm=webp&q=75 1080w,
-              images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=1600&fm=webp&q=75 1600w">
-          <img
-            src="images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=1600&q=75"
-            srcset="
-              images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=800&q=75 800w,
-              images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=1080&q=75 1080w,
-              images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=1600&q=75 1600w"
-            sizes="(max-width: 1024px) 100vw, 1080px"
-            width="1600" height="1000"
-            alt="Praia de Itapororoca com falésias e mar tranquilo"
-            loading="lazy" decoding="async">
+          <source type="image/avif" srcset="images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=800&fm=avif&q=65 800w, images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=1080&fm=avif&q=65 1080w, images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=1600&fm=avif&q=65 1600w">
+          <source type="image/webp" srcset="images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=800&fm=webp&q=75 800w, images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=1080&fm=webp&q=75 1080w, images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=1600&fm=webp&q=75 1600w">
+          <img src="images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=1600&q=75"
+               srcset="images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=800&q=75 800w, images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=1080&q=75 1080w, images/PRAIAS/Praia-de-Itapororoca.jpeg?nf_resize=fit&w=1600&q=75 1600w"
+               sizes="(max-width: 1024px) 100vw, 1080px" width="1600" height="1000" alt="Praia de Itapororoca com falésias e mar tranquilo" loading="lazy" decoding="async">
         </picture>
         <div class="praia-info">
           <h3>Praia de Itapororoca</h3>
@@ -433,26 +369,11 @@
       <!-- Slide 5 (nome com espaço — URL codificada) -->
       <div class="destino-slide" aria-hidden="true">
         <picture>
-          <source type="image/avif"
-            srcset="
-              images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
-              images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=1080&fm=avif&q=65 1080w,
-              images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=1600&fm=avif&q=65 1600w">
-          <source type="image/webp"
-            srcset="
-              images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
-              images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=1080&fm=webp&q=75 1080w,
-              images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=1600&fm=webp&q=75 1600w">
-          <img
-            src="images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=1600&q=75"
-            srcset="
-              images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=800&q=75 800w,
-              images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=1080&q=75 1080w,
-              images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=1600&q=75 1600w"
-            sizes="(max-width: 1024px) 100vw, 1080px"
-            width="1600" height="1000"
-            alt="Praia do Rio Verde de mar calmo"
-            loading="lazy" decoding="async">
+          <source type="image/avif" srcset="images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w, images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=1080&fm=avif&q=65 1080w, images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=1600&fm=avif&q=65 1600w">
+          <source type="image/webp" srcset="images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w, images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=1080&fm=webp&q=75 1080w, images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=1600&fm=webp&q=75 1600w">
+          <img src="images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=1600&q=75"
+               srcset="images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=800&q=75 800w, images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=1080&q=75 1080w, images/PRAIAS/Rio%20verde.jpg?nf_resize=fit&w=1600&q=75 1600w"
+               sizes="(max-width: 1024px) 100vw, 1080px" width="1600" height="1000" alt="Praia do Rio Verde de mar calmo" loading="lazy" decoding="async">
         </picture>
         <div class="praia-info">
           <h3>Praia do Rio Verde</h3>
@@ -463,26 +384,11 @@
       <!-- Slide 6 -->
       <div class="destino-slide" aria-hidden="true">
         <picture>
-          <source type="image/avif"
-            srcset="
-              images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
-              images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=1080&fm=avif&q=65 1080w,
-              images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=1600&fm=avif&q=65 1600w">
-          <source type="image/webp"
-            srcset="
-              images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
-              images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=1080&fm=webp&q=75 1080w,
-              images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=1600&fm=webp&q=75 1600w">
-          <img
-            src="images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=1600&q=75"
-            srcset="
-              images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=800&q=75 800w,
-              images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=1080&q=75 1080w,
-              images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=1600&q=75 1600w"
-            sizes="(max-width: 1024px) 100vw, 1080px"
-            width="1600" height="1000"
-            alt="Praia das Tartarugas com natureza preservada"
-            loading="lazy" decoding="async">
+          <source type="image/avif" srcset="images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w, images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=1080&fm=avif&q=65 1080w, images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=1600&fm=avif&q=65 1600w">
+          <source type="image/webp" srcset="images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w, images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=1080&fm=webp&q=75 1080w, images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=1600&fm=webp&q=75 1600w">
+          <img src="images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=1600&q=75"
+               srcset="images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=800&q=75 800w, images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=1080&q=75 1080w, images/PRAIAS/Tartarugas.jpg?nf_resize=fit&w=1600&q=75 1600w"
+               sizes="(max-width: 1024px) 100vw, 1080px" width="1600" height="1000" alt="Praia das Tartarugas com natureza preservada" loading="lazy" decoding="async">
         </picture>
         <div class="praia-info">
           <h3>Praia das Tartarugas</h3>
@@ -493,26 +399,11 @@
       <!-- Slide 7 (nome com espaço — URL codificada) -->
       <div class="destino-slide" aria-hidden="true">
         <picture>
-          <source type="image/avif"
-            srcset="
-              images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
-              images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=1080&fm=avif&q=65 1080w,
-              images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=1600&fm=avif&q=65 1600w">
-          <source type="image/webp"
-            srcset="
-              images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
-              images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=1080&fm=webp&q=75 1080w,
-              images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=1600&fm=webp&q=75 1600w">
-          <img
-            src="images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=1600&q=75"
-            srcset="
-              images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=800&q=75 800w,
-              images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=1080&q=75 1080w,
-              images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=1600&q=75 1600w"
-            sizes="(max-width: 1024px) 100vw, 1080px"
-            width="1600" height="1000"
-            alt="Praia do Rio da Barra com dunas e manguezais"
-            loading="lazy" decoding="async">
+          <source type="image/avif" srcset="images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w, images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=1080&fm=avif&q=65 1080w, images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=1600&fm=avif&q=65 1600w">
+          <source type="image/webp" srcset="images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w, images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=1080&fm=webp&q=75 1080w, images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=1600&fm=webp&q=75 1600w">
+          <img src="images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=1600&q=75"
+               srcset="images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=800&q=75 800w, images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=1080&q=75 1080w, images/PRAIAS/Rio%20da%20barra.jpg?nf_resize=fit&w=1600&q=75 1600w"
+               sizes="(max-width: 1024px) 100vw, 1080px" width="1600" height="1000" alt="Praia do Rio da Barra com dunas e manguezais" loading="lazy" decoding="async">
         </picture>
         <div class="praia-info">
           <h3>Praia do Rio da Barra</h3>
@@ -523,26 +414,11 @@
       <!-- Slide 8 -->
       <div class="destino-slide" aria-hidden="true">
         <picture>
-          <source type="image/avif"
-            srcset="
-              images/PRAIAS/Caraiva.png?nf_resize=fit&w=800&fm=avif&q=65 800w,
-              images/PRAIAS/Caraiva.png?nf_resize=fit&w=1080&fm=avif&q=65 1080w,
-              images/PRAIAS/Caraiva.png?nf_resize=fit&w=1600&fm=avif&q=65 1600w">
-          <source type="image/webp"
-            srcset="
-              images/PRAIAS/Caraiva.png?nf_resize=fit&w=800&fm=webp&q=75 800w,
-              images/PRAIAS/Caraiva.png?nf_resize=fit&w=1080&fm=webp&q=75 1080w,
-              images/PRAIAS/Caraiva.png?nf_resize=fit&w=1600&fm=webp&q=75 1600w">
-          <img
-            src="images/PRAIAS/Caraiva.png?nf_resize=fit&w=1600&q=85"
-            srcset="
-              images/PRAIAS/Caraiva.png?nf_resize=fit&w=800&q=85 800w,
-              images/PRAIAS/Caraiva.png?nf_resize=fit&w=1080&q=85 1080w,
-              images/PRAIAS/Caraiva.png?nf_resize=fit&w=1600&q=85 1600w"
-            sizes="(max-width: 1024px) 100vw, 1080px"
-            width="1600" height="1000"
-            alt="Encontro do rio com o mar em Caraíva"
-            loading="lazy" decoding="async">
+          <source type="image/avif" srcset="images/PRAIAS/Caraiva.png?nf_resize=fit&w=800&fm=avif&q=65 800w, images/PRAIAS/Caraiva.png?nf_resize=fit&w=1080&fm=avif&q=65 1080w, images/PRAIAS/Caraiva.png?nf_resize=fit&w=1600&fm=avif&q=65 1600w">
+          <source type="image/webp" srcset="images/PRAIAS/Caraiva.png?nf_resize=fit&w=800&fm=webp&q=75 800w, images/PRAIAS/Caraiva.png?nf_resize=fit&w=1080&fm=webp&q=75 1080w, images/PRAIAS/Caraiva.png?nf_resize=fit&w=1600&fm=webp&q=75 1600w">
+          <img src="images/PRAIAS/Caraiva.png?nf_resize=fit&w=1600&q=85"
+               srcset="images/PRAIAS/Caraiva.png?nf_resize=fit&w=800&q=85 800w, images/PRAIAS/Caraiva.png?nf_resize=fit&w=1080&q=85 1080w, images/PRAIAS/Caraiva.png?nf_resize=fit&w=1600&q=85 1600w"
+               sizes="(max-width: 1024px) 100vw, 1080px" width="1600" height="1000" alt="Encontro do rio com o mar em Caraíva" loading="lazy" decoding="async">
         </picture>
         <div class="praia-info">
           <h3>Praia do Rio Caraíva</h3>
@@ -575,14 +451,12 @@
     <div id="mapa-shell" class="mapa-shell">
       <button id="carregar-mapa" class="btn btn-primary">Ver mapa</button>
     </div>
-    <div id="mapa-embed" class="mapa-embed"></div>
+    <div id="mapa-embed" class="mapa-embed" aria-live="polite"></div>
   </section>
 </main>
 
-<!-- (removido o <style> inline para evitar conflito com style.css) -->
-
 <!-- ===== RODAPÉ ===== -->
-<footer>
+<footer role="contentinfo">
   <p>© 2025 Corais de Trancoso Boutique</p>
   <p>
     <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a> |
@@ -591,6 +465,160 @@
   </p>
 </footer>
 
+<!-- JS principal -->
 <script src="script.js" defer></script>
+
+<!-- Fallback JS (garante funcionamento mínimo em qualquer aparelho sem alterar conteúdo) -->
+<script>
+(function(){
+  const $ = (sel, ctx=document) => ctx.querySelector(sel);
+  const $$ = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
+
+  // ===== Menu hambúrguer =====
+  const hamburger = $('.hamburger');
+  const menu = $('#menuLinks');
+  if (hamburger && menu) {
+    hamburger.addEventListener('click', () => {
+      const open = menu.getAttribute('data-open') === 'true';
+      menu.setAttribute('data-open', String(!open));
+      hamburger.setAttribute('aria-expanded', String(!open));
+    });
+  }
+
+  // ===== Dropdown acessível =====
+  const galleryBtn = $('#gallery-menu');
+  const galleryMenu = galleryBtn && galleryBtn.nextElementSibling;
+  if (galleryBtn && galleryMenu) {
+    galleryBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const expanded = galleryBtn.getAttribute('aria-expanded') === 'true';
+      galleryBtn.setAttribute('aria-expanded', String(!expanded));
+      galleryMenu.hidden = expanded;
+    });
+    galleryMenu.hidden = true;
+    document.addEventListener('click', (e)=>{
+      if (!galleryMenu.contains(e.target) && e.target !== galleryBtn) {
+        galleryBtn.setAttribute('aria-expanded','false');
+        galleryMenu.hidden = true;
+      }
+    });
+  }
+
+  // ===== Modal de reserva =====
+  const abrirReserva = $('.abrir-reserva');
+  const modal = $('#modalReserva');
+  const fechar = modal && modal.querySelector('.fechar');
+  if (modal && abrirReserva && fechar) {
+    const openModal = () => { modal.removeAttribute('aria-hidden'); modal.style.display = 'block'; };
+    const closeModal = () => { modal.setAttribute('aria-hidden','true'); modal.style.display = 'none'; };
+    abrirReserva.addEventListener('click', openModal);
+    fechar.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeModal(); });
+  }
+
+  // ===== Form de reserva -> Omnibees em nova aba =====
+  const OMNIBEES_HOTEL_ID = '22031';
+  const OMNIBEES_LANG = 'pt-BR';
+  const OMNIBEES_CURRENCY = 'BRL';
+  function toDDMMYYYY(iso){ if(!iso) return ''; const [y,m,d] = iso.split('-'); return d+m+y; }
+  function buildOmnibeesURL(checkInISO, checkOutISO, adults, children){
+    const url = new URL('https://book.omnibees.com/hotelresults');
+    url.searchParams.set('hotel', OMNIBEES_HOTEL_ID);
+    url.searchParams.set('CheckIn', toDDMMYYYY(checkInISO));
+    url.searchParams.set('CheckOut', toDDMMYYYY(checkOutISO));
+    url.searchParams.set('NRooms', '1');
+    url.searchParams.set('ad', String(adults || 1));
+    url.searchParams.set('ch', String(children || 0));
+    url.searchParams.set('lang', OMNIBEES_LANG);
+    url.searchParams.set('cur', OMNIBEES_CURRENCY);
+    return url.toString();
+  }
+  const form = $('#formReserva');
+  if (form) {
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const ci = $('#checkin')?.value; const co = $('#checkout')?.value;
+      const ad = parseInt($('#adultos')?.value || '2', 10);
+      const ch = parseInt($('#criancas')?.value || '0', 10);
+      if(!ci || !co) { alert('Selecione as datas de check-in e check-out.'); return; }
+      const url = buildOmnibeesURL(ci, co, ad, ch);
+      window.open(url, '_blank', 'noopener');
+    });
+  }
+
+  // ===== Carrossel destinos: dots + navegação mínima =====
+  const carousel = $('.praia-carousel');
+  if (carousel) {
+    const slides = $$('.destino-slide', carousel);
+    const dotsWrap = $('.dots-container', carousel);
+    const prev = $('.prev', carousel);
+    const next = $('.next', carousel);
+    let idx = slides.findIndex(s=>s.classList.contains('active'));
+    if (idx < 0) idx = 0;
+
+    const update = (i) => {
+      slides.forEach((s, n)=>{
+        const active = n === i;
+        s.classList.toggle('active', active);
+        s.setAttribute('aria-hidden', String(!active));
+      });
+      if (dotsWrap) {
+        Array.from(dotsWrap.children).forEach((d, n)=>{
+          d.classList.toggle('active', n === i);
+          d.setAttribute('aria-current', n === i ? 'true' : 'false');
+        });
+      }
+      idx = i;
+    };
+
+    if (dotsWrap && !dotsWrap.childElementCount) {
+      slides.forEach((_, n)=>{
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'dot';
+        b.setAttribute('aria-label', `Ir para slide ${n+1}`);
+        b.addEventListener('click', ()=>update(n));
+        dotsWrap.appendChild(b);
+      });
+    }
+
+    prev && prev.addEventListener('click', ()=> update((idx - 1 + slides.length) % slides.length));
+    next && next.addEventListener('click', ()=> update((idx + 1) % slides.length));
+
+    // Swipe mobile
+    let startX = 0; let touch = false;
+    carousel.addEventListener('touchstart', (e)=>{ touch = true; startX = e.touches[0].clientX; }, {passive:true});
+    carousel.addEventListener('touchend', (e)=>{
+      if (!touch) return; touch = false;
+      const endX = e.changedTouches[0].clientX;
+      const dx = endX - startX;
+      if (Math.abs(dx) > 40) {
+        if (dx < 0) next?.click(); else prev?.click();
+      }
+    }, {passive:true});
+
+    update(idx);
+  }
+
+  // ===== Mapa: carrega embed apenas quando solicitarem (economiza dados) =====
+  const btnMapa = $('#carregar-mapa');
+  const mapaEmbed = $('#mapa-embed');
+  if (btnMapa && mapaEmbed) {
+    btnMapa.addEventListener('click', ()=>{
+      if (mapaEmbed.childElementCount) return;
+      const iframe = document.createElement('iframe');
+      iframe.title = 'Mapa - Corais de Trancoso Boutique';
+      iframe.loading = 'lazy';
+      iframe.referrerPolicy = 'no-referrer-when-downgrade';
+      iframe.allowFullscreen = true;
+      iframe.setAttribute('aria-label', 'Mapa incorporado do Google');
+      iframe.style.width = '100%';
+      iframe.style.height = '480px';
+      iframe.src = 'https://www.google.com/maps?q=Corais%20de%20Trancoso%20Boutique&output=embed';
+      mapaEmbed.appendChild(iframe);
+    });
+  }
+})();
+</script>
 </body>
 </html>

@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#2b6cb0" />
 <title>Galeria de Suítes - Pousada</title>
 
 <!-- FAVICON -->
@@ -12,11 +13,15 @@
 <link rel="shortcut icon" href="/images/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
 
-<!-- Fontes e ícones -->
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<!-- Fontes -->
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<!-- Font Awesome (não-bloqueante) -->
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
 <!-- Preload da primeira imagem principal (melhora LCP) -->
 <link rel="preload" as="image"
@@ -28,18 +33,14 @@
       imagesizes="(max-width: 980px) 100vw, 980px">
 
 <style>
-  /* ===== BASE ===== */
   :root{
-    --brand:#2b6cb0;
-    --brand-2:#3498db;
-    --bg:#f5f5f5;
-    --card:#fff;
-    --ink:#333;
-    --radius:14px;
-    --shadow:0 10px 24px rgba(0,0,0,.08);
+    --brand:#2b6cb0; --brand-2:#3498db; --bg:#f5f5f5; --card:#fff; --ink:#333;
+    --radius:14px; --shadow:0 10px 24px rgba(0,0,0,.08);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
   }
   *,*::before,*::after{ box-sizing:border-box; }
-  html{ -webkit-text-size-adjust:100%; }
+  html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; color-scheme: light; }
   body{
     margin:0; font-family:'Quicksand',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     background:var(--bg); color:var(--ink); line-height:1.6;
@@ -47,63 +48,61 @@
   }
   img{ max-width:100%; display:block; height:auto; }
   button{ font-family:inherit; }
+  :focus-visible{ outline:3px solid #93c5fd; outline-offset:3px; }
 
-  /* ===== CONTAINER / TÍTULO ===== */
   .section{ max-width:1200px; margin:40px auto; padding:0 16px; }
   h2{
     text-align:center; font-size:clamp(1.6rem, 2.2vw + 1rem, 2.4rem);
-    color:var(--brand); margin:0 0 20px;
+    color:var(--brand); margin:calc(8px + var(--safe-top)) 0 20px;
   }
 
-  /* ===== MENU DE CATEGORIAS ===== */
+  /* MENU DE CATEGORIAS */
   .categoria-menu{
     display:flex; flex-wrap:wrap; justify-content:center; gap:.5rem; margin:0 auto 22px;
-    position:sticky; top:0; z-index:5; padding:10px 6px; backdrop-filter:saturate(120%) blur(6px);
+    position:sticky; top:0; z-index:5; padding:10px 6px;
+    backdrop-filter:saturate(120%) blur(6px);
     background:#ffffffd9; border-radius:12px;
   }
   .categoria-menu button{
     background:var(--brand-2); border:0; color:#fff; padding:10px 16px;
     border-radius:999px; cursor:pointer; font-weight:700; display:flex; align-items:center; gap:8px;
-    transition:transform .2s ease, background-color .25s ease; white-space:nowrap;
+    transition:transform .2s ease, background-color .25s ease; white-space:nowrap; min-height:44px;
   }
   .categoria-menu button:hover{ transform:translateY(-2px); }
   .categoria-menu button.active{ background:var(--brand); }
-  .categoria-menu:focus-within{ outline:3px solid #93c5fd; outline-offset:2px; }
 
-  /* ===== IMAGEM PRINCIPAL (16:9) ===== */
+  /* IMAGEM PRINCIPAL (16:9) */
   .main-image-container{
     position:relative; margin:0 auto 12px; max-width:980px; aspect-ratio:16/9;
     border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow);
     background:#e9eef3;
   }
-  /* O <picture> da principal preenche tudo; o <img> interno faz o fade */
-  #mainPicture, #mainPicture picture, #mainPicture img{
-    width:100%; height:100%;
-  }
+  #mainPicture, #mainPicture picture, #mainPicture img{ width:100%; height:100%; }
+  #mainPicture picture{ display:block; }
   #mainPicture img{
     object-fit:cover; cursor:pointer; opacity:0; transition:opacity .25s ease, transform .25s ease;
   }
   #mainPicture img.loaded{ opacity:1; }
   #mainPicture img:hover{ transform:scale(1.02); }
 
-  /* Setas */
+  /* SETAS */
   .nav-arrow{
     position:absolute; top:50%; transform:translateY(-50%);
     width:44px; height:44px; display:grid; place-items:center;
     border-radius:50%; color:#fff; background:rgba(0,0,0,.45);
     user-select:none; cursor:pointer; border:0; font-size:1.3rem;
     transition:background .25s ease, transform .2s ease, opacity .2s ease;
+    -webkit-tap-highlight-color:transparent;
   }
   .nav-arrow:hover{ background:rgba(0,0,0,.65); transform:translateY(-50%) scale(1.05); }
   .nav-left{ left:12px; } .nav-right{ right:12px; }
   .nav-arrow[disabled]{ opacity:.4; cursor:not-allowed; }
 
-  /* Título da principal */
   #mainTitle{
     text-align:center; margin:8px 0 6px; font-weight:700; font-size:clamp(1rem, .9vw + .8rem, 1.15rem);
   }
 
-  /* ===== GRADE DE MINIATURAS ===== */
+  /* MINIATURAS */
   .galeria{
     display:grid; gap:16px;
     grid-template-columns:repeat(auto-fit, minmax(160px,1fr));
@@ -113,35 +112,33 @@
     background:var(--card); padding:10px; border-radius:12px; box-shadow:var(--shadow);
     display:flex; flex-direction:column; align-items:center; text-align:center;
     transition:transform .2s ease, box-shadow .25s ease; cursor:pointer;
+    content-visibility:auto; contain-intrinsic-size:220px 180px;
   }
   .item:hover{ transform:translateY(-4px); box-shadow:0 14px 28px rgba(0,0,0,.15); }
-  .item picture{ width:100%; }
+  .item picture{ width:100%; display:block; }
   .item img{ width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:10px; margin-bottom:8px; background:#eef2f7; }
   .item p{ margin:0; font-weight:700; display:flex; align-items:center; gap:8px; font-size:.95rem; }
 
-  /* ===== LIGHTBOX ===== */
+  /* LIGHTBOX */
   .lightbox{
     position:fixed; inset:0; background:rgba(0,0,0,.85); display:none; align-items:center; justify-content:center; z-index:1000;
+    padding: max(8px, var(--safe-top)) 8px max(8px, var(--safe-bottom));
   }
   .lightbox.open{ display:flex; }
   .lightbox img{ max-width:min(92vw,1400px); max-height:88vh; border-radius:12px; }
 
-  /* ===== WHATSAPP FLOAT ===== */
+  /* WHATSAPP */
   .whatsapp-btn{
     position:fixed; right:16px; bottom:16px; z-index:1001;
     background:#25d366; color:#fff; border-radius:999px; padding:12px 18px; font-weight:700;
     display:flex; align-items:center; gap:10px; text-decoration:none; box-shadow:0 8px 20px rgba(0,0,0,.2);
-    transition:transform .2s ease, background .25s ease;
+    transition:transform .2s ease, background .25s ease; min-height:44px;
+    padding-bottom: calc(12px + var(--safe-bottom));
   }
   .whatsapp-btn:hover{ background:#1fb85b; transform:translateY(-2px); }
   .whatsapp-btn i{ font-size:1.25rem; }
 
-  /* ===== ACESSIBILIDADE ===== */
-  .nav-arrow:focus-visible, .categoria-menu button:focus-visible, .item:focus-visible, .whatsapp-btn:focus-visible{
-    outline:3px solid #93c5fd; outline-offset:2px;
-  }
-
-  /* ===== RESPONSIVIDADE ===== */
+  /* RESPONSIVIDADE / ACESSO */
   @media (max-width: 900px){
     .categoria-menu{ border-radius:10px; gap:.4rem; padding:8px; }
     .categoria-menu button{ padding:9px 14px; font-size:.95rem; }
@@ -168,26 +165,23 @@
 
   <!-- Menu de Categorias -->
   <nav class="categoria-menu" aria-label="Filtrar por categoria">
-    <button class="active" data-cat="todas" type="button"><i class="fa-solid fa-layer-group"></i> Todas</button>
-    <button data-cat="mare-alta" type="button"><i class="fa-solid fa-bed"></i> Maré Alta</button>
-    <button data-cat="jardim" type="button"><i class="fa-solid fa-leaf"></i> Jardim</button>
-    <button data-cat="brisa" type="button"><i class="fa-solid fa-wind"></i> Brisa</button>
-    <button data-cat="horizonte" type="button"><i class="fa-solid fa-mountain"></i> Horizonte</button>
-    <button data-cat="master-raizes" type="button"><i class="fa-solid fa-tree"></i> Master Raízes</button>
-    <button data-cat="master-oceano" type="button"><i class="fa-solid fa-water"></i> Master Oceano</button>
-    <button data-cat="varanda-do-sol" type="button"><i class="fa-solid fa-sun"></i> Varanda do Sol</button>
+    <button class="active" data-cat="todas" type="button"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> <span>Todas</span></button>
+    <button data-cat="mare-alta" type="button"><i class="fa-solid fa-bed" aria-hidden="true"></i> <span>Maré Alta</span></button>
+    <button data-cat="jardim" type="button"><i class="fa-solid fa-leaf" aria-hidden="true"></i> <span>Jardim</span></button>
+    <button data-cat="brisa" type="button"><i class="fa-solid fa-wind" aria-hidden="true"></i> <span>Brisa</span></button>
+    <button data-cat="horizonte" type="button"><i class="fa-solid fa-mountain" aria-hidden="true"></i> <span>Horizonte</span></button>
+    <button data-cat="master-raizes" type="button"><i class="fa-solid fa-tree" aria-hidden="true"></i> <span>Master Raízes</span></button>
+    <button data-cat="master-oceano" type="button"><i class="fa-solid fa-water" aria-hidden="true"></i> <span>Master Oceano</span></button>
+    <button data-cat="varanda-do-sol" type="button"><i class="fa-solid fa-sun" aria-hidden="true"></i> <span>Varanda do Sol</span></button>
   </nav>
 
   <!-- Imagem Principal 16:9 -->
   <div class="main-image-container">
-    <button class="nav-arrow nav-left" id="prev" aria-label="Imagem anterior" type="button"><i class="fa-solid fa-chevron-left"></i></button>
-
-    <!-- picture da imagem principal será montado por JS -->
+    <button class="nav-arrow nav-left" id="prev" aria-label="Imagem anterior" type="button"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
     <div id="mainPicture" aria-hidden="false"></div>
-
-    <button class="nav-arrow nav-right" id="next" aria-label="Próxima imagem" type="button"><i class="fa-solid fa-chevron-right"></i></button>
+    <button class="nav-arrow nav-right" id="next" aria-label="Próxima imagem" type="button"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
   </div>
-  <p id="mainTitle" aria-live="polite"><i class="fa-solid fa-bed"></i> SUÍTE MARÉ ALTA</p>
+  <p id="mainTitle" aria-live="polite"><i class="fa-solid fa-bed" aria-hidden="true"></i> SUÍTE MARÉ ALTA</p>
 
   <!-- Miniaturas -->
   <div class="galeria" id="galeria"></div>
@@ -199,9 +193,8 @@
 </div>
 
 <!-- WhatsApp -->
-<a class="whatsapp-btn" href="https://wa.me/557398678158?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20uma%20reserva."
-   target="_blank" rel="noopener">
-  <i class="fa-brands fa-whatsapp"></i> Reservar agora
+<a class="whatsapp-btn" href="https://wa.me/557398678158?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20uma%20reserva." target="_blank" rel="noopener">
+  <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Reservar agora
 </a>
 
 <script>
@@ -307,7 +300,6 @@ function buildPicture(src, {sizes, widths=[800,980,1400], eager=false, alt=""}={
   return {picture, img};
 }
 
-/* habilita/desabilita setas */
 function setArrowsEnabled(enabled){
   prevBtn.disabled = !enabled;
   nextBtn.disabled = !enabled;
@@ -328,7 +320,6 @@ function criarGaleria(cat){
     btn.className = "item";
     btn.setAttribute("aria-label", `Abrir ${item.categoria.replace(/-/g," ")}`);
 
-    // picture da miniatura (4:3 no CSS)
     const {picture} = buildPicture(item.src, {
       sizes:"(max-width:640px) 45vw, (max-width:900px) 30vw, 220px",
       widths:[280,360,480],
@@ -337,7 +328,7 @@ function criarGaleria(cat){
     });
 
     const p = document.createElement("p");
-    p.innerHTML = `<i class="fa-solid ${item.icon}"></i> ${item.categoria.replace(/-/g," ").toUpperCase()}`;
+    p.innerHTML = `<i class="fa-solid ${item.icon}" aria-hidden="true"></i> ${item.categoria.replace(/-/g," ").toUpperCase()}`;
 
     btn.appendChild(picture);
     btn.appendChild(p);
@@ -355,7 +346,6 @@ function criarGaleria(cat){
 
 /* coloca picture na principal + prefetch do próximo */
 function setMainImage(src, icon, categoria, {eager=false}={}){
-  // limpa e monta novo picture
   mainWrap.innerHTML = "";
   const {picture, img} = buildPicture(src, {
     sizes:"(max-width: 980px) 100vw, 980px",
@@ -363,20 +353,17 @@ function setMainImage(src, icon, categoria, {eager=false}={}){
     eager,
     alt:`Imagem principal da suíte ${categoria.replace(/-/g," ")}`
   });
-  // fade-in quando carregar
+
   img.addEventListener("load", ()=> img.classList.add("loaded"), {once:true});
   mainWrap.appendChild(picture);
 
-  // título
-  mainTitle.innerHTML = `<i class="fa-solid ${icon}"></i> ${categoria.replace(/-/g," ").toUpperCase()}`;
+  mainTitle.innerHTML = `<i class="fa-solid ${icon}" aria-hidden="true"></i> ${categoria.replace(/-/g," ").toUpperCase()}`;
 
-  // click abre lightbox
   img.addEventListener("click", ()=>{
     lightboxImg.src = img.currentSrc || img.src;
     lightbox.classList.add("open");
   });
 
-  // prefetch próximo (se não for "todas")
   if (currentCategory !== "todas"){
     const nextIdx = (currentIndex + 1) % suites[currentCategory].length;
     const nextItem = suites[currentCategory][nextIdx];
@@ -416,7 +403,6 @@ buttons.forEach(btn=>{
       if (first) setMainImage(first.src, first.icon, currentCategory, {eager:false});
       setArrowsEnabled(true);
     } else {
-      // mantém a imagem atual e desativa setas
       setArrowsEnabled(false);
     }
 

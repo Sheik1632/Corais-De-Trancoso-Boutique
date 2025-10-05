@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#2b6cb0" />
   <title>Indicações</title>
   <meta name="description" content="Indicações de passeios e beach clubs em Trancoso." />
 
@@ -33,42 +34,44 @@
     :root{
       --brand:#2b6cb0; --brand-2:#1a4f8a; --bg:#f9fafb; --card:#fff;
       --muted:#e2e8f0; --text:#333; --shadow:0 6px 18px rgba(0,0,0,.08);
-      --radius:18px;
+      --radius:18px; --safe-top:env(safe-area-inset-top,0px); --safe-bottom:env(safe-area-inset-bottom,0px);
     }
     *{box-sizing:border-box}
-    html{-webkit-text-size-adjust:100%; color-scheme: light}
+    html{-webkit-text-size-adjust:100%; text-size-adjust:100%; color-scheme: light}
     body{
       margin:0; background:var(--bg); color:var(--text);
       font-family:'Quicksand',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       line-height:1.6;
     }
+    :focus-visible{ outline:3px solid #93c5fd; outline-offset:3px; }
+
     .container{max-width:1200px; margin:auto; padding:clamp(12px,2vw,24px);}
     h2{
       text-align:center; font-size:clamp(1.6rem,1.2rem + 1.5vw,2.2rem);
-      margin:8px 0 20px; color:var(--brand);
+      margin:8px 0 20px; color:var(--brand); padding-top:calc(4px + var(--safe-top));
     }
-
-    /* Acessibilidade: foco e alvos de toque */
-    :focus-visible{ outline:3px solid #93c5fd; outline-offset:3px; }
-    .tab, .whatsapp-btn{ min-height:44px; } /* alvos >= 44px */
 
     /* TABS */
-    .tabs-wrap{ position:sticky; top:0; z-index:10;
+    .tabs-wrap{
+      position:sticky; top:0; z-index:10;
       background:linear-gradient(#ffffffcc,#ffffffcc);
-      backdrop-filter:saturate(120%) blur(6px); padding:8px 0;
+      backdrop-filter:saturate(120%) blur(6px);
+      padding:8px 0;
     }
-    .tabs{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px;
+    .tabs{
+      display:flex; flex-wrap:wrap; justify-content:center; gap:10px;
       list-style:none; padding:0; margin:0 auto; max-width:900px;
     }
     .tab{
-      border:0; cursor:pointer; user-select:none;
+      border:0; cursor:pointer; user-select:none; -webkit-tap-highlight-color:transparent;
       padding:10px 18px; border-radius:999px;
       background:var(--muted); color:#111; font-weight:700;
       display:inline-flex; align-items:center; gap:8px;
       transition:transform .2s, background .25s, box-shadow .25s;
-      box-shadow:var(--shadow); outline-offset:3px;
+      box-shadow:var(--shadow); outline-offset:3px; min-height:44px;
     }
     .tab[aria-selected="true"]{ background:var(--brand); color:#fff; transform:translateY(-1px); }
+    .tab i{ font-size:1.05rem }
 
     /* GRID */
     .grid{
@@ -80,19 +83,15 @@
     .item{
       background:var(--card); border-radius:var(--radius); padding:22px 16px;
       text-align:center; box-shadow:var(--shadow);
-      transition:transform .25s, box-shadow .25s; animation:fadeIn .45s both;
+      transition:transform .25s, box-shadow .25s;
+      animation:fadeIn .45s both;
+      content-visibility:auto; contain-intrinsic-size:320px 220px;
     }
     .item:hover{ transform:translateY(-3px); box-shadow:0 12px 28px rgba(0,0,0,.12); }
     .item i{ font-size:2rem; color:var(--brand); margin-bottom:8px; transition:transform .25s }
     .item:hover i{ transform:scale(1.05) }
     .item h3{ font-size:1.1rem; margin:.25rem 0 .35rem }
     .item p{ font-size:.98rem; color:#555; margin:0 }
-
-    /* ANIMAÇÃO / ACESSIBILIDADE */
-    @keyframes fadeIn{ from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none} }
-    @media (prefers-reduced-motion: reduce){
-      *{animation:none!important; transition:none!important; scroll-behavior:auto!important}
-    }
 
     /* WHATSAPP FIXO */
     .whatsapp-btn{
@@ -101,15 +100,20 @@
       background:#25d366; color:#fff; text-decoration:none;
       padding:12px 18px; border-radius:999px; font-weight:700;
       box-shadow:0 8px 20px rgba(0,0,0,.15);
-      transition:transform .2s, background .25s;
-      /* safe-area no iPhone */
-      padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+      transition:transform .2s, background .25s; min-height:44px;
+      padding-bottom: calc(12px + var(--safe-bottom));
     }
     .whatsapp-btn:hover{ background:#20b958; transform:translateY(-2px) }
 
+    /* ANIMAÇÃO / ACESSIBILIDADE */
+    @keyframes fadeIn{ from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none} }
     @media (max-width: 768px){
       .whatsapp-btn{ right:12px; bottom:12px; padding:11px 16px }
       .tabs{ gap:8px } .tab{ padding:10px 14px }
+    }
+    @media (prefers-reduced-motion: reduce){
+      *{animation:none!important; transition:none!important}
+      html{scroll-behavior:auto!important}
     }
   </style>
 </head>
@@ -121,14 +125,14 @@
     <div class="tabs-wrap" role="navigation" aria-label="Categorias de indicações">
       <ul class="tabs" role="tablist">
         <li>
-          <button class="tab" id="tab-passeios" role="tab"
+          <button class="tab" id="tab-passeios" type="button" role="tab"
                   aria-selected="true" aria-controls="painel-passeios"
                   data-target="passeios">
             <i class="fa-solid fa-sailboat" aria-hidden="true"></i> Passeios
           </button>
         </li>
         <li>
-          <button class="tab" id="tab-beach" role="tab"
+          <button class="tab" id="tab-beach" type="button" role="tab"
                   aria-selected="false" aria-controls="painel-beach"
                   data-target="beach">
             <i class="fa-solid fa-umbrella-beach" aria-hidden="true"></i> Beach Clubs
@@ -213,51 +217,52 @@
 
   <script>
     // TABS ACESSÍVEIS (clique + teclado)
-    const tabButtons = Array.from(document.querySelectorAll('.tab'));
-    const panels = {
-      passeios: document.getElementById('painel-passeios'),
-      beach: document.getElementById('painel-beach')
-    };
+    (function(){
+      const tabButtons = Array.from(document.querySelectorAll('.tab'));
+      const panels = {
+        passeios: document.getElementById('painel-passeios'),
+        beach: document.getElementById('painel-beach')
+      };
 
-    function activateTab(btn){
-      const target = btn.dataset.target;
+      function activateTab(btn){
+        const target = btn.dataset.target;
 
-      // estado visual/ARIA dos botões
-      tabButtons.forEach(b=>{
-        const selected = b === btn;
-        b.setAttribute('aria-selected', selected ? 'true' : 'false');
-        b.tabIndex = selected ? 0 : -1;
-      });
+        // estado visual/ARIA dos botões
+        tabButtons.forEach(b=>{
+          const selected = b === btn;
+          b.setAttribute('aria-selected', selected ? 'true' : 'false');
+          b.tabIndex = selected ? 0 : -1;
+        });
 
-      // alterna painéis
-      Object.entries(panels).forEach(([key, el])=>{
-        el.hidden = key !== target;
-      });
+        // alterna painéis
+        Object.entries(panels).forEach(([key, el])=>{
+          el.hidden = key !== target;
+        });
 
-      // foca o 1º card com tabindex temporário (sem pular a página)
-      const firstItem = panels[target].querySelector('.item');
-      if (firstItem){
-        firstItem.setAttribute('tabindex','-1');
-        firstItem.focus({ preventScroll:true });
-        // remove para não “encher” a ordem de tabulação
-        setTimeout(()=> firstItem.removeAttribute('tabindex'), 0);
+        // foca o 1º card sem "pular"
+        const firstItem = panels[target].querySelector('.item');
+        if (firstItem){
+          firstItem.setAttribute('tabindex','-1');
+          firstItem.focus({ preventScroll:true });
+          setTimeout(()=> firstItem.removeAttribute('tabindex'), 0);
+        }
       }
-    }
 
-    tabButtons.forEach(b=> b.addEventListener('click', ()=> activateTab(b)));
+      tabButtons.forEach(b=> b.addEventListener('click', ()=> activateTab(b)));
 
-    // Teclado: setas, Home/End
-    document.addEventListener('keydown', (e)=>{
-      const i = tabButtons.findIndex(b => b.getAttribute('aria-selected') === 'true');
-      if(i === -1) return;
-      if(['ArrowRight','ArrowLeft','Home','End'].includes(e.key)) e.preventDefault();
-      let n = i;
-      if(e.key === 'ArrowRight') n = (i + 1) % tabButtons.length;
-      if(e.key === 'ArrowLeft')  n = (i - 1 + tabButtons.length) % tabButtons.length;
-      if(e.key === 'Home') n = 0;
-      if(e.key === 'End')  n = tabButtons.length - 1;
-      if(n !== i){ tabButtons[n].focus(); activateTab(tabButtons[n]); }
-    });
+      // Teclado: setas, Home/End
+      document.addEventListener('keydown', (e)=>{
+        const i = tabButtons.findIndex(b => b.getAttribute('aria-selected') === 'true');
+        if(i === -1) return;
+        if(['ArrowRight','ArrowLeft','Home','End'].includes(e.key)) e.preventDefault();
+        let n = i;
+        if(e.key === 'ArrowRight') n = (i + 1) % tabButtons.length;
+        if(e.key === 'ArrowLeft')  n = (i - 1 + tabButtons.length) % tabButtons.length;
+        if(e.key === 'Home') n = 0;
+        if(e.key === 'End')  n = tabButtons.length - 1;
+        if(n !== i){ tabButtons[n].focus(); activateTab(tabButtons[n]); }
+      });
+    })();
   </script>
 </body>
 </html>

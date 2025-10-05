@@ -9,7 +9,8 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
 
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#007bff" />
   <title>Galeria - Café da Manhã</title>
 
   <!-- Fonte -->
@@ -18,79 +19,132 @@
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
 
   <style>
-    :root { --brand:#007bff; --bg:#f9fafb; --shadow:0 4px 12px rgba(0,0,0,.08); --radius:10px; }
+    :root{
+      --brand:#007bff; --bg:#f9fafb; --shadow:0 8px 20px rgba(0,0,0,.12); --radius:12px;
+      --safe-top:env(safe-area-inset-top,0px); --safe-bottom:env(safe-area-inset-bottom,0px);
+    }
     *{box-sizing:border-box}
-    body{ font-family:'Quicksand', Arial, sans-serif; margin:0; padding:20px; background:var(--bg); color:#333; }
-    h1{ text-align:center; font-size:clamp(1.5rem,1.2rem + 1vw,2.2rem); color:var(--brand); margin-bottom:25px; }
+    html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth}
+    body{
+      font-family:'Quicksand', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin:0; padding:20px; background:var(--bg); color:#333; line-height:1.6;
+    }
+    :focus-visible{outline:3px solid #93c5fd; outline-offset:2px}
 
-    /* GRID (mesmo estilo das outras) */
+    h1{
+      text-align:center; font-size:clamp(1.5rem,1.2rem + 1vw,2.2rem); color:var(--brand);
+      margin:0 0 25px; padding-top:calc(6px + var(--safe-top));
+    }
+
+    /* GRID responsivo */
     .gallery{
       display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
       gap:18px; max-width:1200px; margin:0 auto;
     }
     .gallery img{
-      width:100%; aspect-ratio:4/3; object-fit:cover;
-      border-radius:var(--radius); box-shadow:var(--shadow);
-      transition:transform .3s, box-shadow .3s; background:#e9eef3;
+      width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:var(--radius);
+      box-shadow:var(--shadow); background:#e9eef3;
+      transition:transform .25s ease, box-shadow .25s ease;
+      content-visibility:auto; contain-intrinsic-size:400px 300px;
+      cursor:pointer;
     }
-    .gallery img:hover{ transform:scale(1.03); box-shadow:0 8px 20px rgba(0,0,0,.15); }
+    .gallery img:hover{ transform:scale(1.03); box-shadow:0 14px 28px rgba(0,0,0,.15); }
 
+    /* Botão voltar */
     .back-btn{
-      margin:40px auto 0; display:block; width:fit-content;
+      margin:32px auto calc(40px + var(--safe-bottom)); display:block; width:max-content;
       padding:12px 20px; background:#007bff; color:#fff; text-decoration:none;
-      font-weight:600; border-radius:999px; box-shadow:var(--shadow);
-      transition:background .3s, transform .2s;
+      font-weight:700; border-radius:999px; box-shadow:var(--shadow);
+      transition:background .25s, transform .2s;
     }
-    .back-btn:hover{ background:#0056b3; transform:translateY(-2px); }
+    .back-btn:hover{ background:#0056b3; transform:translateY(-2px) }
 
     @media (max-width:600px){
-      body{padding:15px}
+      body{padding:14px}
       .gallery{gap:12px}
-      .back-btn{font-size:.9rem; padding:10px 16px}
+      .back-btn{font-size:.95rem; padding:10px 16px}
+    }
+    @media (prefers-reduced-motion:reduce){
+      *{animation:none!important; transition:none!important}
+      html{scroll-behavior:auto}
     }
 
-    /* Destaca imagens quebradas (igual às outras páginas) */
+    /* Destaque diagnóstico de imagens quebradas */
     .img-error{ outline:3px solid #e11d48; position:relative; border-radius:var(--radius) }
     .img-error::after{
       content:"Arquivo não encontrado";
       position:absolute; inset:auto 6px 6px 6px; background:#e11d48; color:#fff;
       font:600 12px/1.2 Quicksand,Arial; padding:6px 8px; border-radius:6px;
     }
+
+    /* LIGHTBOX acessível */
+    .lightbox{
+      position:fixed; inset:0; display:none; align-items:center; justify-content:center;
+      background:rgba(0,0,0,.85); z-index:1000; cursor:zoom-out;
+      padding:max(12px,var(--safe-top)) 12px max(12px,var(--safe-bottom));
+    }
+    .lightbox.open{ display:flex }
+    .lightbox__img{
+      max-width:min(92vw, 1400px); max-height:90vh; border-radius:var(--radius);
+      box-shadow:var(--shadow); outline:none; cursor:auto;
+    }
+    .visually-hidden{
+      position:absolute; width:1px; height:1px; margin:-1px; padding:0; border:0;
+      clip:rect(0 0 0 0); overflow:hidden; white-space:nowrap;
+    }
+    .lb-controls{
+      position:fixed; inset:auto 0 calc(12px + var(--safe-bottom)) 0;
+      display:flex; gap:10px; justify-content:center; pointer-events:none;
+    }
+    .lb-btn{
+      pointer-events:auto; border:0; border-radius:999px; min-width:44px; min-height:44px;
+      padding:10px 14px; font-weight:800; background:#ffffffee; color:#111;
+      box-shadow:0 8px 20px rgba(0,0,0,.25); cursor:pointer; transition:transform .15s ease;
+    }
+    .lb-btn:active{ transform:scale(.96) }
   </style>
 </head>
 <body>
   <h1>Galeria - Café da Manhã</h1>
 
   <div class="gallery" id="galeria">
-    <!-- Usei data-src com nomes “bonitos”. O JS abaixo faz o encode automático e tenta .JPG/.jpg. -->
+    <!-- Mantém nomes amigáveis: o JS faz encode automático e fallback de extensão -->
     <img data-src="/images/CAFÉ DA MANHÃ/4E1A0548.jpg" alt="Café da Manhã 1" loading="lazy" decoding="async">
     <img data-src="/images/CAFÉ DA MANHÃ/4E1A0552.jpg" alt="Café da Manhã 2" loading="lazy" decoding="async">
-    <img data-src="/images/CAFÉ DA MANHÃ/café-4.jpg" alt="Café da Manhã 3" loading="lazy" decoding="async">
-    <img data-src="/images/CAFÉ DA MANHÃ/café-13.jpg" alt="Café da Manhã 4" loading="lazy" decoding="async">
-    <img data-src="/images/CAFÉ DA MANHÃ/café-30.jpg" alt="Café da Manhã 5" loading="lazy" decoding="async">
-    <img data-src="/images/CAFÉ DA MANHÃ/café-37.jpg" alt="Café da Manhã 6" loading="lazy" decoding="async">
+    <img data-src="/images/CAFÉ DA MANHÃ/café-4.jpg"   alt="Café da Manhã 3" loading="lazy" decoding="async">
+    <img data-src="/images/CAFÉ DA MANHÃ/café-13.jpg"  alt="Café da Manhã 4" loading="lazy" decoding="async">
+    <img data-src="/images/CAFÉ DA MANHÃ/café-30.jpg"  alt="Café da Manhã 5" loading="lazy" decoding="async">
+    <img data-src="/images/CAFÉ DA MANHÃ/café-37.jpg"  alt="Café da Manhă 6" loading="lazy" decoding="async">
     <img data-src="/images/CAFÉ DA MANHÃ/IMG_1329.JPG" alt="Café da Manhã 7" loading="lazy" decoding="async">
     <img data-src="/images/CAFÉ DA MANHÃ/IMG_1333.JPG" alt="Café da Manhã 8" loading="lazy" decoding="async">
     <img data-src="/images/CAFÉ DA MANHÃ/Cópia de IMG_1279.JPG" alt="Café da Manhã 9" loading="lazy" decoding="async">
-    <img data-src="/images/CAFÉ DA MANHÃ/villadoscorais-78.jpg" alt="Café da Manhã 10" loading="lazy" decoding="async">
+    <img data-src="/images/CAFÉ DA MANHÃ/villadoscorais-78.jpg"  alt="Café da Manhã 10" loading="lazy" decoding="async">
     <img data-src="/images/CAFÉ DA MANHÃ/villadoscorais-120.jpg" alt="Café da Manhã 11" loading="lazy" decoding="async">
-    <img data-src="/images/CAFÉ DA MANHÃ/café-10.jpg" alt="Café da Manhã 12" loading="lazy" decoding="async">
+    <img data-src="/images/CAFÉ DA MANHÃ/café-10.jpg"  alt="Café da Manhã 12" loading="lazy" decoding="async">
     <img data-src="/images/CAFÉ DA MANHÃ/villadoscorais-146.jpg" alt="Café da Manhã 13" loading="lazy" decoding="async">
   </div>
 
-  <a href="/index.html" class="back-btn">⬅ Voltar para o site</a>
+  <a href="/index.html" class="back-btn" aria-label="Voltar para o site">⬅ Voltar para o site</a>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lb-title" aria-hidden="true">
+    <span id="lb-title" class="visually-hidden">Foto ampliada</span>
+    <img class="lightbox__img" src="" alt="">
+    <div class="lb-controls" aria-hidden="true">
+      <button type="button" class="lb-btn" data-prev aria-label="Imagem anterior">❮</button>
+      <button type="button" class="lb-btn" data-next aria-label="Próxima imagem">❯</button>
+      <button type="button" class="lb-btn" data-close aria-label="Fechar">✕</button>
+    </div>
+  </div>
 
   <script>
-    // 1) Faz o encode correto de espaços/acentos (CAFÉ, “café-*.jpg”, “Cópia de …”)
-    // 2) Se falhar, tenta alternar a extensão .jpg <-> .JPG (e .jpeg <-> .JPEG)
-    // 3) Se ainda falhar, aplica o destaque .img-error
+    // === 1) ENCODE de caminhos com acentos/espacos + fallback .jpg<->.JPG / .jpeg<->.JPEG
     document.querySelectorAll('#galeria img').forEach(img => {
-      const raw = img.getAttribute('data-src');              // caminho com acentos/espacos
-      const encoded = encodeURI(raw);                        // vira /images/CAF%C3%89%20DA%20MANH%C3%83/...
+      const raw = img.getAttribute('data-src');      // exemplo: /images/CAFÉ DA MANHÃ/café-4.jpg
+      const encoded = encodeURI(raw);                 // vira /images/CAF%C3%89%20DA%20MANH%C3%83/caf%C3%A9-4.jpg
       img.src = encoded;
 
-      img.addEventListener('error', function onErr() {
-        // tenta uma única vez trocar a extensão
+      img.addEventListener('error', function onErr(){
         if (!img.dataset.retry) {
           img.dataset.retry = '1';
           try {
@@ -102,15 +156,95 @@
                         : (ext === 'JPG') ? 'jpg'
                         : (ext === 'jpeg') ? 'JPEG'
                         : 'jpeg';
-              u.pathname = u.pathname.replace(new RegExp(`\\.${ext}$`), `.${alt}`);
+              u.pathname = u.pathname.replace(new RegExp('\\.' + ext + '$'), '.' + alt);
               img.src = u.pathname + u.search + u.hash;
               return;
             }
           } catch(_) {}
         }
         img.classList.add('img-error');
-      });
+      }, { once:false });
     });
+
+    // === 2) LIGHTBOX acessível (Esc/←/→, botões, bloqueia rolagem do fundo)
+    (function(){
+      const thumbs = Array.from(document.querySelectorAll('#galeria img'));
+      const box = document.getElementById('lightbox');
+      const big = box.querySelector('.lightbox__img');
+      const btnPrev = box.querySelector('[data-prev]');
+      const btnNext = box.querySelector('[data-next]');
+      const btnClose = box.querySelector('[data-close]');
+      let idx = -1, lastFocused = null;
+
+      function lockScroll(lock){ document.body.style.overflow = lock ? 'hidden' : ''; }
+
+      function openAt(i){
+        if (!thumbs.length) return;
+        idx = (i + thumbs.length) % thumbs.length;
+        const src = thumbs[idx].currentSrc || thumbs[idx].src;
+        big.src = src; big.alt = thumbs[idx].alt || 'Foto ampliada do café da manhã';
+        lastFocused = document.activeElement;
+        box.classList.add('open'); box.setAttribute('aria-hidden','false');
+        lockScroll(true);
+        setTimeout(()=> btnClose.focus(), 20);
+      }
+      function closeBox(){
+        box.classList.remove('open'); box.setAttribute('aria-hidden','true');
+        big.src = ''; idx = -1; lockScroll(false);
+        lastFocused && lastFocused.focus();
+      }
+      function prev(){ openAt(idx-1); }
+      function next(){ openAt(idx+1); }
+
+      thumbs.forEach((t,i)=> t.addEventListener('click', ()=> openAt(i)));
+      box.addEventListener('click', (e)=>{ if (e.target === box) closeBox(); });
+      btnPrev.addEventListener('click', (e)=>{ e.stopPropagation(); prev(); });
+      btnNext.addEventListener('click', (e)=>{ e.stopPropagation(); next(); });
+      btnClose.addEventListener('click', (e)=>{ e.stopPropagation(); closeBox(); });
+
+      window.addEventListener('keydown', (e)=>{
+        if(!box.classList.contains('open')) return;
+        if(e.key === 'Escape') closeBox();
+        if(e.key === 'ArrowLeft') prev();
+        if(e.key === 'ArrowRight') next();
+      });
+
+      // Trap de foco simples dentro do lightbox
+      box.addEventListener('keydown', (e)=>{
+        if(e.key !== 'Tab' || !box.classList.contains('open')) return;
+        const focusables = [btnPrev, btnNext, btnClose].filter(Boolean);
+        if(!focusables.length) return;
+        const first = focusables[0], last = focusables[focusables.length-1];
+        if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+      }, { capture:true });
+
+      // Gestos (swipe) em telas touch no lightbox
+      let startX=0, startY=0, dx=0, dragging=false, blocked=false;
+      const ANGLE_LOCK = 25, THRESHOLD = 50;
+      const angle = (dx,dy)=> 180*Math.atan2(Math.abs(dy), Math.abs(dx))/Math.PI;
+
+      big.addEventListener('touchstart',(e)=>{
+        const t=e.changedTouches[0];
+        startX=t.clientX; startY=t.clientY; dx=0; dragging=true; blocked=false;
+      },{passive:true});
+      big.addEventListener('touchmove',(e)=>{
+        if(!dragging || blocked) return;
+        const t=e.changedTouches[0]; const _dx=t.clientX-startX, _dy=t.clientY-startY;
+        if (angle(_dx,_dy) > ANGLE_LOCK){ blocked = true; return; }
+        dx=_dx;
+      },{passive:true});
+      const endSwipe=()=>{
+        if(!dragging) return;
+        if(Math.abs(dx)>THRESHOLD) (dx<0 ? next() : prev());
+        dragging=false; blocked=false; dx=0;
+      };
+      big.addEventListener('touchend', endSwipe, {passive:true});
+      big.addEventListener('touchcancel', endSwipe, {passive:true});
+    })();
+
+    // Marca suporte JS para regras opcionais no CSS
+    document.documentElement.classList.add('js');
   </script>
 </body>
 </html>

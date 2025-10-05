@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#007bff" />
   <title>Galeria - Piscina</title>
 
   <!-- FAVICON -->
@@ -30,16 +31,19 @@
     :root{
       --brand:#007bff; --bg:#f5f5f5; --card:#fff; --ink:#333;
       --radius:12px; --shadow:0 8px 20px rgba(0,0,0,.12);
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
     *,*::before,*::after{ box-sizing:border-box; }
-    html{ -webkit-text-size-adjust:100%; }
+    html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
     body{
       margin:0; font-family:"Quicksand", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background:var(--bg); color:var(--ink); line-height:1.6;
     }
+    :focus-visible{ outline:3px solid #93c5fd; outline-offset:3px; }
 
     h1{
-      text-align:center; padding:24px 12px 12px;
+      text-align:center; padding:calc(16px + var(--safe-top)) 12px 12px;
       font-size:clamp(1.6rem, 1.8vw + 1rem, 2.4rem); color:var(--brand); margin:0;
     }
 
@@ -49,7 +53,7 @@
       grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
       max-width:1200px; margin:0 auto; padding:20px;
     }
-    .gallery picture{ display:block; }
+    .gallery picture{ display:block; content-visibility:auto; contain-intrinsic-size:320px 240px; }
     .gallery img{
       width:100%; aspect-ratio:4/3; object-fit:cover;
       border-radius:var(--radius); cursor:pointer; background:#e9eef3;
@@ -65,6 +69,8 @@
       display:block; max-width:max-content; margin:6px auto 40px;
       padding:12px 20px; background:var(--brand); color:#fff; text-decoration:none;
       border-radius:999px; font-weight:700; transition:background .25s, transform .2s;
+      min-height:44px;
+      padding-bottom: calc(12px + var(--safe-bottom));
     }
     .back-btn:hover{ background:#0056b3; transform:translateY(-2px); }
 
@@ -72,6 +78,7 @@
     .lightbox{
       position:fixed; inset:0; display:none; align-items:center; justify-content:center;
       background:rgba(0,0,0,.85); z-index:1000;
+      padding: max(8px, var(--safe-top)) 8px max(8px, var(--safe-bottom));
     }
     .lightbox.open{ display:flex; }
     .lightbox img{
@@ -82,7 +89,7 @@
     .lb-close, .lb-arrow{
       position:absolute; display:grid; place-items:center; border:0; cursor:pointer;
       width:46px; height:46px; border-radius:50%; color:#fff; background:rgba(0,0,0,.5);
-      transition:background .2s ease, transform .2s ease;
+      transition:background .2s ease, transform .2s ease; -webkit-tap-highlight-color:transparent;
     }
     .lb-close{ top:18px; right:18px; font-size:1.1rem; }
     .lb-arrow{ top:50%; transform:translateY(-50%); font-size:1.2rem; }
@@ -112,178 +119,138 @@
   <div class="gallery" id="galeria">
     <!-- 1 -->
     <picture>
-      <source type="image/avif"
-        srcset="
-          images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
-          images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
-          images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
-      <source type="image/webp"
-        srcset="
-          images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
-          images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
-          images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
-      <img
-        src="images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=1200&q=75"
-        srcset="
-          images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=480&q=75 480w,
-          images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=800&q=75 800w,
-          images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=1200&q=75 1200w"
-        sizes="(max-width: 900px) 90vw, 360px"
-        loading="lazy" decoding="async" alt="Piscina 1">
+      <source type="image/avif" srcset="
+        images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
+        images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
+        images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
+      <source type="image/webp" srcset="
+        images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
+        images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
+        images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
+      <img src="images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=1200&q=75" srcset="
+        images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=480&q=75 480w,
+        images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=800&q=75 800w,
+        images/PISCINA/4E1A0272.jpg?nf_resize=fit&w=1200&q=75 1200w"
+        sizes="(max-width: 900px) 90vw, 360px" loading="lazy" decoding="async" alt="Piscina 1">
     </picture>
 
     <!-- 2 -->
     <picture>
-      <source type="image/avif"
-        srcset="
-          images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
-          images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
-          images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
-      <source type="image/webp"
-        srcset="
-          images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
-          images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
-          images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
-      <img
-        src="images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=1200&q=75"
-        srcset="
-          images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=480&q=75 480w,
-          images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=800&q=75 800w,
-          images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=1200&q=75 1200w"
-        sizes="(max-width: 900px) 90vw, 360px"
-        loading="lazy" decoding="async" alt="Piscina 2">
+      <source type="image/avif" srcset="
+        images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
+        images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
+        images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
+      <source type="image/webp" srcset="
+        images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
+        images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
+        images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
+      <img src="images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=1200&q=75" srcset="
+        images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=480&q=75 480w,
+        images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=800&q=75 800w,
+        images/PISCINA/4E1A0276.jpg?nf_resize=fit&w=1200&q=75 1200w"
+        sizes="(max-width: 900px) 90vw, 360px" loading="lazy" decoding="async" alt="Piscina 2">
     </picture>
 
     <!-- 3 -->
     <picture>
-      <source type="image/avif"
-        srcset="
-          images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
-          images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
-          images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
-      <source type="image/webp"
-        srcset="
-          images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
-          images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
-          images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
-      <img
-        src="images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=1200&q=75"
-        srcset="
-          images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=480&q=75 480w,
-          images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=800&q=75 800w,
-          images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=1200&q=75 1200w"
-        sizes="(max-width: 900px) 90vw, 360px"
-        loading="lazy" decoding="async" alt="Piscina 3">
+      <source type="image/avif" srcset="
+        images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
+        images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
+        images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
+      <source type="image/webp" srcset="
+        images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
+        images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
+        images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
+      <img src="images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=1200&q=75" srcset="
+        images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=480&q=75 480w,
+        images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=800&q=75 800w,
+        images/PISCINA/4E1A0278.jpg?nf_resize=fit&w=1200&q=75 1200w"
+        sizes="(max-width: 900px) 90vw, 360px" loading="lazy" decoding="async" alt="Piscina 3">
     </picture>
 
     <!-- 4 -->
     <picture>
-      <source type="image/avif"
-        srcset="
-          images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
-          images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
-          images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
-      <source type="image/webp"
-        srcset="
-          images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
-          images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
-          images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
-      <img
-        src="images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=1200&q=75"
-        srcset="
-          images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=480&q=75 480w,
-          images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=800&q=75 800w,
-          images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=1200&q=75 1200w"
-        sizes="(max-width: 900px) 90vw, 360px"
-        loading="lazy" decoding="async" alt="Piscina 4">
+      <source type="image/avif" srcset="
+        images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
+        images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
+        images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
+      <source type="image/webp" srcset="
+        images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
+        images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
+        images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
+      <img src="images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=1200&q=75" srcset="
+        images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=480&q=75 480w,
+        images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=800&q=75 800w,
+        images/PISCINA/4E1A0280.jpg?nf_resize=fit&w=1200&q=75 1200w"
+        sizes="(max-width: 900px) 90vw, 360px" loading="lazy" decoding="async" alt="Piscina 4">
     </picture>
 
     <!-- 5 -->
     <picture>
-      <source type="image/avif"
-        srcset="
-          images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
-          images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
-          images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
-      <source type="image/webp"
-        srcset="
-          images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
-          images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
-          images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
-      <img
-        src="images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=1200&q=75"
-        srcset="
-          images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=480&q=75 480w,
-          images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=800&q=75 800w,
-          images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=1200&q=75 1200w"
-        sizes="(max-width: 900px) 90vw, 360px"
-        loading="lazy" decoding="async" alt="Piscina 5">
+      <source type="image/avif" srcset="
+        images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
+        images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
+        images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
+      <source type="image/webp" srcset="
+        images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
+        images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
+        images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
+      <img src="images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=1200&q=75" srcset="
+        images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=480&q=75 480w,
+        images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=800&q=75 800w,
+        images/PISCINA/4E1A0320.jpg?nf_resize=fit&w=1200&q=75 1200w"
+        sizes="(max-width: 900px) 90vw, 360px" loading="lazy" decoding="async" alt="Piscina 5">
     </picture>
 
     <!-- 6 -->
     <picture>
-      <source type="image/avif"
-        srcset="
-          images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
-          images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
-          images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
-      <source type="image/webp"
-        srcset="
-          images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
-          images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
-          images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
-      <img
-        src="images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=1200&q=75"
-        srcset="
-          images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=480&q=75 480w,
-          images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=800&q=75 800w,
-          images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=1200&q=75 1200w"
-        sizes="(max-width: 900px) 90vw, 360px"
-        loading="lazy" decoding="async" alt="Piscina 6">
+      <source type="image/avif" srcset="
+        images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
+        images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
+        images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
+      <source type="image/webp" srcset="
+        images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
+        images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
+        images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
+      <img src="images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=1200&q=75" srcset="
+        images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=480&q=75 480w,
+        images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=800&q=75 800w,
+        images/PISCINA/4E1A0298.jpg?nf_resize=fit&w=1200&q=75 1200w"
+        sizes="(max-width: 900px) 90vw, 360px" loading="lazy" decoding="async" alt="Piscina 6">
     </picture>
 
     <!-- 7 -->
     <picture>
-      <source type="image/avif"
-        srcset="
-          images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
-          images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
-          images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
-      <source type="image/webp"
-        srcset="
-          images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
-          images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
-          images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
-      <img
-        src="images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=1200&q=75"
-        srcset="
-          images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=480&q=75 480w,
-          images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=800&q=75 800w,
-          images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=1200&q=75 1200w"
-        sizes="(max-width: 900px) 90vw, 360px"
-        loading="lazy" decoding="async" alt="Piscina 7">
+      <source type="image/avif" srcset="
+        images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
+        images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
+        images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
+      <source type="image/webp" srcset="
+        images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
+        images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
+        images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
+      <img src="images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=1200&q=75" srcset="
+        images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=480&q=75 480w,
+        images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=800&q=75 800w,
+        images/PISCINA/4E1A0579.jpg?nf_resize=fit&w=1200&q=75 1200w"
+        sizes="(max-width: 900px) 90vw, 360px" loading="lazy" decoding="async" alt="Piscina 7">
     </picture>
 
     <!-- 8 -->
     <picture>
-      <source type="image/avif"
-        srcset="
-          images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
-          images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
-          images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
-      <source type="image/webp"
-        srcset="
-          images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
-          images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
-          images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
-      <img
-        src="images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=1200&q=75"
-        srcset="
-          images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=480&q=75 480w,
-          images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=800&q=75 800w,
-          images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=1200&q=75 1200w"
-        sizes="(max-width: 900px) 90vw, 360px"
-        loading="lazy" decoding="async" alt="Piscina 8">
+      <source type="image/avif" srcset="
+        images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=480&fm=avif&q=65 480w,
+        images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=800&fm=avif&q=65 800w,
+        images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=1200&fm=avif&q=65 1200w">
+      <source type="image/webp" srcset="
+        images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=480&fm=webp&q=75 480w,
+        images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=800&fm=webp&q=75 800w,
+        images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=1200&fm=webp&q=75 1200w">
+      <img src="images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=1200&q=75" srcset="
+        images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=480&q=75 480w,
+        images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=800&q=75 800w,
+        images/PISCINA/4E1A0834.jpg?nf_resize=fit&w=1200&q=75 1200w"
+        sizes="(max-width: 900px) 90vw, 360px" loading="lazy" decoding="async" alt="Piscina 8">
     </picture>
   </div>
 
@@ -346,9 +313,7 @@
       }
 
       // Abrir pelo clique
-      nodes.forEach((wrap, i) => {
-        wrap.addEventListener('click', () => openAt(i));
-      });
+      nodes.forEach((wrap, i) => wrap.addEventListener('click', () => openAt(i)));
 
       // Controles
       btnClose.addEventListener('click', closeBox);

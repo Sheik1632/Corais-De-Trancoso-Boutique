@@ -2,7 +2,8 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#007bff" />
   <title>Galeria - Área Interna</title>
 
   <!-- Favicons -->
@@ -21,16 +22,20 @@
     :root{
       --brand:#007bff; --bg:#f9fafb; --card:#fff;
       --radius:12px; --shadow:0 8px 20px rgba(0,0,0,.12);
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
     *{ box-sizing:border-box; }
-    html{-webkit-text-size-adjust:100%;}
+    html{-webkit-text-size-adjust:100%; text-size-adjust:100%; scroll-behavior:smooth;}
     body{
       margin:0; background:var(--bg); color:#333;
-      font-family:'Quicksand', Arial, sans-serif; line-height:1.6;
+      font-family:'Quicksand', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height:1.6;
     }
+    :focus-visible{ outline:3px solid #93c5fd; outline-offset:2px; }
 
     h1{
-      text-align:center; padding:24px 12px 12px;
+      text-align:center; padding:calc(16px + var(--safe-top)) 12px 12px;
       font-size:clamp(1.6rem, 1.8vw + 1rem, 2.2rem); color:var(--brand);
       margin:0 0 8px;
     }
@@ -48,10 +53,11 @@
       transition:transform .25s ease, box-shadow .25s ease;
     }
     .gallery img:hover{ transform:scale(1.03); box-shadow:0 14px 28px rgba(0,0,0,.15); }
+    .gallery img{ content-visibility:auto; contain-intrinsic-size: 400px 300px; }
 
     /* BOTÃO VOLTAR */
     .back-btn{
-      display:block; max-width:max-content; margin:18px auto 40px;
+      display:block; max-width:max-content; margin:18px auto calc(40px + var(--safe-bottom));
       padding:12px 20px; background:var(--brand); color:#fff; text-decoration:none;
       border-radius:999px; font-weight:700; transition:background .25s, transform .2s;
       box-shadow:var(--shadow);
@@ -62,19 +68,34 @@
     .lightbox{
       position:fixed; inset:0; display:none; align-items:center; justify-content:center;
       background:rgba(0,0,0,.85); z-index:1000; cursor:zoom-out;
+      padding: max(12px, var(--safe-top)) 12px max(12px, var(--safe-bottom));
     }
     .lightbox.open{ display:flex; }
-    .lightbox img{
+    .lightbox__img{
       max-width:min(92vw, 1400px); max-height:90vh;
       border-radius:var(--radius); box-shadow:var(--shadow);
-      cursor:auto;
+      cursor:auto; outline:none;
     }
     .lightbox .visually-hidden{
       position:absolute; width:1px; height:1px; margin:-1px; padding:0; border:0;
       clip:rect(0 0 0 0); overflow:hidden; white-space:nowrap;
     }
 
-    /* Imagens quebradas: destaque visual para facilitar ajuste de caminho */
+    /* Controles do lightbox (acessíveis) */
+    .lb-controls{
+      position:fixed; inset:auto 0 calc(12px + var(--safe-bottom)) 0;
+      display:flex; gap:10px; justify-content:center; pointer-events:none;
+    }
+    .lb-btn{
+      pointer-events:auto;
+      border:0; border-radius:999px; min-width:44px; min-height:44px;
+      padding:10px 14px; font-weight:800; background:#ffffffee; color:#111;
+      box-shadow:0 8px 20px rgba(0,0,0,.25); cursor:pointer;
+      transition:transform .15s ease;
+    }
+    .lb-btn:active{ transform:scale(.96); }
+
+    /* Imagens quebradas: destaque para facilitar ajuste de caminho */
     .img-error{ outline:3px solid #e11d48; position:relative; }
     .img-error::after{
       content:"Arquivo não encontrado";
@@ -88,6 +109,7 @@
     }
     @media (prefers-reduced-motion: reduce){
       *{ animation:none!important; transition:none!important; }
+      html{ scroll-behavior:auto; }
     }
   </style>
 </head>
@@ -96,60 +118,130 @@
 
   <div class="gallery" id="galeria">
     <!-- IMPORTANTE: caminhos com espaço foram codificados com %20 -->
-    <img src="/images/AREA%20INTERNA/4E1A0219.jpg" alt="Área Interna 1" loading="lazy" decoding="async">
-    <img src="/images/AREA%20INTERNA/4E1A0227.jpg" alt="Área Interna 2" loading="lazy" decoding="async">
-    <img src="/images/AREA%20INTERNA/4E1A0239.jpg" alt="Área Interna 3" loading="lazy" decoding="async">
-    <img src="/images/AREA%20INTERNA/4E1A0262.jpg" alt="Área Interna 4" loading="lazy" decoding="async">
-    <img src="/images/AREA%20INTERNA/4E1A0298.jpg" alt="Área Interna 5" loading="lazy" decoding="async">
-    <img src="/images/AREA%20INTERNA/4E1A0647.jpg" alt="Área Interna 6" loading="lazy" decoding="async">
-    <img src="/images/AREA%20INTERNA/4E1A0847.jpg" alt="Área Interna 7" loading="lazy" decoding="async">
-    <img src="/images/AREA%20INTERNA/4E1A0877.jpg" alt="Área Interna 8" loading="lazy" decoding="async">
+    <img src="/images/AREA%20INTERNA/4E1A0219.jpg" alt="Área Interna 1" loading="lazy" decoding="async" />
+    <img src="/images/AREA%20INTERNA/4E1A0227.jpg" alt="Área Interna 2" loading="lazy" decoding="async" />
+    <img src="/images/AREA%20INTERNA/4E1A0239.jpg" alt="Área Interna 3" loading="lazy" decoding="async" />
+    <img src="/images/AREA%20INTERNA/4E1A0262.jpg" alt="Área Interna 4" loading="lazy" decoding="async" />
+    <img src="/images/AREA%20INTERNA/4E1A0298.jpg" alt="Área Interna 5" loading="lazy" decoding="async" />
+    <img src="/images/AREA%20INTERNA/4E1A0647.jpg" alt="Área Interna 6" loading="lazy" decoding="async" />
+    <img src="/images/AREA%20INTERNA/4E1A0847.jpg" alt="Área Interna 7" loading="lazy" decoding="async" />
+    <img src="/images/AREA%20INTERNA/4E1A0877.jpg" alt="Área Interna 8" loading="lazy" decoding="async" />
   </div>
 
-  <a href="/index.html" class="back-btn">← Voltar para o site</a>
+  <a href="/index.html" class="back-btn" aria-label="Voltar para a página inicial">← Voltar para o site</a>
 
   <!-- Lightbox acessível -->
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lb-title">
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lb-title" aria-hidden="true">
     <span id="lb-title" class="visually-hidden">Foto ampliada</span>
-    <img src="" alt="">
+    <img class="lightbox__img" src="" alt="" />
+    <!-- Controles (não mudam o conteúdo da página, só melhoram acessibilidade) -->
+    <div class="lb-controls" aria-hidden="true">
+      <button type="button" class="lb-btn" data-prev aria-label="Imagem anterior">❮</button>
+      <button type="button" class="lb-btn" data-next aria-label="Próxima imagem">❯</button>
+      <button type="button" class="lb-btn" data-close aria-label="Fechar">✕</button>
+    </div>
   </div>
 
   <script>
-    (function (){
+    (function(){
       const gallery = Array.from(document.querySelectorAll('#galeria img'));
       const box = document.getElementById('lightbox');
-      const img = box.querySelector('img');
+      const img = box.querySelector('.lightbox__img');
+      const btnPrev = box.querySelector('[data-prev]');
+      const btnNext = box.querySelector('[data-next]');
+      const btnClose = box.querySelector('[data-close]');
       let idx = -1;
+      let lastFocused = null;
 
-      // Marca visualmente imagens quebradas (ajuda a detectar nomes/caminhos)
-      gallery.forEach(g => {
-        g.addEventListener('error', () => g.classList.add('img-error'), { once:true });
-      });
+      // Marca visualmente imagens quebradas (diagnóstico)
+      gallery.forEach(g => g.addEventListener('error', () => g.classList.add('img-error'), { once:true }));
+
+      function lockScroll(lock){
+        document.body.style.overflow = lock ? 'hidden' : '';
+      }
 
       function openAt(i){
         idx = i;
         const src = gallery[idx].currentSrc || gallery[idx].src;
         img.src = src;
         img.alt = gallery[idx].alt || 'Foto ampliada da área interna';
+        lastFocused = document.activeElement;
         box.classList.add('open');
+        box.setAttribute('aria-hidden', 'false');
+        lockScroll(true);
+        // foca no botão fechar para trap de foco natural
+        setTimeout(() => btnClose.focus(), 20);
       }
-      function closeBox(){ box.classList.remove('open'); img.src = ''; idx = -1; }
-      function prev(){ if(idx<=0) idx = gallery.length; openAt((idx-1)%gallery.length); }
-      function next(){ openAt((idx+1)%gallery.length); }
+      function closeBox(){
+        box.classList.remove('open');
+        box.setAttribute('aria-hidden', 'true');
+        img.src = '';
+        idx = -1;
+        lockScroll(false);
+        lastFocused && lastFocused.focus();
+      }
+      function prev(){ if (!gallery.length) return; if(idx<=0) idx = gallery.length; openAt((idx-1)%gallery.length); }
+      function next(){ if (!gallery.length) return; openAt((idx+1)%gallery.length); }
 
+      // Abre ao clicar nas miniaturas
       gallery.forEach((g, i) => g.addEventListener('click', () => openAt(i)));
 
       // Fecha ao clicar fora da imagem
       box.addEventListener('click', (e) => { if(e.target === box) closeBox(); });
 
-      // Teclado: Esc fecha; ← → navega
+      // Controles
+      btnPrev.addEventListener('click', (e)=>{ e.stopPropagation(); prev(); });
+      btnNext.addEventListener('click', (e)=>{ e.stopPropagation(); next(); });
+      btnClose.addEventListener('click', (e)=>{ e.stopPropagation(); closeBox(); });
+
+      // Teclado: Esc fecha; ← → navega; Enter/Espaço nos botões
       window.addEventListener('keydown', (e) => {
         if(!box.classList.contains('open')) return;
         if(e.key === 'Escape')      closeBox();
         if(e.key === 'ArrowLeft')   prev();
         if(e.key === 'ArrowRight')  next();
       });
+
+      // Trap de foco simples dentro do lightbox
+      box.addEventListener('keydown', (e) => {
+        if (e.key !== 'Tab' || !box.classList.contains('open')) return;
+        const focusables = [btnPrev, btnNext, btnClose].filter(Boolean);
+        if (!focusables.length) return;
+        const first = focusables[0];
+        const last  = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+      }, { capture: true });
+
+      // Suporte a gestos (swipe) no lightbox em telas touch
+      let startX=0, startY=0, dx=0, dragging=false, blocked=false;
+      const ANGLE_LOCK = 25, THRESHOLD = 50;
+      const angleDeg = (dx,dy)=> Math.atan2(Math.abs(dy), Math.abs(dx)) * 180 / Math.PI;
+
+      img.addEventListener('touchstart', (e)=>{
+        const t = e.changedTouches[0];
+        startX = t.clientX; startY = t.clientY; dx = 0; dragging = true; blocked = false;
+      }, { passive:true });
+
+      img.addEventListener('touchmove', (e)=>{
+        if (!dragging || blocked) return;
+        const t = e.changedTouches[0];
+        const ddx = t.clientX - startX, ddy = t.clientY - startY;
+        if (angleDeg(ddx, ddy) > ANGLE_LOCK){ blocked = true; return; }
+        dx = ddx;
+      }, { passive:true });
+
+      const endSwipe = ()=>{
+        if (!dragging) return;
+        if (Math.abs(dx) > THRESHOLD) (dx < 0 ? next() : prev());
+        dragging = false; blocked = false; dx = 0;
+      };
+      img.addEventListener('touchend', endSwipe, { passive:true });
+      img.addEventListener('touchcancel', endSwipe, { passive:true });
     })();
+
+    // Ativa utilitários dependentes de JS no CSS, se quiser
+    document.documentElement.classList.add('js');
   </script>
 </body>
 </html>
