@@ -315,127 +315,106 @@ document.addEventListener('DOMContentLoaded', () => {
   /* =========================
      5) MODAL DE RESERVA + OMNIBEES (iframe se existir, senão nova aba)
   ========================= */
-  (function(){
-    const modal     = $('#modalReserva');
-    const openBtn   = $('.abrir-reserva');
-    if (!modal || !openBtn) return;
+// ===== Modal de reserva (com lock de scroll iOS + acessibilidade básica) =====
+const abrirReserva = $('.abrir-reserva');
+const modal = $('#modalReserva');
+const fechar = modal && modal.querySelector('.fechar');
 
-    const closeBtn  = $('.fechar', modal);
-    const content   = $('.modal-content', modal);
-    const form      = $('#formReserva');
+let lastFocused = null;
+let scrollY = 0;
 
-    const ci        = $('#checkin');
-    const co        = $('#checkout');
-    const adultosEl = $('#adultos');
-    const kidsEl    = $('#criancas');
+function openModal(){
+  if (!modal) return;
+  lastFocused = document.activeElement;
+  scrollY = window.scrollY || document.documentElement.scrollTop || 0;
 
-    const iframe    = $('#omnibeesFrame');   // opcional
-    const aLink     = $('#omnibeesLink');    // opcional
-    const resultBox = $('#resultadoDisponivel'); // opcional
+  // trava o fundo sem “pulo” no iOS
+  document.body.style.top = `-${scrollY}px`;
+  document.body.style.position = 'fixed';
+  document.body.style.width = '100%';
+  document.body.classList.add('modal-open');
 
-    // Datas padrão + mínimas
-    const t = todayISO();
-    if (ci && co){
-      ci.value = ci.value || t;
-      co.value = co.value || addDays(ci.value, 1);
-      ci.min = t;
-      co.min = addDays(t, 1);
+  modal.classList.add('show');
+  modal.setAttribute('aria-hidden','false');
 
-      on(ci, 'change', () => {
-        const minCo = addDays(ci.value || todayISO(), 1);
-        co.min = minCo;
-        if (!co.value || co.value <= ci.value) co.value = minCo;
-      });
-    }
+  // foco no primeiro campo
+  const firstInput = $('#checkin') || modal.querySelector('input, button, [tabindex]:not([tabindex="-1"])');
+  setTimeout(()=> firstInput && firstInput.focus(), 40);
 
-    // Focus trap
-    function trapHandler(e){
-      if (e.key !== 'Tab') return;
-      const focusables = $$('a,button,input,select,textarea,[tabindex]:not([tabindex="-1"])', content)
-        .filter(el => !el.disabled && el.offsetParent !== null);
-      if (!focusables.length) return;
-      const first = focusables[0];
-      const last  = focusables[focusables.length - 1];
-      if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
-    }
+  document.addEventListener('keydown', onKeyDown);
+  modal.addEventListener('click', onBackdropClick);
+}
 
-    function openModal(){
-      modal.classList.add('is-open','show');
-      modal.style.display = 'flex';
-      document.body.classList.add('modal-open');
-      document.body.style.overflow = 'hidden';
-      setTimeout(() => ci?.focus(), 60);
-      document.addEventListener('keydown', trapHandler);
-    }
-    function closeModal(){
-      modal.classList.remove('is-open','show');
-      document.body.classList.remove('modal-open');
-      document.body.style.overflow = '';
-      setTimeout(() => { if (!modal.classList.contains('is-open') && !modal.classList.contains('show')) modal.style.display = 'none'; }, 250);
-      document.removeEventListener('keydown', trapHandler);
-      openBtn.focus();
-    }
+function closeModal(){
+  if (!modal) return;
 
-    on(openBtn,  'click', openModal);
-    on(closeBtn, 'click', closeModal);
-    on(modal, 'click', (e) => { if (e.target === modal) closeModal(); }, { passive: true });
-    on(window, 'keydown', (e) => { if (e.key === 'Escape' && (modal.classList.contains('is-open') || modal.classList.contains('show'))) closeModal(); });
+  modal.classList.remove('show');
+  modal.setAttribute('aria-hidden','true');
 
-    // Sanitiza campos numéricos
-    const clamp = (el) => {
-      if (!el) return;
-      const min = el.min ? parseInt(el.min, 10) : -Infinity;
-      const max = el.max ? parseInt(el.max, 10) :  Infinity;
-      let v = parseInt(el.value || (min > 0 ? min : 0), 10);
-      if (Number.isNaN(v)) v = min > 0 ? min : 0;
-      el.value = Math.min(Math.max(v, min), max);
-    };
-    [adultosEl, kidsEl].forEach(el => {
-      if (!el) return;
-      on(el, 'change', () => clamp(el));
-      on(el, 'blur',   () => clamp(el));
-    });
+  document.body.classList.remove('modal-open');
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+  window.scrollTo(0, scrollY);
 
-    // Centraliza campo focado (UX mobile)
-    on(form, 'focusin', (e) => {
-      const el = e.target;
-      if (/input|select|textarea/i.test(el.tagName)){
-        try { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch(_){}
-      }
-    });
+  document.removeEventListener('keydown', onKeyDown);
+  modal.removeEventListener('click', onBackdropClick);
 
-    // SUBMIT → abre no iframe (se existir) senão em nova aba
-    on(form, 'submit', (e) => {
-      e.preventDefault();
-      if (!form.checkValidity()){ form.reportValidity(); return; }
+  if (lastFocused) lastFocused.focus();
+}
 
-      clamp(adultosEl); clamp(kidsEl);
+function onBackdropClick(e){
+  if (e.target === modal) closeModal();
+}
+function onKeyDown(e){
+  if (e.key === 'Escape') closeModal();
 
-      const checkinISO  = ci?.value || todayISO();
-      let   checkoutISO = co?.value || addDays(checkinISO, 1);
-      if (new Date(checkoutISO) <= new Date(checkinISO)){
-        checkoutISO = addDays(checkinISO, 1);
-        if (co) co.value = checkoutISO;
-      }
+  // trap de foco simples
+  if (e.key === 'Tab'){
+    const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+    else if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+  }
+}
 
-      const adultos  = parseInt(adultosEl?.value || '2', 10);
-      const criancas = parseInt(kidsEl?.value    || '0', 10);
+if (modal && abrirReserva && fechar){
+  abrirReserva.addEventListener('click', openModal);
+  fechar.addEventListener('click', closeModal);
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeModal(); });
+}
 
-      const url = buildOmnibeesURL({ checkinISO, checkoutISO, adultos, criancas });
+// Qualidade de vida: datas mínimas + teclado numérico via atributo
+const checkinEl = $('#checkin');
+const checkoutEl = $('#checkout');
+const adultosEl = $('#adultos');
+const criancasEl = $('#criancas');
 
-      if (iframe && aLink && resultBox){
-        resultBox.style.display = 'block';
-        aLink.href = url;
-        iframe.src = url;
-        resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      } else {
-        const opened = window.open(url, '_blank', 'noopener,noreferrer');
-        if (!opened) window.location.href = url;
-        closeModal();
-      }
-    });
-  })();
+// força teclado numérico no mobile sem mexer no HTML
+adultosEl?.setAttribute('inputmode','numeric');
+criancasEl?.setAttribute('inputmode','numeric');
+
+(function setMinDates(){
+  if (!checkinEl || !checkoutEl) return;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const pad = (n)=>String(n).padStart(2,'0');
+  const fmt = (d)=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+
+  checkinEl.min = fmt(today);
+  const base = checkinEl.value ? new Date(checkinEl.value) : today;
+  const minOut = new Date(base); minOut.setDate(minOut.getDate()+1);
+  checkoutEl.min = fmt(minOut);
+
+  // auto +1 dia se checkout estiver vazio
+  checkinEl.addEventListener('change', ()=>{
+    const d = new Date(checkinEl.value);
+    const out = new Date(d); out.setDate(out.getDate()+1);
+    checkoutEl.min = fmt(out);
+    if (!checkoutEl.value || checkoutEl.value < checkoutEl.min) checkoutEl.value = checkoutEl.min;
+  });
+})();
 
   /* =========================
      6) LAZY de data-src/srcset (opcional, caso use)
