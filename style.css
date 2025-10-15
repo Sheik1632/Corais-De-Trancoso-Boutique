@@ -369,3 +369,75 @@ main{ margin-top:0; padding-top:0; }
 .hero ~ main > section:first-of-type h2{
   margin-top:6px;   /* pode pôr 0 se quiser colado total */
 }
+/* Compactar o topo no mobile */
+@media (max-width: 768px){
+  .hero{
+    min-height: auto;        /* deixa a seção do tamanho do conteúdo */
+    padding-bottom: 0px;    /* um respiro pequeno só */
+  }
+  .carousel-container,
+  .carousel-background{ height: auto; }  /* evita “puxar” a altura */
+  .welcome-text.hero-card{
+    margin-bottom: 8px;      /* encurta o espaço abaixo do botão */
+  }
+  .welcome-text.hero-card h1{ margin: 8px 0 6px; }
+  .welcome-text.hero-card p{  margin: 0 0 12px; }
+  .btn.btn-primary{ margin: 0; }
+}
+/* ===== Hero compacto + botões sempre clicáveis ===== */
+.hero{
+  position:relative;
+  display:grid;
+  justify-items:center;
+  align-content:start;     /* cola conteúdo no topo */
+  margin:0;
+  padding:6px 0 6px;       /* quase sem respiro */
+  min-height:min(56vh,520px);
+}
+
+.carousel-container{
+  position:relative;
+  width:100%;
+  margin:0;
+}
+
+/* fundo ocupa toda a área mas NÃO intercepta cliques */
+.carousel-background{
+  position:absolute; inset:0;
+  pointer-events:none;
+}
+.carousel-background picture,
+.carousel-background img{
+  width:100%; height:100%;
+  object-fit:cover; display:block;
+}
+
+/* cartão e botão por cima e bem compactos */
+.welcome-text.hero-card{
+  position:relative;
+  z-index:10;
+  margin:0 0 6px 0;
+  padding:10px 14px;
+  background:rgba(255,255,255,.86);
+  border-radius:14px;
+  backdrop-filter:blur(4px);
+  width:max-content;
+  pointer-events:auto; /* recebe cliques */
+}
+.welcome-text.hero-card h1{ margin:0 0 4px; line-height:1.1; }
+.welcome-text.hero-card p { margin:0 0 8px; }
+
+/* primeira seção cola no hero */
+main > section:first-of-type{ margin-top:0; padding-top:0; }
+#sobre h2{ margin-top:6px; } /* micro-respiro opcional */
+
+@media (max-width:768px){
+  .hero{ min-height:min(50vh,460px); padding:4px 0 6px; }
+  .welcome-text.hero-card{ margin-bottom:6px; }
+}
+/* fundo não intercepta cliques; cartão e botões por cima */
+.carousel-background{ pointer-events:none; }
+.welcome-text.hero-card{ position:relative; z-index:10; pointer-events:auto; }
+
+/* opcional: se ainda tiver algo por cima do hero */
+.topo-menu{ position:relative; z-index:1500; }
