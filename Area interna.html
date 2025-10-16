@@ -3,15 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#007bff" />
+  <meta name="theme-color" content="#0b7c8b" />
+  <meta name="description" content="Galeria de fotos da Área Interna – Corais de Trancoso Boutique." />
   <title>Galeria - Área Interna</title>
 
-  <!-- Favicons -->
-  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
-  <link rel="shortcut icon" href="/images/favicon.ico">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <!-- Favicons (relativos, sem barra inicial) -->
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="shortcut icon" href="images/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
 
   <!-- Fonte -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
@@ -20,7 +21,7 @@
 
   <style>
     :root{
-      --brand:#007bff; --bg:#f9fafb; --card:#fff;
+      --brand:#0b7c8b; --bg:#f9fafb; --card:#fff;
       --radius:12px; --shadow:0 8px 20px rgba(0,0,0,.12);
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -30,30 +31,30 @@
     body{
       margin:0; background:var(--bg); color:#333;
       font-family:'Quicksand', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      line-height:1.6;
+      line-height:1.6; padding:20px;
     }
     :focus-visible{ outline:3px solid #93c5fd; outline-offset:2px; }
 
     h1{
       text-align:center; padding:calc(16px + var(--safe-top)) 12px 12px;
       font-size:clamp(1.6rem, 1.8vw + 1rem, 2.2rem); color:var(--brand);
-      margin:0 0 8px;
+      margin:0 0 12px;
     }
 
     /* GRID */
     .gallery{
       display:grid; gap:16px;
       grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
-      max-width:1200px; margin:0 auto; padding:20px;
+      max-width:1200px; margin:0 auto;
     }
     .gallery img{
       width:100%; aspect-ratio:4/3; object-fit:cover;
       border-radius:var(--radius); cursor:pointer; background:#e9eef3;
       box-shadow:var(--shadow);
       transition:transform .25s ease, box-shadow .25s ease;
+      content-visibility:auto; contain-intrinsic-size: 400px 300px;
     }
     .gallery img:hover{ transform:scale(1.03); box-shadow:0 14px 28px rgba(0,0,0,.15); }
-    .gallery img{ content-visibility:auto; contain-intrinsic-size: 400px 300px; }
 
     /* BOTÃO VOLTAR */
     .back-btn{
@@ -62,7 +63,7 @@
       border-radius:999px; font-weight:700; transition:background .25s, transform .2s;
       box-shadow:var(--shadow);
     }
-    .back-btn:hover{ background:#0056b3; transform:translateY(-2px); }
+    .back-btn:hover{ background:#086876; transform:translateY(-2px); }
 
     /* LIGHTBOX */
     .lightbox{
@@ -76,12 +77,12 @@
       border-radius:var(--radius); box-shadow:var(--shadow);
       cursor:auto; outline:none;
     }
-    .lightbox .visually-hidden{
+    .visually-hidden{
       position:absolute; width:1px; height:1px; margin:-1px; padding:0; border:0;
       clip:rect(0 0 0 0); overflow:hidden; white-space:nowrap;
     }
 
-    /* Controles do lightbox (acessíveis) */
+    /* Controles do lightbox */
     .lb-controls{
       position:fixed; inset:auto 0 calc(12px + var(--safe-bottom)) 0;
       display:flex; gap:10px; justify-content:center; pointer-events:none;
@@ -104,7 +105,8 @@
     }
 
     @media (max-width: 600px){
-      .gallery{ gap:12px; padding:12px; }
+      body{ padding:14px; }
+      .gallery{ gap:12px; }
       .back-btn{ padding:11px 16px; font-size:.95rem; }
     }
     @media (prefers-reduced-motion: reduce){
@@ -117,24 +119,23 @@
   <h1>Galeria - Área Interna</h1>
 
   <div class="gallery" id="galeria">
-    <!-- IMPORTANTE: caminhos com espaço foram codificados com %20 -->
-    <img src="/images/AREA%20INTERNA/4E1A0219.jpg" alt="Área Interna 1" loading="lazy" decoding="async" />
-    <img src="/images/AREA%20INTERNA/4E1A0227.jpg" alt="Área Interna 2" loading="lazy" decoding="async" />
-    <img src="/images/AREA%20INTERNA/4E1A0239.jpg" alt="Área Interna 3" loading="lazy" decoding="async" />
-    <img src="/images/AREA%20INTERNA/4E1A0262.jpg" alt="Área Interna 4" loading="lazy" decoding="async" />
-    <img src="/images/AREA%20INTERNA/4E1A0298.jpg" alt="Área Interna 5" loading="lazy" decoding="async" />
-    <img src="/images/AREA%20INTERNA/4E1A0647.jpg" alt="Área Interna 6" loading="lazy" decoding="async" />
-    <img src="/images/AREA%20INTERNA/4E1A0847.jpg" alt="Área Interna 7" loading="lazy" decoding="async" />
-    <img src="/images/AREA%20INTERNA/4E1A0877.jpg" alt="Área Interna 8" loading="lazy" decoding="async" />
+    <!-- Use a pasta padronizada sem espaços/acentos: images/area-interna/ -->
+    <img data-src="images/area-interna/4E1A0219.jpg" alt="Área Interna 1" loading="lazy" decoding="async" />
+    <img data-src="images/area-interna/4E1A0227.jpg" alt="Área Interna 2" loading="lazy" decoding="async" />
+    <img data-src="images/area-interna/4E1A0239.jpg" alt="Área Interna 3" loading="lazy" decoding="async" />
+    <img data-src="images/area-interna/4E1A0262.jpg" alt="Área Interna 4" loading="lazy" decoding="async" />
+    <img data-src="images/area-interna/4E1A0298.jpg" alt="Área Interna 5" loading="lazy" decoding="async" />
+    <img data-src="images/area-interna/4E1A0647.jpg" alt="Área Interna 6" loading="lazy" decoding="async" />
+    <img data-src="images/area-interna/4E1A0847.jpg" alt="Área Interna 7" loading="lazy" decoding="async" />
+    <img data-src="images/area-interna/4E1A0877.jpg" alt="Área Interna 8" loading="lazy" decoding="async" />
   </div>
 
-  <a href="/index.html" class="back-btn" aria-label="Voltar para a página inicial">← Voltar para o site</a>
+  <a href="index.html" class="back-btn" aria-label="Voltar para a página inicial">← Voltar para o site</a>
 
   <!-- Lightbox acessível -->
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lb-title" aria-hidden="true">
     <span id="lb-title" class="visually-hidden">Foto ampliada</span>
     <img class="lightbox__img" src="" alt="" />
-    <!-- Controles (não mudam o conteúdo da página, só melhoram acessibilidade) -->
     <div class="lb-controls" aria-hidden="true">
       <button type="button" class="lb-btn" data-prev aria-label="Imagem anterior">❮</button>
       <button type="button" class="lb-btn" data-next aria-label="Próxima imagem">❯</button>
@@ -143,104 +144,111 @@
   </div>
 
   <script>
+    // 1) ENCODE automático + fallback de extensão (jpg/JPG/jpeg/JPEG)
+    document.querySelectorAll('#galeria img').forEach(img => {
+      const raw = img.getAttribute('data-src');
+      const encoded = encodeURI(raw);
+      img.src = encoded;
+
+      img.addEventListener('error', function onErr(){
+        if (!img.dataset.retry) {
+          img.dataset.retry = '1';
+          try {
+            const u = new URL(img.src, location.origin);
+            const m = u.pathname.match(/\.(jpg|JPG|jpeg|JPEG)$/);
+            if (m) {
+              const ext = m[1];
+              const alt = (ext === 'jpg') ? 'JPG'
+                        : (ext === 'JPG') ? 'jpg'
+                        : (ext === 'jpeg') ? 'JPEG'
+                        : 'jpeg';
+              u.pathname = u.pathname.replace(new RegExp('\\.' + ext + '$'), '.' + alt);
+              img.src = u.pathname + u.search + u.hash;
+              return;
+            }
+          } catch(_) {}
+        }
+        img.classList.add('img-error');
+      }, { once:false });
+    });
+
+    // 2) LIGHTBOX (Esc/←/→, botões, foco, swipe)
     (function(){
-      const gallery = Array.from(document.querySelectorAll('#galeria img'));
+      const thumbs = Array.from(document.querySelectorAll('#galeria img'));
       const box = document.getElementById('lightbox');
-      const img = box.querySelector('.lightbox__img');
+      const big = box.querySelector('.lightbox__img');
       const btnPrev = box.querySelector('[data-prev]');
       const btnNext = box.querySelector('[data-next]');
       const btnClose = box.querySelector('[data-close]');
-      let idx = -1;
-      let lastFocused = null;
+      let idx = -1, lastFocused = null;
 
-      // Marca visualmente imagens quebradas (diagnóstico)
-      gallery.forEach(g => g.addEventListener('error', () => g.classList.add('img-error'), { once:true }));
-
-      function lockScroll(lock){
-        document.body.style.overflow = lock ? 'hidden' : '';
-      }
+      function lockScroll(lock){ document.body.style.overflow = lock ? 'hidden' : ''; }
 
       function openAt(i){
-        idx = i;
-        const src = gallery[idx].currentSrc || gallery[idx].src;
-        img.src = src;
-        img.alt = gallery[idx].alt || 'Foto ampliada da área interna';
+        if (!thumbs.length) return;
+        idx = (i + thumbs.length) % thumbs.length;
+        const src = thumbs[idx].currentSrc || thumbs[idx].src;
+        big.src = src; big.alt = thumbs[idx].alt || 'Foto ampliada da área interna';
         lastFocused = document.activeElement;
-        box.classList.add('open');
-        box.setAttribute('aria-hidden', 'false');
+        box.classList.add('open'); box.setAttribute('aria-hidden','false');
         lockScroll(true);
-        // foca no botão fechar para trap de foco natural
-        setTimeout(() => btnClose.focus(), 20);
+        setTimeout(()=> btnClose.focus(), 20);
       }
       function closeBox(){
-        box.classList.remove('open');
-        box.setAttribute('aria-hidden', 'true');
-        img.src = '';
-        idx = -1;
-        lockScroll(false);
+        box.classList.remove('open'); box.setAttribute('aria-hidden','true');
+        big.src = ''; idx = -1; lockScroll(false);
         lastFocused && lastFocused.focus();
       }
-      function prev(){ if (!gallery.length) return; if(idx<=0) idx = gallery.length; openAt((idx-1)%gallery.length); }
-      function next(){ if (!gallery.length) return; openAt((idx+1)%gallery.length); }
+      function prev(){ openAt(idx-1); }
+      function next(){ openAt(idx+1); }
 
-      // Abre ao clicar nas miniaturas
-      gallery.forEach((g, i) => g.addEventListener('click', () => openAt(i)));
-
-      // Fecha ao clicar fora da imagem
-      box.addEventListener('click', (e) => { if(e.target === box) closeBox(); });
-
-      // Controles
+      thumbs.forEach((t,i)=> t.addEventListener('click', ()=> openAt(i)));
+      box.addEventListener('click', (e)=>{ if (e.target === box) closeBox(); });
       btnPrev.addEventListener('click', (e)=>{ e.stopPropagation(); prev(); });
       btnNext.addEventListener('click', (e)=>{ e.stopPropagation(); next(); });
       btnClose.addEventListener('click', (e)=>{ e.stopPropagation(); closeBox(); });
 
-      // Teclado: Esc fecha; ← → navega; Enter/Espaço nos botões
-      window.addEventListener('keydown', (e) => {
+      window.addEventListener('keydown', (e)=>{
         if(!box.classList.contains('open')) return;
-        if(e.key === 'Escape')      closeBox();
-        if(e.key === 'ArrowLeft')   prev();
-        if(e.key === 'ArrowRight')  next();
+        if(e.key === 'Escape') closeBox();
+        if(e.key === 'ArrowLeft') prev();
+        if(e.key === 'ArrowRight') next();
       });
 
-      // Trap de foco simples dentro do lightbox
-      box.addEventListener('keydown', (e) => {
-        if (e.key !== 'Tab' || !box.classList.contains('open')) return;
+      // Trap de foco simples no lightbox
+      box.addEventListener('keydown', (e)=>{
+        if(e.key !== 'Tab' || !box.classList.contains('open')) return;
         const focusables = [btnPrev, btnNext, btnClose].filter(Boolean);
-        if (!focusables.length) return;
-        const first = focusables[0];
-        const last  = focusables[focusables.length - 1];
+        if(!focusables.length) return;
+        const first = focusables[0], last = focusables[focusables.length-1];
         if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
         else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
-      }, { capture: true });
+      }, { capture:true });
 
-      // Suporte a gestos (swipe) no lightbox em telas touch
+      // Gestos (swipe) em telas touch
       let startX=0, startY=0, dx=0, dragging=false, blocked=false;
       const ANGLE_LOCK = 25, THRESHOLD = 50;
-      const angleDeg = (dx,dy)=> Math.atan2(Math.abs(dy), Math.abs(dx)) * 180 / Math.PI;
+      const angle = (dx,dy)=> 180*Math.atan2(Math.abs(dy), Math.abs(dx))/Math.PI;
 
-      img.addEventListener('touchstart', (e)=>{
-        const t = e.changedTouches[0];
-        startX = t.clientX; startY = t.clientY; dx = 0; dragging = true; blocked = false;
-      }, { passive:true });
-
-      img.addEventListener('touchmove', (e)=>{
-        if (!dragging || blocked) return;
-        const t = e.changedTouches[0];
-        const ddx = t.clientX - startX, ddy = t.clientY - startY;
-        if (angleDeg(ddx, ddy) > ANGLE_LOCK){ blocked = true; return; }
-        dx = ddx;
-      }, { passive:true });
-
-      const endSwipe = ()=>{
-        if (!dragging) return;
-        if (Math.abs(dx) > THRESHOLD) (dx < 0 ? next() : prev());
-        dragging = false; blocked = false; dx = 0;
+      big.addEventListener('touchstart',(e)=>{
+        const t=e.changedTouches[0];
+        startX=t.clientX; startY=t.clientY; dx=0; dragging=true; blocked=false;
+      },{passive:true});
+      big.addEventListener('touchmove',(e)=>{
+        if(!dragging || blocked) return;
+        const t=e.changedTouches[0]; const _dx=t.clientX-startX, _dy=t.clientY-startY;
+        if (angle(_dx,_dy) > ANGLE_LOCK){ blocked = true; return; }
+        dx=_dx;
+      },{passive:true});
+      const endSwipe=()=>{
+        if(!dragging) return;
+        if(Math.abs(dx)>THRESHOLD) (dx<0 ? next() : prev());
+        dragging=false; blocked=false; dx=0;
       };
-      img.addEventListener('touchend', endSwipe, { passive:true });
-      img.addEventListener('touchcancel', endSwipe, { passive:true });
+      big.addEventListener('touchend', endSwipe, {passive:true});
+      big.addEventListener('touchcancel', endSwipe, {passive:true});
     })();
 
-    // Ativa utilitários dependentes de JS no CSS, se quiser
     document.documentElement.classList.add('js');
   </script>
 </body>

@@ -9,29 +9,27 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="theme-color" content="#0b7c8b" />
   <meta name="color-scheme" content="light" />
+  <meta name="description" content="Corais de Trancoso Boutique: refúgio exclusivo em Trancoso-BA, café da manhã artesanal, piscina e atendimento personalizado. Reserve sua estadia." />
   <title>Corais de Trancoso Boutique</title>
 
+  <!-- Favicons (garanta os arquivos no repositório) -->
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="64x64" href="images/favicon-64x64.png">
   <link rel="icon" href="images/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
 
+  <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="preload" as="style" href="/style.css">
+
+  <!-- CSS principal -->
   <link rel="stylesheet" href="./style.css">
 
-  <link
-    rel="preload"
-    as="image"
-    fetchpriority="high"
-    href="images/AREA EXTERNA/4E1A0806.jpg"
-    imagesrcset="images/AREA EXTERNA/4E1A0806.jpg?nf_resize=fit&w=800 800w, images/AREA EXTERNA/4E1A0806.jpg?nf_resize=fit&w=1200 1200w, images/AREA EXTERNA/4E1A0806.jpg?nf_resize=fit&w=1600 1600w"
-    imagesizes="100vw"
-  />
+  <!-- Preload da imagem hero (caminho sem espaços) -->
+  <link rel="preload" as="image" href="images/area-externa/4E1A0818.jpg" imagesizes="100vw" />
 
   <style>
     /* Modal básico */
@@ -55,7 +53,6 @@
       .menu-links[data-open="true"]{display:grid;gap:.5rem;}
     }
     .welcome-text { position: relative; z-index: 2; }
-    
   </style>
 </head>
 
@@ -81,11 +78,11 @@
         <li><a href="#reserva">Reservar</a></li>
 
         <li class="dropdown">
-          <a href="#" id="gallery-menu" aria-haspopup="true" aria-expanded="false">Galeria ▼</a>
-          <ul class="dropdown-menu" aria-label="Galeria">
-            <li><a href="Area interna.html">Área Interna</a></li>
-            <li><a href="Cafe.html">Café da Manhã</a></li>
-            <li><a href="Piscina.html">Piscina</a></li>
+          <a href="#" id="gallery-menu" aria-haspopup="true" aria-expanded="false" aria-controls="gallery-submenu">Galeria ▼</a>
+          <ul id="gallery-submenu" class="dropdown-menu" aria-label="Galeria" aria-hidden="true">
+            <li><a href="area-interna.html">Área Interna</a></li>
+            <li><a href="cafe.html">Café da Manhã</a></li>
+            <li><a href="piscina.html">Piscina</a></li>
           </ul>
         </li>
       </ul>
@@ -95,7 +92,7 @@
   <div class="carousel-container" aria-roledescription="carousel">
     <div class="carousel-background">
       <picture>
-        <img class="active hero-slide" src="images/AREA EXTERNA/4E1A0818.jpg" alt="Entrada da pousada" fetchpriority="high" decoding="async">
+        <img class="active hero-slide" src="images/area-externa/4E1A0818.jpg" alt="Entrada da pousada" fetchpriority="high" decoding="async">
       </picture>
     </div>
 
@@ -171,7 +168,7 @@
       </div>
       <div class="imagem-sobre">
         <picture>
-          <img src="images/AREA EXTERNA/4E1A0320.jpg?nf_resize=fit&w=1080"
+          <img src="images/area-externa/4E1A0320.jpg"
                width="1080" height="720" alt="Vista da pousada Corais de Trancoso"
                loading="lazy" decoding="async" style="object-fit:cover;aspect-ratio:3/2;">
         </picture>
@@ -291,19 +288,23 @@
 
   /* ===== Dropdown acessível ===== */
   const galleryBtn = $('#gallery-menu');
-  const galleryMenu = galleryBtn && galleryBtn.nextElementSibling;
+  const galleryMenu = $('#gallery-submenu');
   if (galleryBtn && galleryMenu) {
     galleryBtn.addEventListener('click', (e) => {
       e.preventDefault();
       const expanded = galleryBtn.getAttribute('aria-expanded') === 'true';
-      galleryBtn.setAttribute('aria-expanded', String(!expanded));
-      galleryMenu.hidden = expanded;
+      const now = !expanded;
+      galleryBtn.setAttribute('aria-expanded', String(now));
+      galleryMenu.hidden = !now;
+      galleryMenu.setAttribute('aria-hidden', String(!now));
     });
     galleryMenu.hidden = true;
+    galleryMenu.setAttribute('aria-hidden', 'true');
     document.addEventListener('click', (e)=>{
       if (!galleryMenu.contains(e.target) && e.target !== galleryBtn) {
         galleryBtn.setAttribute('aria-expanded','false');
         galleryMenu.hidden = true;
+        galleryMenu.setAttribute('aria-hidden','true');
       }
     });
   }
@@ -382,11 +383,6 @@
   });
 
 })();
-  // ... seu código ...
-  console.log('JS carregado');
-  document.querySelector('.abrir-reserva')?.addEventListener('click', ()=>console.log('Clique Reservar OK'), {once:true});
-  document.getElementById('carregar-mapa')?.addEventListener('click', ()=>console.log('Clique Mapa OK'), {once:true});
-
 </script>
 </body>
 </html>

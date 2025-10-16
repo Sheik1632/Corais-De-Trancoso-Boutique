@@ -3,8 +3,9 @@
 /* =========================================
    CONFIGURAÇÃO OMNIBEES
 ========================================= */
-const OMNIBEES_HOTEL_ID = '22031';           // <<< troque para o ID correto do hotel
-const OMNIBEES_BASE_URL = 'https://book.omnibees.com/hotelresults';
+const OMNIBEES_HOTEL_ID = '22031'; // id do seu hotel
+// Endpoint que funciona bem abrindo em nova aba, sem bloqueio de pop-up
+const OMNIBEES_BASE_URL = `https://book.omnibees.com/hotel/${OMNIBEES_HOTEL_ID}`;
 const OMNIBEES_LANG     = 'pt-BR';
 const OMNIBEES_CURRENCY = 'BRL';
 
@@ -20,24 +21,23 @@ function addDays(iso, days){
   const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
   return local.toISOString().slice(0,10);
 }
-function toDDMMYYYY(iso){
+function toDDslashMMslashYYYY(iso){
   if (!iso) return '';
   const [y, m, d] = iso.split('-');
-  return d + m + y; // Omnibees recebe DDMMAAAA sem separador
+  return `${d}/${m}/${y}`; // Omnibees (hotel endpoint) recebe DD/MM/AAAA
 }
 
-/* URL builder (sempre use objeto) */
+/* URL builder (retorna string pronta) */
 function buildOmnibeesURL({ checkinISO, checkoutISO, adultos = 2, criancas = 0 } = {}){
   if (!checkinISO)  checkinISO  = todayISO();
   if (!checkoutISO) checkoutISO = addDays(checkinISO, 1);
 
   const url = new URL(OMNIBEES_BASE_URL);
-  url.searchParams.set('q',        OMNIBEES_HOTEL_ID);
-  url.searchParams.set('CheckIn',  toDDMMYYYY(checkinISO));
-  url.searchParams.set('CheckOut', toDDMMYYYY(checkoutISO));
+  url.searchParams.set('CheckIn',  toDDslashMMslashYYYY(checkinISO));
+  url.searchParams.set('CheckOut', toDDslashMMslashYYYY(checkoutISO));
   url.searchParams.set('NRooms',   '1');
-  url.searchParams.set('ad',       String(adultos));
-  url.searchParams.set('ch',       String(criancas));
+  url.searchParams.set('ad',       String(parseInt(adultos || 2, 10)));
+  url.searchParams.set('ch',       String(parseInt(criancas || 0, 10)));
   url.searchParams.set('lang',     OMNIBEES_LANG);
   url.searchParams.set('cur',      OMNIBEES_CURRENCY);
   return url.toString();
@@ -52,7 +52,6 @@ const on = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts || false
 const debounce = (fn, delay = 150) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), delay); }; };
 const REDUCED_MOTION = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
-/* Habilita regras html.js do CSS */
 document.documentElement.classList.add('js');
 
 /* =========================================
@@ -67,31 +66,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const hamburger = $('.hamburger');
     const links     = $('#menuLinks');
     const dropdownToggles = $$('.menu-links .dropdown > a');
-
     if (!hamburger || !links) return;
 
     function lockScroll(lock){ document.body.style.overflow = lock ? 'hidden' : ''; }
     function setOpen(open){
-      links.classList.toggle('aberto', open);
       links.dataset.open = open ? 'true' : 'false';
+      links.classList.toggle('aberto', open);
       hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
       lockScroll(open);
     }
 
     on(hamburger, 'click', () => setOpen(!(links.dataset.open === 'true')));
 
-    // Fechar clicando fora
+    // Fechar clicando fora (somente mobile)
     on(document, 'click', (e) => {
-      if (innerWidth > 900) return; // só no mobile
+      if (innerWidth > 900) return;
       if (links.dataset.open !== 'true') return;
       if (e.target.closest('.topo-menu')) return;
       setOpen(false);
     });
 
-    // Esc para fechar
-    on(window, 'keydown', (e) => {
-      if (e.key === 'Escape' && links.dataset.open === 'true') setOpen(false);
-    });
+    // Esc fecha
+    on(window, 'keydown', (e) => { if (e.key === 'Escape' && links.dataset.open === 'true') setOpen(false); });
 
     // Dropdown acessível no mobile (abre por clique)
     dropdownToggles.forEach(a => {
@@ -102,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
           const menu = $('.dropdown-menu', li);
           if (!menu) return;
           const isHidden = menu.hasAttribute('hidden');
-          // fecha todos os outros
           $$('.menu-links .dropdown .dropdown-menu').forEach(m => m.setAttribute('hidden', ''));
           if (isHidden) menu.removeAttribute('hidden'); else menu.setAttribute('hidden', '');
         }
@@ -117,9 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
      2) MAPA on-demand (clique ou quando entrar no viewport)
   ========================= */
   (function(){
-    const MAPS_EMBED_SRC =
-      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3823.6043569321937!2d-39.101378724852744!3d-16.596410984162116!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7369d0c3a51b683%3A0x24628b28ec2f9bdc!2sCorais%20de%20Trancoso%20Boutique!5e0!3m2!1spt-BR!2sbr!4v1759438391051!5m2!1spt-BR!2sbr';
-
+    const MAPS_EMBED_SRC = 'https://www.google.com/maps?q=Corais%20de%20Trancoso%20Boutique&output=embed';
     const container = $('#mapa-embed');
     const shell     = $('#mapa-shell');
     const btn       = $('#carregar-mapa');
@@ -139,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (shell) shell.style.display = 'none';
     }
 
-    on(btn, 'click', loadMap, { passive: true });
+    on(btn, 'click', loadMap);
 
     if ('IntersectionObserver' in window){
       const io = new IntersectionObserver((entries) => {
@@ -150,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
   /* =========================
-     3) HERO: fade simples entre <picture> imgs do topo
+     3) HERO: fade simples (se houver múltiplas imagens)
   ========================= */
   (function(){
     const imgs = $$('.carousel-background picture > img, .carousel-background > img');
@@ -161,10 +154,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     imgs.forEach((img, i) => {
       img.style.objectFit = 'cover';
+      img.style.objectPosition = '50% 85%'; // foca mais embaixo (placa)
       img.style.width  = '100%';
-      img.style.height = '100%';
-      img.style.opacity = i === 0 ? '1' : '0';
+      // altura só preenche se o container tiver altura definida via CSS
       img.style.transition = 'opacity .8s ease';
+      img.style.opacity = i === 0 ? '1' : '0';
       img.decoding = 'async';
       img.loading  = i === 0 ? 'eager' : 'lazy';
     });
@@ -182,12 +176,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function stop(){ if (timer){ clearInterval(timer); timer = null; } }
 
     const container = $('.carousel-container');
-    if (container){
-      on(container, 'mouseenter', stop,  { passive: true });
-      on(container, 'mouseleave', start, { passive: true });
-    }
+    if (container){ on(container, 'mouseenter', stop); on(container, 'mouseleave', start); }
     on(document, 'visibilitychange', () => document.hidden ? stop() : start());
-    on(window, 'resize', debounce(() => imgs.forEach(img => img.style.height = '100%'), 120));
 
     start();
   })();
@@ -313,111 +303,120 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
   /* =========================
-     5) MODAL DE RESERVA + OMNIBEES (iframe se existir, senão nova aba)
+     5) MODAL DE RESERVA + OMNIBEES (link em nova aba)
   ========================= */
-// ===== Modal de reserva (com lock de scroll iOS + acessibilidade básica) =====
-const abrirReserva = $('.abrir-reserva');
-const modal = $('#modalReserva');
-const fechar = modal && modal.querySelector('.fechar');
+  (function(){
+    const abrirReserva = $('.abrir-reserva');
+    const modal = $('#modalReserva');
+    const fechar = modal && modal.querySelector('.fechar');
+    const btnBuscar = $('#btnBuscar'); // <a id="btnBuscar" target="_blank">
 
-let lastFocused = null;
-let scrollY = 0;
+    let lastFocused = null;
+    let scrollY = 0;
 
-function openModal(){
-  if (!modal) return;
-  lastFocused = document.activeElement;
-  scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+    function openModal(){
+      if (!modal) return;
+      lastFocused = document.activeElement;
+      scrollY = window.scrollY || document.documentElement.scrollTop || 0;
 
-  // trava o fundo sem “pulo” no iOS
-  document.body.style.top = `-${scrollY}px`;
-  document.body.style.position = 'fixed';
-  document.body.style.width = '100%';
-  document.body.classList.add('modal-open');
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.classList.add('modal-open');
 
-  modal.classList.add('show');
-  modal.setAttribute('aria-hidden','false');
+      modal.classList.add('show');
+      modal.setAttribute('aria-hidden','false');
 
-  // foco no primeiro campo
-  const firstInput = $('#checkin') || modal.querySelector('input, button, [tabindex]:not([tabindex="-1"])');
-  setTimeout(()=> firstInput && firstInput.focus(), 40);
+      const firstInput = $('#checkin') || modal.querySelector('input, button, [tabindex]:not([tabindex="-1"])');
+      setTimeout(()=> firstInput && firstInput.focus(), 40);
 
-  document.addEventListener('keydown', onKeyDown);
-  modal.addEventListener('click', onBackdropClick);
-}
+      document.addEventListener('keydown', onKeyDown);
+      modal.addEventListener('click', onBackdropClick);
+    }
+    function closeModal(){
+      if (!modal) return;
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden','true');
 
-function closeModal(){
-  if (!modal) return;
+      document.body.classList.remove('modal-open');
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      window.scrollTo(0, scrollY);
 
-  modal.classList.remove('show');
-  modal.setAttribute('aria-hidden','true');
+      document.removeEventListener('keydown', onKeyDown);
+      modal.removeEventListener('click', onBackdropClick);
 
-  document.body.classList.remove('modal-open');
-  document.body.style.position = '';
-  document.body.style.top = '';
-  document.body.style.width = '';
-  window.scrollTo(0, scrollY);
+      if (lastFocused) lastFocused.focus();
+    }
+    function onBackdropClick(e){ if (e.target === modal) closeModal(); }
+    function onKeyDown(e){
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'Tab'){
+        const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last  = focusable[focusable.length - 1];
+        if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+        else if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+      }
+    }
 
-  document.removeEventListener('keydown', onKeyDown);
-  modal.removeEventListener('click', onBackdropClick);
+    if (modal && abrirReserva && fechar){
+      on(abrirReserva, 'click', openModal);
+      on(fechar, 'click', closeModal);
+      on(document, 'keydown', (e)=>{ if(e.key === 'Escape') closeModal(); });
+    }
 
-  if (lastFocused) lastFocused.focus();
-}
+    // Hook do botão que abre o Omnibees em NOVA ABA (sem popup bloqueado)
+    const checkinEl = $('#checkin');
+    const checkoutEl = $('#checkout');
+    const adultosEl = $('#adultos');
+    const criancasEl = $('#criancas');
 
-function onBackdropClick(e){
-  if (e.target === modal) closeModal();
-}
-function onKeyDown(e){
-  if (e.key === 'Escape') closeModal();
+    adultosEl?.setAttribute('inputmode','numeric');
+    criancasEl?.setAttribute('inputmode','numeric');
 
-  // trap de foco simples
-  if (e.key === 'Tab'){
-    const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-    if (!focusable.length) return;
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-    if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
-    else if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
-  }
-}
+    function validarDatas(){
+      const ci = checkinEl?.value || todayISO();
+      const co = checkoutEl?.value || addDays(ci, 1);
+      if (new Date(ci) >= new Date(co)) return { ok:false };
+      return { ok:true, ci, co };
+    }
 
-if (modal && abrirReserva && fechar){
-  abrirReserva.addEventListener('click', openModal);
-  fechar.addEventListener('click', closeModal);
-  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeModal(); });
-}
+    on(btnBuscar, 'click', function(){
+      const v = validarDatas();
+      if (!v || !v.ok){ alert('Selecione datas válidas. O check-out deve ser após o check-in.'); return; }
+      const ad = parseInt(adultosEl?.value || '2', 10) || 2;
+      const ch = parseInt(criancasEl?.value || '0', 10) || 0;
+      this.href = buildOmnibeesURL({ checkinISO: v.ci, checkoutISO: v.co, adultos: ad, criancas: ch });
+      closeModal(); // fecha o modal e deixa o navegador abrir o <a target="_blank">
+      // importante: NÃO dar preventDefault aqui
+    });
 
-// Qualidade de vida: datas mínimas + teclado numérico via atributo
-const checkinEl = $('#checkin');
-const checkoutEl = $('#checkout');
-const adultosEl = $('#adultos');
-const criancasEl = $('#criancas');
+    // Datas mínimas e auto +1 dia
+    (function setMinDates(){
+      if (!checkinEl || !checkoutEl) return;
+      const today = new Date(); today.setHours(0,0,0,0);
+      const pad = (n)=>String(n).padStart(2,'0');
+      const fmt = (d)=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 
-// força teclado numérico no mobile sem mexer no HTML
-adultosEl?.setAttribute('inputmode','numeric');
-criancasEl?.setAttribute('inputmode','numeric');
+      checkinEl.min = fmt(today);
+      const base = checkinEl.value ? new Date(checkinEl.value) : today;
+      const minOut = new Date(base); minOut.setDate(minOut.getDate()+1);
+      checkoutEl.min = fmt(minOut);
 
-(function setMinDates(){
-  if (!checkinEl || !checkoutEl) return;
-  const today = new Date(); today.setHours(0,0,0,0);
-  const pad = (n)=>String(n).padStart(2,'0');
-  const fmt = (d)=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
-
-  checkinEl.min = fmt(today);
-  const base = checkinEl.value ? new Date(checkinEl.value) : today;
-  const minOut = new Date(base); minOut.setDate(minOut.getDate()+1);
-  checkoutEl.min = fmt(minOut);
-
-  // auto +1 dia se checkout estiver vazio
-  checkinEl.addEventListener('change', ()=>{
-    const d = new Date(checkinEl.value);
-    const out = new Date(d); out.setDate(out.getDate()+1);
-    checkoutEl.min = fmt(out);
-    if (!checkoutEl.value || checkoutEl.value < checkoutEl.min) checkoutEl.value = checkoutEl.min;
-  });
-})();
+      on(checkinEl, 'change', ()=>{
+        const d = new Date(checkinEl.value || fmt(today));
+        const out = new Date(d); out.setDate(out.getDate()+1);
+        checkoutEl.min = fmt(out);
+        if (!checkoutEl.value || checkoutEl.value < checkoutEl.min) checkoutEl.value = checkoutEl.min;
+      });
+    })();
+  })();
 
   /* =========================
-     6) LAZY de data-src/srcset (opcional, caso use)
+     6) LAZY de data-src/srcset (opcional)
   ========================= */
   (function(){
     if (!('IntersectionObserver' in window)) return;
@@ -427,7 +426,6 @@ criancasEl?.setAttribute('inputmode','numeric');
         const el = entry.target;
         if (el.dataset && el.dataset.src)    el.src    = el.dataset.src;
         if (el.dataset && el.dataset.srcset) el.srcset = el.dataset.srcset;
-
         if (el.tagName === 'SOURCE'){
           const img = el.parentElement?.querySelector('img');
           if (img) img.src = img.currentSrc || img.src;
