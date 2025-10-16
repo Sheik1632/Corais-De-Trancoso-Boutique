@@ -382,6 +382,11 @@
   });
 
 })();
+  // ... seu código ...
+  console.log('JS carregado');
+  document.querySelector('.abrir-reserva')?.addEventListener('click', ()=>console.log('Clique Reservar OK'), {once:true});
+  document.getElementById('carregar-mapa')?.addEventListener('click', ()=>console.log('Clique Mapa OK'), {once:true});
+
 </script>
 </body>
 </html>

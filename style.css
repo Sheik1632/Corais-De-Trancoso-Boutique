@@ -384,3 +384,34 @@ main{ margin-top:0; padding-top:0; }
   .welcome-text.hero-card p{  margin: 0 0 12px; }
   .btn.btn-primary{ margin: 0; }
 }
+/* === FIX DEFINITIVO: botões clicáveis no Netlify === */
+
+/* 1) garante que o hero é a referência de empilhamento */
+header.hero,
+.carousel-container{
+  position: relative;
+}
+
+/* 2) qualquer camada de fundo NÃO capta cliques */
+.carousel-background,
+.carousel-background *,
+.carousel-container::before,
+.carousel-container::after{
+  pointer-events: none !important;
+}
+
+/* 3) o cartão e seus filhos podem clicar e ficam por cima */
+.welcome-text.hero-card{
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+}
+.welcome-text.hero-card *{
+  pointer-events: auto;
+}
+
+/* 4) navegação não cobre nada por engano */
+.topo-menu{ position: relative; z-index: 1500; }
+
+/* 5) POR VIA DAS DÚVIDAS: nenhum overlay do hero se estende além dele */
+header.hero{ overflow: hidden; }
