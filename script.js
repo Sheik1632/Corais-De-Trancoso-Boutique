@@ -94,26 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-
-  /* ===== Mapa (lazy load) ===== */
-  const btnMapa = $('#carregar-mapa');
-  const mapaEmbed = $('#mapa-embed');
-  if (btnMapa && mapaEmbed) {
-    btnMapa.addEventListener('click', ()=>{
-      if (mapaEmbed.childElementCount) return;
-      const iframe = document.createElement('iframe');
-      iframe.title = 'Mapa - Corais de Trancoso Boutique';
-      iframe.loading = 'lazy';
-      iframe.referrerPolicy = 'no-referrer-when-downgrade';
-      iframe.allowFullscreen = true;
-      iframe.setAttribute('aria-label', 'Mapa incorporado do Google');
-      iframe.style.width = '100%';
-      iframe.style.height = '480px';
-      iframe.src = 'https://www.google.com/maps?q=Corais%20de%20Trancoso%20Boutique&output=embed';
-      mapaEmbed.appendChild(iframe);
-    });
-  }
-
   /* ===== Modal reserva ===== */
   const abrir = $('.abrir-reserva');
   const modal = $('#modalReserva');

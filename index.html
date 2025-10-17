@@ -252,15 +252,30 @@
     </div>
   </section>
 
-  <!-- ===== MAPA ===== -->
-  <section id="mapa" class="mapa">
-    <h2>Localização</h2>
-    <div id="mapa-shell" class="mapa-shell">
-      <button id="carregar-mapa" class="btn btn-primary">Ver mapa</button>
-    </div>
-    <div id="mapa-embed" class="mapa-embed" aria-live="polite"></div>
-  </section>
-</main>
+<section id="mapa" class="mapa text-center">
+  <h2>Localização</h2>
+
+  <!-- Botão 1: abrir mapa normal -->
+  <a
+    class="btn btn-outline"
+    href="https://www.google.com/maps?q=Corais%20de%20Trancoso%20Boutique"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    📍 Abrir no Google Maps
+  </a>
+
+  <!-- Botão 2: abrir rota -->
+  <a
+    class="btn btn-primary"
+    href="https://www.google.com/maps/dir/?api=1&destination=Corais%20de%20Trancoso%20Boutique"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    🚗 Traçar rota
+  </a>
+</section>
+
 
 <footer role="contentinfo">
   <p>© 2025 Corais de Trancoso Boutique</p>
@@ -270,6 +285,6 @@
     <a href="https://facebook.com" target="_blank" rel="noopener">Facebook</a>
   </p>
 </footer>
-<script src="script.js" defer></script>
+
 </body>
 </html>
