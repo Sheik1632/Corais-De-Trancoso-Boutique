@@ -104,6 +104,37 @@
   </div>
 </header>
 
+
+<!-- Painel de reserva -->
+<form id="booking-form" class="booking-panel"
+      action="https://book.omnibees.com/hotel/22031" target="_blank" rel="noopener">
+  <label>Check-in
+    <input type="date" id="ci" required>
+  </label>
+  <label>Check-out
+    <input type="date" id="co" required>
+  </label>
+  <label>Adultos
+    <select id="adults">
+      <option>1</option><option selected>2</option><option>3</option><option>4</option>
+    </select>
+  </label>
+  <label>Crianças
+    <select id="children">
+      <option selected>0</option><option>1</option><option>2</option><option>3</option>
+    </select>
+  </label>
+
+  <!-- Campos hidden no formato que a Omnibees recebe -->
+  <input type="hidden" name="CheckIn"  id="ciBr">
+  <input type="hidden" name="CheckOut" id="coBr">
+  <input type="hidden" name="Adults"   id="adBr">
+  <input type="hidden" name="Children" id="chBr">
+
+  <button class="btn btn-primary">Buscar disponibilidade</button>
+</form>
+
+
 <!-- ===== MODAL DE RESERVA ===== -->
 <div class="modal" id="modalReserva" role="dialog" aria-modal="true" aria-labelledby="tituloReserva" aria-hidden="true">
   <div class="modal-content" role="document">

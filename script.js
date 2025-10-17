@@ -3,9 +3,9 @@
 /* =========================================
    CONFIGURAÇÃO OMNIBEES
 ========================================= */
-const OMNIBEES_HOTEL_ID = '22031'; // id do seu hotel
+const OMNIBEES_HOTEL_ID = '22031'; // ok ser string
 // Endpoint que funciona bem abrindo em nova aba, sem bloqueio de pop-up
-const OMNIBEES_BASE_URL = `https://book.omnibees.com/hotel/${OMNIBEES_HOTEL_ID}`;
+const OMNIBEES_BASE_URL = `https://book.omnibees.com/hotel/22031`;
 const OMNIBEES_LANG     = 'pt-BR';
 const OMNIBEES_CURRENCY = 'BRL';
 
@@ -113,13 +113,22 @@ document.addEventListener('DOMContentLoaded', () => {
   fechar?.addEventListener('click', closeModal);
   modal?.addEventListener('click', (e)=>{ if(e.target===modal) closeModal(); });
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
+document.addEventListener('DOMContentLoaded', () => {
+  const btnBuscar = document.getElementById('btnBuscar');
+  if (!btnBuscar) {
+    console.warn('[Reserva] #btnBuscar não encontrado no DOM.');
+    return;
+  }
 
-  /* ===== Omnibees: abrir em nova aba (sem window.open) ===== */
-  const btnBuscar = $('#btnBuscar');
+  const ciEl = document.getElementById('checkin');
+  const coEl = document.getElementById('checkout');
+  const adEl = document.getElementById('adultos');
+  const chEl = document.getElementById('criancas');
+
   function buildOmnibeesURL(ci, co, ad, ch){
-    // Omnibees usa DD/MM/AAAA
-    const [y1,m1,d1] = ci.split('-');
-    const [y2,m2,d2] = co.split('-');
+    // ci/co no formato YYYY-MM-DD -> DD/MM/AAAA
+    const [y1,m1,d1] = (ci||'').split('-');
+    const [y2,m2,d2] = (co||'').split('-');
     const checkInBR  = `${d1}/${m1}/${y1}`;
     const checkOutBR = `${d2}/${m2}/${y2}`;
     const u = new URL('https://book.omnibees.com/hotel/22031');
@@ -133,22 +142,23 @@ document.addEventListener('DOMContentLoaded', () => {
     return u.toString();
   }
 
-  btnBuscar?.addEventListener('click', function(){
-    const ci = $('#checkin')?.value;
-    const co = $('#checkout')?.value;
-    const ad = parseInt($('#adultos')?.value || '2', 10);
-    const ch = parseInt($('#criancas')?.value || '0', 10);
+  btnBuscar.addEventListener('click', function () {
+    const ci = ciEl?.value;
+    const co = coEl?.value;
+    const ad = parseInt(adEl?.value || '2', 10);
+    const ch = parseInt(chEl?.value || '0', 10);
 
-    if(!ci || !co){ alert('Selecione as datas de check-in e check-out.'); return; }
-    if(new Date(ci) >= new Date(co)){ alert('O check-out deve ser após o check-in.'); return; }
+    if (!ci || !co) { alert('Selecione as datas de check-in e check-out.'); return; }
+    if (new Date(ci) >= new Date(co)) { alert('O check-out deve ser após o check-in.'); return; }
 
-    // define o href deste <a> e deixa o navegador abrir na nova aba
+    // Define o href e deixa o <a target="_blank"> abrir naturalmente
     this.href = buildOmnibeesURL(ci, co, ad, ch);
-    closeModal();
-    // sem preventDefault e sem window.open → não há bloqueio de pop-up
-  });
 
-})();
+    // Fecha o modal se a função existir (evita ReferenceError)
+    if (typeof closeModal === 'function') closeModal();
+  })(); // fecha o IIFE
+}); 
+
   /* =========================
      1) MENU MOBILE (hambúrguer + dropdown)
   ========================= */
@@ -526,5 +536,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { rootMargin: '400px' });
     $$('.lazy[data-src], img[data-src], source[data-srcset]').forEach(el => io.observe(el));
   })();
-
-});
+  })(); // fecha o IIFE
+}); 

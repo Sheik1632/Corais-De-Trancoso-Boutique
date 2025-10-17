@@ -310,3 +310,25 @@ main > section:first-of-type > *:first-child{
 }
 /* garante que o texto fique acima da faixa */
 .welcome-text.hero-card{ position: relative; z-index: 2; }
+.booking-panel label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  color: #0b7c8b; /* azul da Corais de Trancoso */
+  font-size: 0.95rem;
+  margin-bottom: .4rem;
+}
+
+.booking-panel input[type="date"] {
+  border: 1px solid #cfd8dc;
+  border-radius: .5rem;
+  padding: .4rem .6rem;
+  font-size: 0.95rem;
+  color: #333;
+  background-color: #fff;
+  width: 100%;
+}
+
+.booking-panel label:hover {
+  color: #086e7d;
+}
