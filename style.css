@@ -70,18 +70,6 @@ p,li,a,input,button{ font-size:clamp(.95rem,.3vw + .9rem,1.05rem); }
 /* =======================
    Hero (compacto, sem “buraco”)
 ======================= */
-header.hero{ position:relative; overflow:hidden; }
-.hero{
-  display:grid; justify-items:center; align-content:start;
-  min-height:min(56vh,520px);
-  padding-top:6px; padding-bottom:8px; margin:0 0 0 0;
-}
-.carousel-container{ position:relative; display:block; margin:0; }
-.carousel-background{ position:relative; height:auto; margin:0; }
-.carousel-background picture,
-.carousel-background img{
-  position:static; width:100%; height:auto; display:block; object-fit:cover; margin:0;
-}
 /* clique garantido no botão do card */
 .carousel-background{ pointer-events:none; }
 .welcome-text.hero-card{
@@ -223,19 +211,6 @@ h1,h2,h3{ scroll-margin-top:72px; }
   font-size: .9rem !important;
 }
 
-/* ===== Tirar o “buraco” abaixo do hero ===== */
-.hero{
-  padding-bottom: 0 !important;
-  margin-bottom: 0 !important;
-  min-height: auto !important;    /* só o necessário, sem altura forçada */
-}
-.carousel-container,
-.carousel-background,
-.carousel-background picture,
-.carousel-background img{
-  margin: 0 !important;
-  height: auto !important;
-}
 
 /* primeira seção encosta no hero */
 main{ margin-top: 0 !important; padding-top: 0 !important; }
@@ -252,6 +227,22 @@ main > section:first-of-type > *:first-child{
 .carousel-background *{ pointer-events: none !important; }
 .welcome-text.hero-card,
 .welcome-text.hero-card *{ pointer-events: auto !important; }
+/* Posiciona o card sobre a foto, centralizado na base */
+.welcome-text.hero-card{
+  position:absolute;              /* passa a flutuar sobre a imagem */
+  left:50%; transform:translateX(-50%);
+  bottom:clamp(12px, 7vh, 56px);
+  z-index:2;
+  background: rgba(0,0,0,.35) !important;  /* contraste leve p/ leitura */
+  backdrop-filter: blur(2px) !important;
+}
+
+/* Texto branco com sombra para legibilidade */
+.welcome-text.hero-card h1,
+.welcome-text.hero-card p{
+  color:#fff !important;
+  text-shadow:0 2px 8px rgba(0,0,0,.45);
+}
 
 /* card sem fundo: só o texto por cima da foto */
 .welcome-text.hero-card{
@@ -319,16 +310,273 @@ main > section:first-of-type > *:first-child{
   margin-bottom: .4rem;
 }
 
-.booking-panel input[type="date"] {
-  border: 1px solid #cfd8dc;
-  border-radius: .5rem;
-  padding: .4rem .6rem;
-  font-size: 0.95rem;
-  color: #333;
-  background-color: #fff;
-  width: 100%;
+/* quando o form estiver DENTRO do header */
+.booking-panel{
+  position:absolute; left:50%; transform:translateX(-50%);
+  bottom: clamp(12px, 4vh, 40px);
+  z-index:3;
+  width:min(720px,92%);
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(4px);
+  border-radius:14px; padding:14px;
+  box-shadow:0 12px 32px rgba(0,0,0,.22);
+}
+@media (max-width:768px){
+  .booking-panel{ width:92%; bottom: clamp(10px, 3vh, 28px); padding:12px; }
 }
 
-.booking-panel label:hover {
-  color: #086e7d;
+/* ===== HERO PROFISSIONAL: foto cheia + título e formulário sobrepostos ===== */
+
+/* Estrutura e altura real do hero */
+header.hero{ position:relative; overflow:hidden; }
+.hero{ position:relative; min-height:min(72vh, 600px); margin:0; padding:0; }
+
+/* Imagem de fundo preenche tudo */
+.carousel-container{ position:absolute; inset:0; z-index:1; }
+.carousel-background{ position:absolute; inset:0; }
+.carousel-background picture,
+.carousel-background img{
+  position:absolute !important; inset:0;
+  width:100%; height:100% !important;
+  object-fit:cover !important;
+  object-position:50% 82% !important; /* mostra mais a parte de baixo */
+}
+
+/* Gradiente sutil para leitura do conteúdo */
+.carousel-container::after{
+  content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:linear-gradient(180deg, rgba(0,0,0,.22) 0%, rgba(0,0,0,.10) 40%, rgba(0,0,0,0) 70%);
+}
+
+/* Título (card leve) sobre a foto */
+.welcome-text.hero-card{
+  position:absolute; left:50%; transform:translateX(-50%);
+  bottom: clamp(88px, 22vh, 160px); /* deixa espaço para o formulário abaixo */
+  z-index:2;
+  background: rgba(0,0,0,.28);
+  backdrop-filter: blur(2px);
+  color:#fff; padding:10px 14px; border-radius:12px;
+  text-align:center;
+}
+.welcome-text.hero-card h1,
+.welcome-text.hero-card p{
+  color:#fff; margin:0 0 6px;
+  text-shadow:0 2px 8px rgba(0,0,0,.45);
+}
+
+/* Formulário sobre a foto (card) */
+.booking-panel{
+  position:absolute; left:50%; transform:translateX(-50%);
+  bottom: clamp(16px, 6vh, 48px);
+  z-index:3;
+  width:min(720px, 92%);
+  background: rgba(255,255,255,.94);
+  backdrop-filter: blur(4px);
+  border-radius:14px; padding:14px;
+  box-shadow:0 12px 32px rgba(0,0,0,.22);
+  display:grid; grid-template-columns:repeat(4,1fr); gap:10px;
+}
+.booking-panel label{ display:grid; gap:6px; font-weight:600; color:#0b7c8b; }
+.booking-panel input[type="date"], .booking-panel select{
+  height:44px; padding:0 10px; border:1px solid #cfd8dc; border-radius:10px; background:#fff;
+}
+.booking-panel .btn{ grid-column:1 / -1; }
+
+/* Mobile: foco mais baixo da foto e formulário compacto */
+@media (max-width: 768px){
+  .hero{ min-height:min(78vh, 620px); }
+  .carousel-background img{ object-position:50% 86% !important; }
+  .welcome-text.hero-card{
+    bottom: clamp(120px, 26vh, 180px);
+    padding:10px 12px;
+  }
+  .booking-panel{
+    width:92%;
+    grid-template-columns:1fr 1fr;
+    gap:8px; padding:12px;
+    bottom: clamp(12px, 6vh, 40px);
+  }
+  .booking-panel .btn{ grid-column:1 / -1; }
+}
+
+/* Garanta que nada atrapalhe o clique no formulário */
+.carousel-background, .carousel-background *{ pointer-events:auto; }
+/* Passeios: deixa o "Saiba mais" com mais presença */
+.passeio-card .btn-outline{
+  border-color: var(--brand);
+  color: var(--brand);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  padding: .55rem .9rem;
+  border-width: 2px;
+  position: relative;
+}
+
+.passeio-card .btn-outline::after{
+  content: " →";
+  font-weight: 700;
+  transition: transform .18s ease;
+}
+
+.passeio-card .btn-outline:hover{
+  background: var(--brand);
+  color: #fff;
+}
+
+.passeio-card .btn-outline:hover::after{
+  transform: translateX(2px);
+}/* CTA WhatsApp mais forte */
+#reserva .btn-group .btn-reserva{
+  font-size: 1.05rem;          /* maior */
+  font-weight: 700;            /* mais “pesado” */
+  padding: .85rem 1.2rem;
+  border-radius: .9rem;
+  box-shadow: 0 8px 24px rgba(11,124,139,.18);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+/* variação em verde WhatsApp, mantendo a identidade */
+#reserva .btn-group .btn-reserva{
+  background: #25D366;         /* verde WhatsApp */
+  border-color: #25D366;
+  color: #0a2330;              /* legível sobre verde */
+}
+
+#reserva .btn-group .btn-reserva:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(37,211,102,.25);
+}/* ===== SOBRE (MOBILE): texto primeiro, imagem embaixo ===== */
+@media (max-width: 900px){
+  /* garante 1 coluna no mobile */
+  .sobre-profissional .sobre-conteudo{
+    display: grid;
+    grid-template-columns: 1fr !important;
+  }
+
+  /* força a ordem no grid */
+  .sobre-profissional .texto-sobre{ grid-row: 1; }
+  .sobre-profissional .imagem-sobre{ 
+    grid-row: 2;
+
+    /* deixa a foto com mais presença sem quebrar layout */
+    margin: 10px -14px 2px;           /* “sangra” um pouco nas laterais */
+  }
+
+  .sobre-profissional .imagem-sobre picture,
+  .sobre-profissional .imagem-sobre img{
+    display:block; width:100%; height:auto;
+    aspect-ratio: 16 / 10;             /* mude p/ 3/2 se quiser mais alta */
+    object-fit: cover;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 14px 40px rgba(10,35,48,.12);
+  }
+}
+
+/* acabamento no desktop/tablet (mantém sua estrutura) */
+.sobre-profissional .imagem-sobre picture,
+.sobre-profissional .imagem-sobre img{
+  border-radius: 16px;
+  box-shadow: 0 14px 40px rgba(10,35,48,.08);
+}/* Esconde o painel antigo (se ainda estiver no HTML) */
+.booking-panel { display: none !important; }
+
+/* CTA do hero: destaque premium */
+.welcome-text.hero-card .cta-omnibees{
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  background: var(--brand); color: #fff; border: 0;
+  border-radius: .9rem; padding: .75rem 1.25rem;
+  font-weight: 800; text-decoration: none;
+  box-shadow: 0 10px 28px rgba(11,124,139,.28);
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+}
+.welcome-text.hero-card .cta-omnibees::after{ content: " →"; font-weight: 800; }
+.welcome-text.hero-card .cta-omnibees:hover{
+  transform: translateY(-1px);
+  filter: brightness(.98);
+  box-shadow: 0 12px 32px rgba(11,124,139,.34);
+}
+
+/* Card do hero por cima da foto, com boa leitura */
+.welcome-text.hero-card{
+  position: absolute; left: 50%; transform: translateX(-50%);
+  bottom: clamp(16px, 10vh, 72px);
+  z-index: 2; text-align: center;
+  background: rgba(0,0,0,.28); backdrop-filter: blur(2px);
+  padding: 10px 14px; border-radius: 12px;
+}
+.welcome-text.hero-card h1,
+.welcome-text.hero-card p{
+  color: #fff; margin: 0 0 8px;
+  text-shadow: 0 2px 8px rgba(0,0,0,.45);
+}
+
+/* Enquadramento melhor no mobile */
+@media (max-width: 768px){
+  .carousel-background img{ object-position: 50% 86% !important; }
+  .welcome-text.hero-card .cta-omnibees{
+    padding: .7rem 1.1rem; font-size: 1.02rem;
+  }
+}/* ===== Rodapé profissional (desktop + mobile) ===== */
+
+/* ===== Refinos finais do RODAPÉ (desktop + mobile) ===== */
+
+/* Tipografia e respiro melhores no desktop */
+.site-footer{
+  margin-top: clamp(36px,7vw,80px);
+  background:#0a1e27;
+  color:#dfe7ec;
+  font-size: 0.98rem;
+}
+.footer-wrap{
+  width:min(1100px,92vw);
+  margin:0 auto;
+  display:grid;
+  grid-template-columns: 1.2fr 1fr 1.4fr;
+  gap: clamp(20px,3.2vw,44px);
+  padding: clamp(28px,5vw,56px) 0;
+}
+.footer-links h4,.footer-contact h4{
+  margin:0 0 .6rem; color:#fff; font-weight:800;
+  text-transform:uppercase; letter-spacing:.5px; font-size:.95rem;
+}
+
+/* Links legíveis e com quebra correta (e-mail/instagram) */
+.footer-links a,.footer-contact a{ line-height:1.6; }
+.footer-contact a{
+  word-break: break-word;
+  overflow-wrap: anywhere; /* quebra longas */
+}
+
+/* CTA WhatsApp visível */
+.footer-cta{ border-top:1px solid rgba(255,255,255,.1); padding:18px 0; text-align:center; }
+.footer-whatsapp{
+  background: var(--brand); color:#fff; font-weight:800;
+  padding:.9rem 1.4rem; border-radius:.9rem;
+  display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+  box-shadow:0 8px 24px rgba(11,124,139,.25);
+}
+.footer-whatsapp:hover{ transform:translateY(-2px); filter:brightness(1.05); }
+
+/* Linha final */
+.footer-legal{ border-top:1px solid rgba(255,255,255,.08); text-align:center; padding:14px 4vw; color:#9fb1bb; }
+
+/* ===== MOBILE ===== */
+@media (max-width: 900px){
+  .footer-wrap{
+    grid-template-columns: 1fr !important;
+    gap: 28px;
+    text-align: center;
+    padding: 28px 0;
+  }
+  /* cada coluna vira bloco centrado com largura confortável */
+  .footer-wrap > *{
+    width:100%;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .footer-links, .footer-contact{ justify-items:center; }
+  .footer-links a, .footer-contact a{ display:block; } /* evita ficar tudo numa linha */
+  .footer-brand img{ width:140px; height:auto; margin:0 auto 10px; }
+  .footer-legal{ font-size:.9rem; }
 }
